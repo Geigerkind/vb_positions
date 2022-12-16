@@ -62,7 +62,7 @@ export class FieldComponent implements AfterViewInit {
       ["touchstart", "mousedown"],
       ["touchmove", "mousemove"],
     ]) {
-      window.addEventListener(event_mapping[0], event => {
+      this.context.canvas.addEventListener(event_mapping[0], event => {
         const touch = (event as TouchEvent).touches[0];
         this.fieldElement.nativeElement.dispatchEvent(
           new MouseEvent(event_mapping[1], {
