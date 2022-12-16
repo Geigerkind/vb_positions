@@ -4,16 +4,20 @@ import { ShapeType } from "../value/shape-type";
 import { ShapeDto } from "../dto/shape-dto";
 
 export class Circle extends Shape {
-  private static RADIUS: number = 40;
+  private static RELATIVE_RADIUS: number = 0.016;
   public readonly shape_type: ShapeType = ShapeType.Circle;
 
   constructor(actor: Actor, context: CanvasRenderingContext2D, x: number, y: number, private dashed: boolean) {
     super(actor, context, x, y);
   }
 
+  get radius(): number {
+    return this.context.canvas.width * Circle.RELATIVE_RADIUS;
+  }
+
   drawShape(): void {
     this.context.beginPath();
-    this.context.arc(this.x, this.y, Circle.RADIUS, 0, 2 * Math.PI, false);
+    this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
     this.context.fillStyle = "red";
     this.context.fill();
     this.context.lineWidth = 3;
@@ -41,15 +45,15 @@ export class Circle extends Shape {
     this.context.font = "20px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(this.actor.player_name, this.x, this.y + Circle.RADIUS * 1.5);
+    this.context.fillText(this.actor.player_name, this.x, this.y + this.radius * 1.5);
   }
 
   isHit(clickX: number, clickY: number): boolean {
     return (
-      clickX >= this.x - Circle.RADIUS &&
-      clickX <= this.x + Circle.RADIUS &&
-      clickY >= this.y - Circle.RADIUS &&
-      clickY <= this.y + Circle.RADIUS
+      clickX >= this.x - this.radius &&
+      clickX <= this.x + this.radius &&
+      clickY >= this.y - this.radius &&
+      clickY <= this.y + this.radius
     );
   }
 

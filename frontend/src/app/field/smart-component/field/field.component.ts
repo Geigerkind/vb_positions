@@ -16,11 +16,7 @@ import { AddRotationDialogComponent } from "../../dumb-component/add-rotation-di
 import { LocalStorageService } from "../../../shared/service/local-storage.service";
 import { RotationDto } from "../../dto/rotation-dto";
 import { Router } from "@angular/router";
-
-/*
-  TODO:
-  * Relative actor sizes?
- */
+import { fromEvent } from "rxjs";
 
 @Component({
   selector: "vpms-field",
@@ -61,9 +57,25 @@ export class FieldComponent implements AfterViewInit {
     this.context = this.fieldElement.nativeElement.getContext("2d")!;
     this.context.canvas.width = window.innerWidth;
     this.context.canvas.height = window.innerHeight - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
+    for (const event_mapping in [
+      ["touchstart", "mousedown"],
+      ["touchmove", "mousemove"],
+    ]) {
+      this.fieldElement.nativeElement.addEventListener(event_mapping[0], event => {
+        const touch = (event as TouchEvent).touches[0];
+        this.fieldElement.nativeElement.dispatchEvent(
+          new MouseEvent(event_mapping[1], {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+          })
+        );
+      });
+    }
     this.fieldElement.nativeElement.addEventListener("mousedown", event => this.onMouseDown(event));
-    this.fieldElement.nativeElement.addEventListener("mouseup", event => this.onMouseUp(event));
-    this.fieldElement.nativeElement.addEventListener("mouseleave", event => this.onMouseUp(event));
+    this.fieldElement.nativeElement.addEventListener("mouseup", () => this.onMouseUp());
+    this.fieldElement.nativeElement.addEventListener("touchend", () => this.onMouseUp());
+    this.fieldElement.nativeElement.addEventListener("touchcancel", () => this.onMouseUp());
+    this.fieldElement.nativeElement.addEventListener("mouseleave", () => this.onMouseUp());
     this.fieldElement.nativeElement.addEventListener("mousemove", event => this.onMouseMove(event));
 
     // Hacky but it works!
@@ -90,6 +102,12 @@ export class FieldComponent implements AfterViewInit {
       this.formGroup.valueChanges.subscribe(value => this.onRotationChanged(value.current_rotation));
       this.render();
     }, 100);
+
+    fromEvent(window, "resize").subscribe(() => {
+      this.context.canvas.width = window.innerWidth;
+      this.context.canvas.height = window.innerHeight - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
+      this.render();
+    });
   }
 
   private onRotationChanged(uuid: string): void {
@@ -110,7 +128,7 @@ export class FieldComponent implements AfterViewInit {
     }
   }
 
-  private onMouseUp(event: MouseEvent): void {
+  private onMouseUp(): void {
     this.draggedShape = undefined;
   }
 
@@ -242,7 +260,7 @@ export class FieldComponent implements AfterViewInit {
     this.context.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
     // Dimensions: 18x9, each side 9x9, of which 3m is the front field
-    const OUTSIDE_SPACE_LEFT_AND_RIGHT = window.innerWidth * 0.1;
+    const OUTSIDE_SPACE_LEFT_AND_RIGHT = window.innerWidth * 0.025;
     const OUTSIDE_SPACE_BACK = window.innerHeight * 0.15;
     // Including 1m from the opponent team
     const field_height_1m = (window.innerHeight - OUTSIDE_SPACE_BACK) / 10;

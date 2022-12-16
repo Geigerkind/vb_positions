@@ -4,12 +4,15 @@ import { ShapeType } from "../value/shape-type";
 import { ShapeDto } from "../dto/shape-dto";
 
 export class Triangle extends Shape {
-  private static WIDTH: number = 40;
-  private static HEIGHT: number = 40;
+  private static RELATIVE_SIZE: number = 0.016;
   public readonly shape_type: ShapeType = ShapeType.Triangle;
 
   constructor(actor: Actor, context: CanvasRenderingContext2D, x: number, y: number, private dashed: boolean) {
     super(actor, context, x, y);
+  }
+
+  get size(): number {
+    return this.context.canvas.width * Triangle.RELATIVE_SIZE;
   }
 
   drawActorName(): void {
@@ -20,7 +23,7 @@ export class Triangle extends Shape {
     this.context.font = "20px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(this.actor.player_name, this.x, this.y + Triangle.HEIGHT * 1.6);
+    this.context.fillText(this.actor.player_name, this.x, this.y + this.size * 1.6);
   }
 
   drawPosition(): void {
@@ -39,9 +42,9 @@ export class Triangle extends Shape {
     } else {
       this.context.setLineDash([]);
     }
-    this.context.moveTo(this.x - Triangle.WIDTH, this.y + Triangle.HEIGHT);
-    this.context.lineTo(this.x + Triangle.WIDTH, this.y + Triangle.HEIGHT);
-    this.context.lineTo(this.x, this.y - Triangle.HEIGHT);
+    this.context.moveTo(this.x - this.size, this.y + this.size);
+    this.context.lineTo(this.x + this.size, this.y + this.size);
+    this.context.lineTo(this.x, this.y - this.size);
     this.context.closePath();
     this.context.stroke();
     this.context.fillStyle = "red";
@@ -50,10 +53,10 @@ export class Triangle extends Shape {
 
   isHit(clickX: number, clickY: number): boolean {
     return (
-      clickX >= this.x - Triangle.WIDTH &&
-      clickX <= this.x + Triangle.WIDTH &&
-      clickY >= this.y - Triangle.HEIGHT &&
-      clickY <= this.y + Triangle.HEIGHT
+      clickX >= this.x - this.size &&
+      clickX <= this.x + this.size &&
+      clickY >= this.y - this.size &&
+      clickY <= this.y + this.size
     );
   }
 
