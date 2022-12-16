@@ -1,21 +1,24 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
-import { Circle } from "../../shapes/circle";
-import { Shape } from "../../shapes/shape";
-import { MatDialog } from "@angular/material/dialog";
-import { AddActorDialogComponent } from "../../dumb-component/add-actor-dialog/add-actor-dialog.component";
-import { Actor } from "../../entity/actor";
-import { PlayerRole } from "../../value/player-role";
-import { Position } from "../../value/position";
-import { HalfCircle } from "../../shapes/half-circle";
-import { Triangle } from "../../shapes/triangle";
-import { DeleteActorDialogComponent } from "../../dumb-component/delete-actor-dialog/delete-actor-dialog.component";
-import { Rotation } from "../../entity/rotation";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { DeleteRotationDialogComponent } from "../../dumb-component/delete-rotation-dialog/delete-rotation-dialog.component";
-import { AddRotationDialogComponent } from "../../dumb-component/add-rotation-dialog/add-rotation-dialog.component";
-import { LocalStorageService } from "../../../shared/service/local-storage.service";
-import { RotationDto } from "../../dto/rotation-dto";
-import { Router } from "@angular/router";
+import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
+import {Circle} from "../../shapes/circle";
+import {Shape} from "../../shapes/shape";
+import {MatDialog} from "@angular/material/dialog";
+import {AddActorDialogComponent} from "../../dumb-component/add-actor-dialog/add-actor-dialog.component";
+import {Actor} from "../../entity/actor";
+import {PlayerRole} from "../../value/player-role";
+import {Position} from "../../value/position";
+import {HalfCircle} from "../../shapes/half-circle";
+import {Triangle} from "../../shapes/triangle";
+import {DeleteActorDialogComponent} from "../../dumb-component/delete-actor-dialog/delete-actor-dialog.component";
+import {Rotation} from "../../entity/rotation";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {
+  DeleteRotationDialogComponent
+} from "../../dumb-component/delete-rotation-dialog/delete-rotation-dialog.component";
+import {AddRotationDialogComponent} from "../../dumb-component/add-rotation-dialog/add-rotation-dialog.component";
+import {LocalStorageService} from "../../../shared/service/local-storage.service";
+import {RotationDto} from "../../dto/rotation-dto";
+import {Router} from "@angular/router";
+import {fromEvent} from "rxjs";
 
 /*
   TODO:
@@ -37,7 +40,7 @@ export class FieldComponent implements AfterViewInit {
   private static LOCAL_STORAGE_KEY: string = "rotations_storage";
   private static LOCAL_STORAGE_KEY_CURRENT_ROTATION: string = "current_rotation_uuid";
 
-  @ViewChild("field", { static: false })
+  @ViewChild("field", {static: false})
   private fieldElement: ElementRef<HTMLCanvasElement>;
 
   private context: CanvasRenderingContext2D;
@@ -61,9 +64,20 @@ export class FieldComponent implements AfterViewInit {
     this.context = this.fieldElement.nativeElement.getContext("2d")!;
     this.context.canvas.width = window.innerWidth;
     this.context.canvas.height = window.innerHeight - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
+    for (const event_mapping in [["touchstart", "mousedown"], ["touchmove", "mousemove"]]) {
+      this.fieldElement.nativeElement.addEventListener(event_mapping[0], event => {
+        const touch = (event as TouchEvent).touches[0];
+        this.fieldElement.nativeElement.dispatchEvent(new MouseEvent(event_mapping[1], {
+          clientX: touch.clientX,
+          clientY: touch.clientY
+        }))
+      });
+    }
     this.fieldElement.nativeElement.addEventListener("mousedown", event => this.onMouseDown(event));
-    this.fieldElement.nativeElement.addEventListener("mouseup", event => this.onMouseUp(event));
-    this.fieldElement.nativeElement.addEventListener("mouseleave", event => this.onMouseUp(event));
+    this.fieldElement.nativeElement.addEventListener("mouseup", () => this.onMouseUp());
+    this.fieldElement.nativeElement.addEventListener("touchend", () => this.onMouseUp());
+    this.fieldElement.nativeElement.addEventListener("touchcancel", () => this.onMouseUp());
+    this.fieldElement.nativeElement.addEventListener("mouseleave", () => this.onMouseUp());
     this.fieldElement.nativeElement.addEventListener("mousemove", event => this.onMouseMove(event));
 
     // Hacky but it works!
@@ -86,10 +100,16 @@ export class FieldComponent implements AfterViewInit {
         }
       }
 
-      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+      this.formGroup.patchValue({current_rotation: this.rotation.UUID});
       this.formGroup.valueChanges.subscribe(value => this.onRotationChanged(value.current_rotation));
       this.render();
     }, 100);
+
+    fromEvent(window, "resize").subscribe(() => {
+      this.context.canvas.width = window.innerWidth;
+      this.context.canvas.height = window.innerHeight - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
+      this.render();
+    });
   }
 
   private onRotationChanged(uuid: string): void {
@@ -110,7 +130,7 @@ export class FieldComponent implements AfterViewInit {
     }
   }
 
-  private onMouseUp(event: MouseEvent): void {
+  private onMouseUp(): void {
     this.draggedShape = undefined;
   }
 
@@ -192,7 +212,7 @@ export class FieldComponent implements AfterViewInit {
           this.rotations.push(new Rotation([], new Position(1), "Default rotation"));
         }
         this.currentRotationIndex = 0;
-        this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+        this.formGroup.patchValue({current_rotation: this.rotation.UUID});
       }
 
       this.render();
@@ -211,7 +231,7 @@ export class FieldComponent implements AfterViewInit {
       }
       this.rotations.push(result.rotation);
       this.currentRotationIndex = this.rotations.length - 1;
-      this.formGroup.patchValue({ current_rotation: result.rotation.UUID });
+      this.formGroup.patchValue({current_rotation: result.rotation.UUID});
       this.render();
     });
   }
