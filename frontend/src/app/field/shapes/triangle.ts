@@ -4,7 +4,7 @@ import { ShapeType } from "../value/shape-type";
 import { ShapeDto } from "../dto/shape-dto";
 
 export class Triangle extends Shape {
-  private static RELATIVE_SIZE: number = 0.016;
+  private static RELATIVE_SIZE: number = 0.016 * 2;
   public readonly shape_type: ShapeType = ShapeType.Triangle;
 
   constructor(actor: Actor, context: CanvasRenderingContext2D, x: number, y: number, private dashed: boolean) {
