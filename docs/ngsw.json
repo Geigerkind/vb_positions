@@ -1,0 +1,141 @@
+{
+  "configVersion": 1,
+  "timestamp": 1671221237600,
+  "index": "/vb_positions/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/vb_positions/775.66556ce19faf9169.js",
+        "/vb_positions/favicon.ico",
+        "/vb_positions/index.html",
+        "/vb_positions/main.0cf2813ca5410cbc.js",
+        "/vb_positions/manifest.webmanifest",
+        "/vb_positions/polyfills.7e16bdbffcf7884a.js",
+        "/vb_positions/runtime.6af780cf5888988e.js",
+        "/vb_positions/styles.e68da187ca60a5b5.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/vb_positions/assets/android-chrome-192x192.png",
+        "/vb_positions/assets/android-chrome-512x512.png",
+        "/vb_positions/assets/apple-touch-icon.png",
+        "/vb_positions/assets/favicon-16x16.png",
+        "/vb_positions/assets/favicon-32x32.png",
+        "/vb_positions/assets/i18n/en.json",
+        "/vb_positions/assets/icons/icon-128x128.png",
+        "/vb_positions/assets/icons/icon-144x144.png",
+        "/vb_positions/assets/icons/icon-152x152.png",
+        "/vb_positions/assets/icons/icon-192x192.png",
+        "/vb_positions/assets/icons/icon-384x384.png",
+        "/vb_positions/assets/icons/icon-512x512.png",
+        "/vb_positions/assets/icons/icon-72x72.png",
+        "/vb_positions/assets/icons/icon-96x96.png",
+        "/vb_positions/assets/site.webmanifest",
+        "/vb_positions/material-icons-outlined.78a93b2079680a08.woff",
+        "/vb_positions/material-icons-outlined.f86cb7b0aa53f0fe.woff2",
+        "/vb_positions/material-icons-round.92dc7ca2f4c591e7.woff",
+        "/vb_positions/material-icons-round.b10ec9db5b7fbc74.woff2",
+        "/vb_positions/material-icons-sharp.3885863ee4746422.woff2",
+        "/vb_positions/material-icons-sharp.a71cb2bf66c604de.woff",
+        "/vb_positions/material-icons-two-tone.588d63134de807a7.woff",
+        "/vb_positions/material-icons-two-tone.675bd578bd14533e.woff2",
+        "/vb_positions/material-icons.4ad034d2c499d9b6.woff",
+        "/vb_positions/material-icons.59322316b3fd6063.woff2",
+        "/vb_positions/roboto-latin-100-normal.3fa690b6344f8539.woff2",
+        "/vb_positions/roboto-latin-100-normal.c51333cd87ca7cf6.woff",
+        "/vb_positions/roboto-latin-300-normal.006981bf6ff6087f.woff",
+        "/vb_positions/roboto-latin-300-normal.a4eae32d320f45e6.woff2",
+        "/vb_positions/roboto-latin-400-normal.224e95b0e84110d8.woff",
+        "/vb_positions/roboto-latin-400-normal.f2894edcf7d09d36.woff2",
+        "/vb_positions/roboto-latin-500-normal.3170fd9aa9258fe0.woff2",
+        "/vb_positions/roboto-latin-500-normal.e5748c3b7acf0d45.woff",
+        "/vb_positions/roboto-latin-700-normal.71b2beb82c4d1389.woff2",
+        "/vb_positions/roboto-latin-700-normal.bd41d1cdc29811cf.woff",
+        "/vb_positions/roboto-latin-900-normal.1ee240152fd103c0.woff",
+        "/vb_positions/roboto-latin-900-normal.2f95c19ebf5cbe2e.woff2"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/vb_positions/775.66556ce19faf9169.js": "488fceb100638549bb697d2931a1755018be6121",
+    "/vb_positions/assets/android-chrome-192x192.png": "8e83368a12490b640a9f5605940c840ad8c07da9",
+    "/vb_positions/assets/android-chrome-512x512.png": "6a2b5043a63f13ceccdb683d34c68c979ce117bb",
+    "/vb_positions/assets/apple-touch-icon.png": "90747c290e695e5c677cc0f06b251d33ba844af4",
+    "/vb_positions/assets/favicon-16x16.png": "4e902f5b857184743ad10b8b4f84c19a46e83553",
+    "/vb_positions/assets/favicon-32x32.png": "82bf66537141e6a3c47456054e2936e90de0ffc9",
+    "/vb_positions/assets/i18n/en.json": "58c02964799fdaa78e9d29953da7a4fe18803ecf",
+    "/vb_positions/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/vb_positions/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/vb_positions/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/vb_positions/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/vb_positions/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/vb_positions/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/vb_positions/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/vb_positions/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/vb_positions/assets/site.webmanifest": "bf31baf91bdd2fcde24a45e3f2a1be33733c6f69",
+    "/vb_positions/favicon.ico": "50ad428f2d74901a9ddf280128337c9c075404a5",
+    "/vb_positions/index.html": "2140ab672d5d34a8ef503a2898d201a050e3bc69",
+    "/vb_positions/main.0cf2813ca5410cbc.js": "b1a5103acdb58908b5d39a0cb805fdbf3607ba1a",
+    "/vb_positions/manifest.webmanifest": "c48ff53cc4d614e27721baaa871fe2923f51e974",
+    "/vb_positions/material-icons-outlined.78a93b2079680a08.woff": "b52ccd8fca4199d257b2a9fe377db29862f2853e",
+    "/vb_positions/material-icons-outlined.f86cb7b0aa53f0fe.woff2": "2f9e28ab559782402f27332633c843c40209d95a",
+    "/vb_positions/material-icons-round.92dc7ca2f4c591e7.woff": "c41bfee3f01218e18d53f4f4cac00f385ac9fbb1",
+    "/vb_positions/material-icons-round.b10ec9db5b7fbc74.woff2": "abe05e0641f1050fbe00ef0dbb10c5ea72c26cff",
+    "/vb_positions/material-icons-sharp.3885863ee4746422.woff2": "cf1c7b4d066d18af44cf7bc664dd2e46652a3a30",
+    "/vb_positions/material-icons-sharp.a71cb2bf66c604de.woff": "829cb48cb2dd17ae5e425b82dc186eb670694a10",
+    "/vb_positions/material-icons-two-tone.588d63134de807a7.woff": "02225d888afe4eebc7312b7432878dc8aef1f50f",
+    "/vb_positions/material-icons-two-tone.675bd578bd14533e.woff2": "296ff0bff395a77c2e33e7e31fffe73980bd93cf",
+    "/vb_positions/material-icons.4ad034d2c499d9b6.woff": "e4bb7c1e40d3febee58df963db276b2bf68c117b",
+    "/vb_positions/material-icons.59322316b3fd6063.woff2": "0bc0c675480d94ec7e8609dda6227f88c5d08d2c",
+    "/vb_positions/polyfills.7e16bdbffcf7884a.js": "b396e4d6ea333f4c7910199634539ba70bacdad2",
+    "/vb_positions/roboto-latin-100-normal.3fa690b6344f8539.woff2": "ebbde06eb829868c5f689afe2d48377608be1e7b",
+    "/vb_positions/roboto-latin-100-normal.c51333cd87ca7cf6.woff": "23cb630f4424bcbfb339037767b2a54ca32f6e1e",
+    "/vb_positions/roboto-latin-300-normal.006981bf6ff6087f.woff": "19cec53c3c7c2042f71066b7a92d6c8d7e207bd7",
+    "/vb_positions/roboto-latin-300-normal.a4eae32d320f45e6.woff2": "e57e59c5780995ff2937ab2b511a769212974a87",
+    "/vb_positions/roboto-latin-400-normal.224e95b0e84110d8.woff": "d9cfe6b477b49d47b6241b4281f4858d98eaca65",
+    "/vb_positions/roboto-latin-400-normal.f2894edcf7d09d36.woff2": "7ca9c5967f3bb8bffeab24b639b49c1e7d03fa52",
+    "/vb_positions/roboto-latin-500-normal.3170fd9aa9258fe0.woff2": "23cef6993ddb2b2979e8e7647fc3763694e2ba7d",
+    "/vb_positions/roboto-latin-500-normal.e5748c3b7acf0d45.woff": "02edc7784ea80afc258224f3cb8c86dd233aaf19",
+    "/vb_positions/roboto-latin-700-normal.71b2beb82c4d1389.woff2": "acdef5603c2387b0e5bffd744b679a24a8bc1968",
+    "/vb_positions/roboto-latin-700-normal.bd41d1cdc29811cf.woff": "6baf2c7cc3a03676c10ce872ef9fa1aa4e185901",
+    "/vb_positions/roboto-latin-900-normal.1ee240152fd103c0.woff": "d4a23b132e1ca8a6cb4e678d519f6ae00a8aac58",
+    "/vb_positions/roboto-latin-900-normal.2f95c19ebf5cbe2e.woff2": "0355a01c1ccb45cb728e7e07c41c8ebf456f70bb",
+    "/vb_positions/runtime.6af780cf5888988e.js": "cfecd35d464340b1071440cb6131cb18843962ad",
+    "/vb_positions/styles.e68da187ca60a5b5.css": "e20b4071d762fd324201056ef3dcb4178ed65c75"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
