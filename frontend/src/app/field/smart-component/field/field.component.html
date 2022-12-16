@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+  <mat-form-field [formGroup]="formGroup">
+    <mat-select formControlName="current_rotation">
+      <mat-option *ngFor="let rotation of rotations; index as i"
+                  [value]="rotation.UUID">{{rotation.toString()}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button (click)="onAddRotationClicked()">
+    {{ "field.add_rotation" | translate }}
+  </button>
+  <button mat-raised-button (click)="onDeleteRotationClicked()">
+    {{ "field.delete_rotation" | translate }}
+  </button>
+  <div id="rightSide">
+    <button mat-raised-button (click)="onAddActorClicked()">
+      {{ "field.add_actor" | translate }}
+    </button>
+    <button mat-raised-button (click)="onDeleteActorClicked()">
+      {{ "field.delete_actor" | translate }}
+    </button>
+  </div>
+</mat-toolbar>
+<canvas #field></canvas>

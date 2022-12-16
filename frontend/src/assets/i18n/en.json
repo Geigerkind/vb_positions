@@ -1,0 +1,50 @@
+{
+  "app": {
+    "title": "Volleyball Positions Management System"
+  },
+  "field": {
+    "delete_actor": "Delete actor",
+    "add_actor": "Add actor",
+    "add_rotation": "Add rotation",
+    "delete_rotation": "Delete rotation"
+  },
+  "add_actor_dialog": {
+    "title": "Add actor",
+    "placeholder": {
+      "player_name": "Player name",
+      "position": "Position",
+      "player_role": "Player role"
+    },
+    "player_roles": {
+      "setter": "Setter",
+      "middle_blocker": "Middle blocker",
+      "libero": "Libero",
+      "outside_hitter": "Outside hitter",
+      "opposite_hitter": "Opposite hitter"
+    },
+    "submit": "Create actor"
+  },
+  "delete_actor_dialog": {
+    "title": "Delete actor",
+    "placeholder": {
+      "actor": "Actor"
+    },
+    "submit": "Delete actor"
+  },
+  "delete_rotation_dialog": {
+    "title": "Delete rotation",
+    "placeholder": {
+      "rotation": "Rotation"
+    },
+    "submit": "Delete rotation"
+  },
+  "add_rotation_dialog": {
+    "title": "Add rotation",
+    "placeholder": {
+      "rotation_name": "Name",
+      "copy_shapes": "Copy current shapes",
+      "current_rotation": "Current rotation"
+    },
+    "submit": "Add rotation"
+  }
+}

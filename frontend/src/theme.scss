@@ -1,0 +1,17 @@
+@use '@angular/material' as mat;
+
+@import "styles/colors";
+
+@include mat.core();
+
+$vpms-primary: mat.define-palette($vpms-primary-palette);
+$vpms-accent: mat.define-palette($vpms-accent-palette);
+
+$vpms-light-theme: mat.define-light-theme($vpms-primary, $vpms-accent);
+
+@include mat.core-theme($vpms-light-theme);
+@include mat.all-component-themes($vpms-light-theme);
+
+mat-icon {
+  color: map-get($vpms-grayscale, 600);
+}

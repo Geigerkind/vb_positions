@@ -1,0 +1,36 @@
+<h1 mat-dialog-title> {{ "add_actor_dialog.title" | translate }} </h1>
+<mat-dialog-content [formGroup]="formGroup" (submit)="onSubmit()">
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ "add_actor_dialog.placeholder.player_name" | translate }}</mat-label>
+      <input matInput formControlName="player_name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ "add_actor_dialog.placeholder.position" | translate }}</mat-label>
+      <mat-select formControlName="position">
+        <mat-option [value]="1">1</mat-option>
+        <mat-option [value]="2">2</mat-option>
+        <mat-option [value]="3">3</mat-option>
+        <mat-option [value]="4">4</mat-option>
+        <mat-option [value]="5">5</mat-option>
+        <mat-option [value]="6">6</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ "add_actor_dialog.placeholder.player_role" | translate }}</mat-label>
+      <mat-select formControlName="player_role">
+        <mat-option [value]="PlayerRole.Setter">{{ "add_actor_dialog.player_roles.setter" | translate }}</mat-option>
+        <mat-option
+          [value]="PlayerRole.MiddleBlocker">{{ "add_actor_dialog.player_roles.middle_blocker" | translate }}</mat-option>
+        <mat-option [value]="PlayerRole.Libero">{{ "add_actor_dialog.player_roles.libero" | translate }}</mat-option>
+        <mat-option
+          [value]="PlayerRole.OutsideHitter">{{ "add_actor_dialog.player_roles.outside_hitter" | translate }}</mat-option>
+        <mat-option
+          [value]="PlayerRole.OppositeHitter">{{ "add_actor_dialog.player_roles.opposite_hitter" | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+      {{"add_actor_dialog.submit" | translate}}
+    </button>
+  </form>
+</mat-dialog-content>

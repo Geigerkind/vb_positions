@@ -1,0 +1,109 @@
+$vpms-primary-palette: (
+  50: #DAE8F3,
+  100: #9DC1DF,
+  200: #80AED5,
+  300: #609ACA,
+  400: #2F7BBA,
+  500: #0A64AE,
+  600: #095A9D,
+  700: #063C68,
+  800: #042846,
+  900: #021423,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #FFFFFF,
+    600: #FFFFFF,
+    700: #FFFFFF,
+    800: #FFFFFF,
+    900: #FFFFFF,
+  )
+);
+
+$vpms-accent-palette: (
+  50: #FEF2F8,
+  100: #F8BFDF,
+  200: #F599CB,
+  300: #EF66B1,
+  400: #EA3397,
+  500: #E5007D,
+  600: #CE0071,
+  700: #AC005E,
+  800: #7E0045,
+  900: #50002C,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #FFFFFF,
+    600: #FFFFFF,
+    700: #FFFFFF,
+    800: #FFFFFF,
+    900: #FFFFFF,
+  )
+);
+
+$vpms-grayscale: (
+  0: #FFFFFF,
+  50: #FAFAFA,
+  100: #F2F2F2,
+  200: #E6E6E6,
+  250: #DADAD9,
+  300: #CCCCCC,
+  400: #B3B3B3,
+  500: #999999,
+  600: #808080,
+  700: #666666,
+  800: #4D4D4D,
+  900: #333333,
+  1000: #000000
+);
+
+:root {
+  --vpms-primary-palette-50: #{map-get($vpms-primary-palette, 50)};
+  --vpms-primary-palette-100: #{map-get($vpms-primary-palette, 100)};
+  --vpms-primary-palette-200: #{map-get($vpms-primary-palette, 200)};
+  --vpms-primary-palette-300: #{map-get($vpms-primary-palette, 300)};
+  --vpms-primary-palette-400: #{map-get($vpms-primary-palette, 400)};
+  --vpms-primary-palette-500: #{map-get($vpms-primary-palette, 500)};
+  --vpms-primary-palette-600: #{map-get($vpms-primary-palette, 600)};
+  --vpms-primary-palette-700: #{map-get($vpms-primary-palette, 700)};
+  --vpms-primary-palette-800: #{map-get($vpms-primary-palette, 800)};
+  --vpms-primary-palette-900: #{map-get($vpms-primary-palette, 900)};
+
+  --vpms-accent-palette-50: #{map-get($vpms-accent-palette, 50)};
+  --vpms-accent-palette-100: #{map-get($vpms-accent-palette, 100)};
+  --vpms-accent-palette-200: #{map-get($vpms-accent-palette, 200)};
+  --vpms-accent-palette-300: #{map-get($vpms-accent-palette, 300)};
+  --vpms-accent-palette-400: #{map-get($vpms-accent-palette, 400)};
+  --vpms-accent-palette-500: #{map-get($vpms-accent-palette, 500)};
+  --vpms-accent-palette-600: #{map-get($vpms-accent-palette, 600)};
+  --vpms-accent-palette-700: #{map-get($vpms-accent-palette, 700)};
+  --vpms-accent-palette-800: #{map-get($vpms-accent-palette, 800)};
+  --vpms-accent-palette-900: #{map-get($vpms-accent-palette, 900)};
+
+  --vpms-grayscale-0: #{map-get($vpms-grayscale, 0)};
+  --vpms-grayscale-50: #{map-get($vpms-grayscale, 50)};
+  --vpms-grayscale-100: #{map-get($vpms-grayscale, 100)};
+  --vpms-grayscale-200: #{map-get($vpms-grayscale, 200)};
+  --vpms-grayscale-250: #{map-get($vpms-grayscale, 250)};
+  --vpms-grayscale-300: #{map-get($vpms-grayscale, 300)};
+  --vpms-grayscale-400: #{map-get($vpms-grayscale, 400)};
+  --vpms-grayscale-500: #{map-get($vpms-grayscale, 500)};
+  --vpms-grayscale-600: #{map-get($vpms-grayscale, 600)};
+  --vpms-grayscale-700: #{map-get($vpms-grayscale, 700)};
+  --vpms-grayscale-800: #{map-get($vpms-grayscale, 800)};
+  --vpms-grayscale-900: #{map-get($vpms-grayscale, 900)};
+  --vpms-grayscale-1000: #{map-get($vpms-grayscale, 1000)};
+}
+
+// Constants
+$text-color: map-get($vpms-grayscale, 800);
+$subtext-color: map-get($vpms-grayscale, 700);
+$color-primary-default: map-get($vpms-primary-palette, 500);
+$color-accent-default: map-get($vpms-accent-palette, 500);

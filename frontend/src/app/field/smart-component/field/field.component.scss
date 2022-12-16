@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+mat-toolbar {
+  height: 60px;
+
+  button {
+    margin-left: 1rem;
+  }
+
+  mat-form-field {
+    width: 250px;
+  }
+
+  #rightSide {
+    margin-left: auto;
+  }
+}
+
+canvas {
+  display: block;
+  height: calc(100% - 60px);
+  width: 100%;
+}
