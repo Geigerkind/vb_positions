@@ -4,16 +4,20 @@ import { ShapeType } from "../value/shape-type";
 import { ShapeDto } from "../dto/shape-dto";
 
 export class HalfCircle extends Shape {
-  private static RADIUS: number = 50;
+  private static RELATIVE_RADIUS: number = 0.018;
   public readonly shape_type: ShapeType = ShapeType.HalfCircle;
 
   constructor(actor: Actor, context: CanvasRenderingContext2D, x: number, y: number) {
     super(actor, context, x, y);
   }
 
+  get radius(): number {
+    return this.context.canvas.width * HalfCircle.RELATIVE_RADIUS;
+  }
+
   drawShape(): void {
     this.context.beginPath();
-    this.context.arc(this.x, this.y, HalfCircle.RADIUS, 0, Math.PI, true);
+    this.context.arc(this.x, this.y, this.radius, 0, Math.PI, true);
     this.context.fillStyle = "red";
     this.context.fill();
     this.context.setLineDash([]);
@@ -38,14 +42,14 @@ export class HalfCircle extends Shape {
     this.context.font = "20px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(this.actor.player_name, this.x, this.y + HalfCircle.RADIUS / 2);
+    this.context.fillText(this.actor.player_name, this.x, this.y + this.radius / 2);
   }
 
   isHit(clickX: number, clickY: number): boolean {
     return (
-      clickX >= this.x - HalfCircle.RADIUS &&
-      clickX <= this.x + HalfCircle.RADIUS &&
-      clickY >= this.y - HalfCircle.RADIUS &&
+      clickX >= this.x - this.radius &&
+      clickX <= this.x + this.radius &&
+      clickY >= this.y - this.radius &&
       clickY <= this.y
     );
   }
