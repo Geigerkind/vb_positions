@@ -1,11 +1,12 @@
-<h1 mat-dialog-title> {{ "delete_rotation_dialog.title" | translate }} </h1>
+<h1 mat-dialog-title>{{ "delete_rotation_dialog.title" | translate }}</h1>
 <mat-dialog-content [formGroup]="formGroup" (submit)="onSubmit()">
   <form>
     <mat-form-field appearance="fill">
       <mat-label>{{ "delete_rotation_dialog.placeholder.rotation" | translate }}</mat-label>
       <mat-select formControlName="rotation">
-        <mat-option *ngFor="let rotation of data.rotations;"
-                    [value]="rotation.UUID">{{rotation.toString()}}</mat-option>
+        <mat-option *ngFor="let rotation of data.rotations;" [value]="rotation.UUID"
+          >{{rotation.toString()}}</mat-option
+        >
       </mat-select>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">

@@ -19,9 +19,6 @@ import { Router } from "@angular/router";
 
 /*
   TODO:
-  * PWA
-    * Force landscape orientation
-  * Automatic deploy on github in a github page
   * Relative actor sizes?
  */
 

@@ -1,8 +1,9 @@
 <mat-toolbar color="primary">
   <mat-form-field [formGroup]="formGroup">
     <mat-select formControlName="current_rotation">
-      <mat-option *ngFor="let rotation of rotations; index as i"
-                  [value]="rotation.UUID">{{rotation.toString()}}</mat-option>
+      <mat-option *ngFor="let rotation of rotations; index as i" [value]="rotation.UUID">{{
+        rotation.toString()
+      }}</mat-option>
     </mat-select>
   </mat-form-field>
   <button mat-raised-button (click)="onAddRotationClicked()">

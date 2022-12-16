@@ -6,6 +6,7 @@
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
+    "build:ghpage": "ng build --configuration production --base-href=/vb_positions/",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint:check": "ng lint",
