@@ -4,7 +4,8 @@ import { ShapeType } from "../value/shape-type";
 import { ShapeDto } from "../dto/shape-dto";
 
 export class Circle extends Shape {
-  private static RELATIVE_RADIUS: number = 0.016 * 2;
+  private static RELATIVE_RADIUS: number = 0.016 * 3;
+  private static RADIUS_MAX: number = 40;
   public readonly shape_type: ShapeType = ShapeType.Circle;
 
   constructor(actor: Actor, context: CanvasRenderingContext2D, x: number, y: number, private dashed: boolean) {
@@ -12,7 +13,10 @@ export class Circle extends Shape {
   }
 
   get radius(): number {
-    return this.context.canvas.width * Circle.RELATIVE_RADIUS;
+    return Math.min(
+      Math.max(this.context.canvas.width, this.context.canvas.height) * Circle.RELATIVE_RADIUS,
+      Circle.RADIUS_MAX
+    );
   }
 
   drawShape(): void {

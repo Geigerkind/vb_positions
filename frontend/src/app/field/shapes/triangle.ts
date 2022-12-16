@@ -4,7 +4,8 @@ import { ShapeType } from "../value/shape-type";
 import { ShapeDto } from "../dto/shape-dto";
 
 export class Triangle extends Shape {
-  private static RELATIVE_SIZE: number = 0.016 * 2;
+  private static RELATIVE_SIZE: number = 0.016 * 2.5;
+  private static SIZE_MAX: number = 40;
   public readonly shape_type: ShapeType = ShapeType.Triangle;
 
   constructor(actor: Actor, context: CanvasRenderingContext2D, x: number, y: number, private dashed: boolean) {
@@ -12,7 +13,10 @@ export class Triangle extends Shape {
   }
 
   get size(): number {
-    return this.context.canvas.width * Triangle.RELATIVE_SIZE;
+    return Math.min(
+      Math.max(this.context.canvas.width, this.context.canvas.height) * Triangle.RELATIVE_SIZE,
+      Triangle.SIZE_MAX
+    );
   }
 
   drawActorName(): void {
