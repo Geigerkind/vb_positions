@@ -3,5 +3,5 @@ export enum PlayerRole {
   MiddleBlocker = "Middle blocker",
   Libero = "Libero",
   OutsideHitter = "Outside hitter",
-  OppositeHitter = "Opposite hitter"
+  OppositeHitter = "Opposite hitter",
 }

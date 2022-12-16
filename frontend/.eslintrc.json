@@ -44,6 +44,7 @@
         "multiline-ternary": "off",
         "accessor-pairs": "off",
         "no-unused-vars": "off",
+        "camelcase": "off",
         "@typescript-eslint/explicit-function-return-type": [
           "error",
           {

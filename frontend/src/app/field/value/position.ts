@@ -1,10 +1,9 @@
 export class Position {
-
   private _position: number;
 
   constructor(position: number) {
     if (position < 1 || position > 6) {
-      throw "Player position must be between 1 and 6.";
+      throw new Error("Player position must be between 1 and 6.");
     }
     this._position = position;
   }
@@ -14,7 +13,6 @@ export class Position {
   }
 
   public rotate(other: Position): Position {
-    return new Position((this._position + other._position) % 6 + 1);
+    return new Position(((this._position + other._position) % 6) + 1);
   }
-
 }

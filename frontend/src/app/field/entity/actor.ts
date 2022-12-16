@@ -1,17 +1,21 @@
-import {Position} from "../value/position";
-import {PlayerRole} from "../value/player-role";
-import {generate_uuid} from "../../shared/util/generate_uuid";
-import {ActorDto} from "../dto/actor-dto";
+import { Position } from "../value/position";
+import { PlayerRole } from "../value/player-role";
+import { generate_uuid } from "../../shared/util/generate_uuid";
+import { ActorDto } from "../dto/actor-dto";
 
 export class Actor {
-
   private _UUID: string;
 
   get UUID(): string {
     return this._UUID;
   }
 
-  constructor(public readonly position: Position, public readonly player_role: PlayerRole, public readonly player_name?: string, UUID?: string) {
+  constructor(
+    public readonly position: Position,
+    public readonly player_role: PlayerRole,
+    public readonly player_name?: string,
+    UUID?: string
+  ) {
     if (UUID) {
       this._UUID = UUID;
     } else {
@@ -28,7 +32,7 @@ export class Actor {
       player_name: this.player_name,
       player_role: this.player_role,
       position: this.position.value,
-      UUID: this.UUID
+      UUID: this.UUID,
     };
   }
 

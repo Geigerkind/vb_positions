@@ -1,4 +1,4 @@
-import {ShapeDto} from "./shape-dto";
+import { ShapeDto } from "./shape-dto";
 
 export interface RotationDto {
   UUID: string;

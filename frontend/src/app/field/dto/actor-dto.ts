@@ -1,4 +1,4 @@
-import {PlayerRole} from "../value/player-role";
+import { PlayerRole } from "../value/player-role";
 
 export interface ActorDto {
   UUID: string;

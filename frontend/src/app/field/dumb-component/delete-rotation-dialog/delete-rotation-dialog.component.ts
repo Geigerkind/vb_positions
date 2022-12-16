@@ -1,7 +1,7 @@
-import {Component, Inject, OnInit} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Rotation} from "../../entity/rotation";
+import { Component, Inject, OnInit } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Rotation } from "../../entity/rotation";
 
 @Component({
   selector: "vpms-delete-rotation-dialog",
@@ -15,9 +15,7 @@ export class DeleteRotationDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<DeleteRotationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { rotations: Rotation[] }
-  ) {
-
-  }
+  ) {}
 
   onSubmit(): void {
     this.dialogRef.close(this.formGroup.value.rotation);

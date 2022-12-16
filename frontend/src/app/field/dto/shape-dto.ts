@@ -1,5 +1,5 @@
-import {ShapeType} from "../value/shape-type";
-import {ActorDto} from "./actor-dto";
+import { ShapeType } from "../value/shape-type";
+import { ActorDto } from "./actor-dto";
 
 export interface ShapeDto {
   shape_type: ShapeType;

@@ -1,7 +1,7 @@
-import {Shape} from "./shape";
-import {Actor} from "../entity/actor";
-import {ShapeType} from "../value/shape-type";
-import {ShapeDto} from "../dto/shape-dto";
+import { Shape } from "./shape";
+import { Actor } from "../entity/actor";
+import { ShapeType } from "../value/shape-type";
+import { ShapeDto } from "../dto/shape-dto";
 
 export class Triangle extends Shape {
   private static WIDTH: number = 40;
@@ -33,7 +33,7 @@ export class Triangle extends Shape {
   drawShape(): void {
     this.context.beginPath();
     this.context.lineWidth = 4;
-    this.context.strokeStyle = '#003300';
+    this.context.strokeStyle = "#003300";
     if (this.dashed) {
       this.context.setLineDash([6]);
     } else {
@@ -44,12 +44,17 @@ export class Triangle extends Shape {
     this.context.lineTo(this.x, this.y - Triangle.HEIGHT);
     this.context.closePath();
     this.context.stroke();
-    this.context.fillStyle = 'red';
+    this.context.fillStyle = "red";
     this.context.fill();
   }
 
   isHit(clickX: number, clickY: number): boolean {
-    return clickX >= this.x - Triangle.WIDTH && clickX <= this.x + Triangle.WIDTH && clickY >= this.y - Triangle.HEIGHT && clickY <= this.y + Triangle.HEIGHT;
+    return (
+      clickX >= this.x - Triangle.WIDTH &&
+      clickX <= this.x + Triangle.WIDTH &&
+      clickY >= this.y - Triangle.HEIGHT &&
+      clickY <= this.y + Triangle.HEIGHT
+    );
   }
 
   copy(): Shape {
@@ -62,8 +67,7 @@ export class Triangle extends Shape {
       dashed: this.dashed,
       shape_type: this.shape_type,
       x_percent: this.x_percent,
-      y_percent: this.y_percent
-    }
+      y_percent: this.y_percent,
+    };
   }
-
 }

@@ -1,23 +1,21 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
-import {Circle} from "../../shapes/circle";
-import {Shape} from "../../shapes/shape";
-import {MatDialog} from "@angular/material/dialog";
-import {AddActorDialogComponent} from "../../dumb-component/add-actor-dialog/add-actor-dialog.component";
-import {Actor} from "../../entity/actor";
-import {PlayerRole} from "../../value/player-role";
-import {Position} from "../../value/position";
-import {HalfCircle} from "../../shapes/half-circle";
-import {Triangle} from "../../shapes/triangle";
-import {DeleteActorDialogComponent} from "../../dumb-component/delete-actor-dialog/delete-actor-dialog.component";
-import {Rotation} from "../../entity/rotation";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {
-  DeleteRotationDialogComponent
-} from "../../dumb-component/delete-rotation-dialog/delete-rotation-dialog.component";
-import {AddRotationDialogComponent} from "../../dumb-component/add-rotation-dialog/add-rotation-dialog.component";
-import {LocalStorageService} from "../../../shared/service/local-storage.service";
-import {RotationDto} from "../../dto/rotation-dto";
-import {Router} from "@angular/router";
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { Circle } from "../../shapes/circle";
+import { Shape } from "../../shapes/shape";
+import { MatDialog } from "@angular/material/dialog";
+import { AddActorDialogComponent } from "../../dumb-component/add-actor-dialog/add-actor-dialog.component";
+import { Actor } from "../../entity/actor";
+import { PlayerRole } from "../../value/player-role";
+import { Position } from "../../value/position";
+import { HalfCircle } from "../../shapes/half-circle";
+import { Triangle } from "../../shapes/triangle";
+import { DeleteActorDialogComponent } from "../../dumb-component/delete-actor-dialog/delete-actor-dialog.component";
+import { Rotation } from "../../entity/rotation";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DeleteRotationDialogComponent } from "../../dumb-component/delete-rotation-dialog/delete-rotation-dialog.component";
+import { AddRotationDialogComponent } from "../../dumb-component/add-rotation-dialog/add-rotation-dialog.component";
+import { LocalStorageService } from "../../../shared/service/local-storage.service";
+import { RotationDto } from "../../dto/rotation-dto";
+import { Router } from "@angular/router";
 
 /*
   TODO:
@@ -42,8 +40,9 @@ export class FieldComponent implements AfterViewInit {
   private static LOCAL_STORAGE_KEY: string = "rotations_storage";
   private static LOCAL_STORAGE_KEY_CURRENT_ROTATION: string = "current_rotation_uuid";
 
-  @ViewChild("field", {static: false})
+  @ViewChild("field", { static: false })
   private fieldElement: ElementRef<HTMLCanvasElement>;
+
   private context: CanvasRenderingContext2D;
 
   private draggedShape?: Shape;
@@ -55,13 +54,9 @@ export class FieldComponent implements AfterViewInit {
     return this.rotations[this.currentRotationIndex];
   }
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private matDialog: MatDialog
-  ) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private matDialog: MatDialog) {
     this.formGroup = this.formBuilder.group({
-      current_rotation: [null, Validators.required]
+      current_rotation: [null, Validators.required],
     });
   }
 
@@ -69,21 +64,22 @@ export class FieldComponent implements AfterViewInit {
     this.context = this.fieldElement.nativeElement.getContext("2d")!;
     this.context.canvas.width = window.innerWidth;
     this.context.canvas.height = window.innerHeight - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
-    this.fieldElement.nativeElement.addEventListener('mousedown', (event) => this.onMouseDown(event));
-    this.fieldElement.nativeElement.addEventListener('mouseup', (event) => this.onMouseUp(event));
-    this.fieldElement.nativeElement.addEventListener('mouseleave', (event) => this.onMouseUp(event));
-    this.fieldElement.nativeElement.addEventListener('mousemove', (event) => this.onMouseMove(event));
+    this.fieldElement.nativeElement.addEventListener("mousedown", event => this.onMouseDown(event));
+    this.fieldElement.nativeElement.addEventListener("mouseup", event => this.onMouseUp(event));
+    this.fieldElement.nativeElement.addEventListener("mouseleave", event => this.onMouseUp(event));
+    this.fieldElement.nativeElement.addEventListener("mousemove", event => this.onMouseMove(event));
 
     // Hacky but it works!
     setTimeout(() => {
-
       const queryParams = new URLSearchParams(window.location.search);
       if (queryParams.get("data") && queryParams.get("current_rotation")) {
         this.rotations = JSON.parse(atob(queryParams.get("data")!)).map(dto => Rotation.fromDto(dto, this.context));
         const uuid = queryParams.get("current_rotation")!;
         this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
       } else {
-        const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY) as RotationDto[] | undefined;
+        const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY) as
+          | RotationDto[]
+          | undefined;
         if (rotationDtos) {
           this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto, this.context));
           const uuid = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION) as string;
@@ -93,8 +89,8 @@ export class FieldComponent implements AfterViewInit {
         }
       }
 
-      this.formGroup.patchValue({current_rotation: this.rotation.UUID});
-      this.formGroup.valueChanges.subscribe((value) => this.onRotationChanged(value.current_rotation));
+      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+      this.formGroup.valueChanges.subscribe(value => this.onRotationChanged(value.current_rotation));
       this.render();
     }, 100);
   }
@@ -104,10 +100,9 @@ export class FieldComponent implements AfterViewInit {
     this.render();
   }
 
-  private onMouseDown(event: MouseEvent) {
+  private onMouseDown(event: MouseEvent): void {
     const x = event.clientX;
-    const y = event.clientY - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX
-
+    const y = event.clientY - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
 
     for (let i = this.rotation.shapes.length - 1; i >= 0; --i) {
       const shape = this.rotation.shapes[i];
@@ -118,17 +113,17 @@ export class FieldComponent implements AfterViewInit {
     }
   }
 
-  private onMouseUp(event: MouseEvent) {
+  private onMouseUp(event: MouseEvent): void {
     this.draggedShape = undefined;
   }
 
-  private onMouseMove(event: MouseEvent) {
+  private onMouseMove(event: MouseEvent): void {
     if (!this.draggedShape) {
       return;
     }
 
     const x = event.clientX;
-    const y = event.clientY - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX
+    const y = event.clientY - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
     this.draggedShape.setPosition(x, y);
     this.render();
   }
@@ -168,8 +163,8 @@ export class FieldComponent implements AfterViewInit {
   onDeleteActorClicked(): void {
     const dialogRef = this.matDialog.open(DeleteActorDialogComponent, {
       data: {
-        actors: this.rotation.shapes.map(shape => shape.actor)
-      }
+        actors: this.rotation.shapes.map(shape => shape.actor),
+      },
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -183,8 +178,8 @@ export class FieldComponent implements AfterViewInit {
   onDeleteRotationClicked(): void {
     const dialogRef = this.matDialog.open(DeleteRotationDialogComponent, {
       data: {
-        rotations: this.rotations
-      }
+        rotations: this.rotations,
+      },
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -200,7 +195,7 @@ export class FieldComponent implements AfterViewInit {
           this.rotations.push(new Rotation([], new Position(1), "Default rotation"));
         }
         this.currentRotationIndex = 0;
-        this.formGroup.patchValue({current_rotation: this.rotation.UUID});
+        this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
       }
 
       this.render();
@@ -209,7 +204,7 @@ export class FieldComponent implements AfterViewInit {
 
   onAddRotationClicked(): void {
     const dialogRef = this.matDialog.open(AddRotationDialogComponent);
-    dialogRef.afterClosed().subscribe((result: { rotation: Rotation, copy_shapes: boolean }) => {
+    dialogRef.afterClosed().subscribe((result: { rotation: Rotation; copy_shapes: boolean }) => {
       if (!result) {
         return;
       }
@@ -219,27 +214,30 @@ export class FieldComponent implements AfterViewInit {
       }
       this.rotations.push(result.rotation);
       this.currentRotationIndex = this.rotations.length - 1;
-      this.formGroup.patchValue({current_rotation: result.rotation.UUID});
+      this.formGroup.patchValue({ current_rotation: result.rotation.UUID });
       this.render();
     });
   }
 
-  private render() {
+  private render(): void {
     this.initCourt();
     this.rotation.shapes.forEach(shape => shape.draw());
 
-    LocalStorageService.store(FieldComponent.LOCAL_STORAGE_KEY, this.rotations.map(rotation => rotation.toDto()));
+    LocalStorageService.store(
+      FieldComponent.LOCAL_STORAGE_KEY,
+      this.rotations.map(rotation => rotation.toDto())
+    );
     LocalStorageService.store(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION, this.rotation.UUID);
     this.router.navigate(["/"], {
       queryParams: {
         current_rotation: this.rotation.UUID,
-        data: btoa(JSON.stringify(this.rotations.map(rotation => rotation.toDto())))
+        data: btoa(JSON.stringify(this.rotations.map(rotation => rotation.toDto()))),
       },
-      queryParamsHandling: "merge"
+      queryParamsHandling: "merge",
     });
   }
 
-  private initCourt() {
+  private initCourt(): void {
     this.context.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     // General field color

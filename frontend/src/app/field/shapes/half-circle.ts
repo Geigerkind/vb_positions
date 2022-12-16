@@ -1,7 +1,7 @@
-import {Shape} from "./shape";
-import {Actor} from "../entity/actor";
-import {ShapeType} from "../value/shape-type";
-import {ShapeDto} from "../dto/shape-dto";
+import { Shape } from "./shape";
+import { Actor } from "../entity/actor";
+import { ShapeType } from "../value/shape-type";
+import { ShapeDto } from "../dto/shape-dto";
 
 export class HalfCircle extends Shape {
   private static RADIUS: number = 50;
@@ -14,12 +14,12 @@ export class HalfCircle extends Shape {
   drawShape(): void {
     this.context.beginPath();
     this.context.arc(this.x, this.y, HalfCircle.RADIUS, 0, Math.PI, true);
-    this.context.fillStyle = 'red';
+    this.context.fillStyle = "red";
     this.context.fill();
     this.context.setLineDash([]);
     this.context.closePath();
     this.context.lineWidth = 3;
-    this.context.strokeStyle = '#003300';
+    this.context.strokeStyle = "#003300";
     this.context.stroke();
   }
 
@@ -42,7 +42,12 @@ export class HalfCircle extends Shape {
   }
 
   isHit(clickX: number, clickY: number): boolean {
-    return clickX >= this.x - HalfCircle.RADIUS && clickX <= this.x + HalfCircle.RADIUS && clickY >= this.y - HalfCircle.RADIUS && clickY <= this.y;
+    return (
+      clickX >= this.x - HalfCircle.RADIUS &&
+      clickX <= this.x + HalfCircle.RADIUS &&
+      clickY >= this.y - HalfCircle.RADIUS &&
+      clickY <= this.y
+    );
   }
 
   copy(): Shape {
@@ -54,7 +59,7 @@ export class HalfCircle extends Shape {
       actor: this.actor.toDto(),
       shape_type: this.shape_type,
       x_percent: this.x_percent,
-      y_percent: this.y_percent
-    }
+      y_percent: this.y_percent,
+    };
   }
 }

@@ -1,19 +1,13 @@
-import {Actor} from "../entity/actor";
-import {Position} from "../value/position";
-import {ShapeDto} from "../dto/shape-dto";
+import { Actor } from "../entity/actor";
+import { Position } from "../value/position";
+import { ShapeDto } from "../dto/shape-dto";
 
 export abstract class Shape {
-
   protected rotationOffset: Position = new Position(1);
   protected x_percent: number;
   protected y_percent: number;
 
-  constructor(
-    public actor: Actor,
-    protected context: CanvasRenderingContext2D,
-    x: number,
-    y: number
-  ) {
+  constructor(public actor: Actor, protected context: CanvasRenderingContext2D, x: number, y: number) {
     this.setPosition(x, y);
   }
 
@@ -25,7 +19,7 @@ export abstract class Shape {
     this.drawShape();
     this.drawPosition();
     this.drawActorName();
-  };
+  }
 
   public setPosition(x: number, y: number): void {
     this.x_percent = Math.max(0, Math.min(x / this.context.canvas.width, 1));

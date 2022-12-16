@@ -1,23 +1,17 @@
-import {Shape} from "../shapes/shape";
-import {generate_uuid} from "../../shared/util/generate_uuid";
-import {Position} from "../value/position";
-import {RotationDto} from "../dto/rotation-dto";
-import {ShapeFactory} from "../shapes/shape-factory";
+import { Shape } from "../shapes/shape";
+import { generate_uuid } from "../../shared/util/generate_uuid";
+import { Position } from "../value/position";
+import { RotationDto } from "../dto/rotation-dto";
+import { ShapeFactory } from "../shapes/shape-factory";
 
 export class Rotation {
-
   private _UUID: string;
 
   get UUID(): string {
     return this._UUID;
   }
 
-  constructor(
-    public shapes: Shape[],
-    public rotation: Position,
-    public name?: string,
-    UUID?: string,
-  ) {
+  constructor(public shapes: Shape[], public rotation: Position, public name?: string, UUID?: string) {
     if (UUID) {
       this._UUID = UUID;
     } else {
@@ -35,7 +29,7 @@ export class Rotation {
       name: this.name,
       rotation: this.rotation.value,
       shapes: this.shapes.map(shape => shape.toDto()),
-      UUID: this.UUID
+      UUID: this.UUID,
     };
   }
 
@@ -58,5 +52,4 @@ export class Rotation {
     }
     return `Unknown rotation (${this.rotation.value})`;
   }
-
 }

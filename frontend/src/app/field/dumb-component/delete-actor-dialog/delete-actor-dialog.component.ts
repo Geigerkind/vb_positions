@@ -1,7 +1,7 @@
-import {Component, Inject, OnInit} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Actor} from "../../entity/actor";
+import { Component, Inject, OnInit } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Actor } from "../../entity/actor";
 
 @Component({
   selector: "vpms-delete-actor-dialog",
@@ -15,9 +15,7 @@ export class DeleteActorDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<DeleteActorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { actors: Actor[] }
-  ) {
-
-  }
+  ) {}
 
   onSubmit(): void {
     this.dialogRef.close(this.formGroup.value.actor);

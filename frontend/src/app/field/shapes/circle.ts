@@ -1,7 +1,7 @@
-import {Shape} from "./shape";
-import {Actor} from "../entity/actor";
-import {ShapeType} from "../value/shape-type";
-import {ShapeDto} from "../dto/shape-dto";
+import { Shape } from "./shape";
+import { Actor } from "../entity/actor";
+import { ShapeType } from "../value/shape-type";
+import { ShapeDto } from "../dto/shape-dto";
 
 export class Circle extends Shape {
   private static RADIUS: number = 40;
@@ -14,10 +14,10 @@ export class Circle extends Shape {
   drawShape(): void {
     this.context.beginPath();
     this.context.arc(this.x, this.y, Circle.RADIUS, 0, 2 * Math.PI, false);
-    this.context.fillStyle = 'red';
+    this.context.fillStyle = "red";
     this.context.fill();
     this.context.lineWidth = 3;
-    this.context.strokeStyle = '#003300';
+    this.context.strokeStyle = "#003300";
     if (this.dashed) {
       this.context.setLineDash([6]);
     } else {
@@ -45,7 +45,12 @@ export class Circle extends Shape {
   }
 
   isHit(clickX: number, clickY: number): boolean {
-    return clickX >= this.x - Circle.RADIUS && clickX <= this.x + Circle.RADIUS && clickY >= this.y - Circle.RADIUS && clickY <= this.y + Circle.RADIUS;
+    return (
+      clickX >= this.x - Circle.RADIUS &&
+      clickX <= this.x + Circle.RADIUS &&
+      clickY >= this.y - Circle.RADIUS &&
+      clickY <= this.y + Circle.RADIUS
+    );
   }
 
   copy(): Shape {
@@ -58,8 +63,7 @@ export class Circle extends Shape {
       dashed: this.dashed,
       shape_type: this.shape_type,
       x_percent: this.x_percent,
-      y_percent: this.y_percent
-    }
+      y_percent: this.y_percent,
+    };
   }
-
 }
