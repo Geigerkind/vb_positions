@@ -58,33 +58,22 @@ export class FieldComponent implements AfterViewInit {
     this.context.canvas.width = window.innerWidth;
     this.context.canvas.height = window.innerHeight - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
 
-    for (const event_mapping in [
+    for (const event_mapping of [
       ["touchstart", "mousedown"],
       ["touchmove", "mousemove"],
     ]) {
-      window.addEventListener(
-        event_mapping[0],
-        event => {
-          event.preventDefault();
-          const touch = (event as TouchEvent).touches[0];
-          this.fieldElement.nativeElement.dispatchEvent(
-            new MouseEvent(event_mapping[1], {
-              clientX: touch.clientX,
-              clientY: touch.clientY,
-            })
-          );
-        },
-        false
-      );
+      this.context.canvas.addEventListener(event_mapping[0], event => {
+        const touch = (event as TouchEvent).touches[0];
+        this.fieldElement.nativeElement.dispatchEvent(
+          new MouseEvent(event_mapping[1], {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+          })
+        );
+      });
     }
-    window.addEventListener("touchend", event => {
-      event.preventDefault();
-      this.onMouseUp();
-    });
-    window.addEventListener("touchcancel", event => {
-      event.preventDefault();
-      this.onMouseUp();
-    });
+    this.context.canvas.addEventListener("touchend", () => this.onMouseUp());
+    this.context.canvas.addEventListener("touchcancel", () => this.onMouseUp());
     this.fieldElement.nativeElement.addEventListener("mousedown", event => this.onMouseDown(event));
     this.fieldElement.nativeElement.addEventListener("mouseup", () => this.onMouseUp());
     this.fieldElement.nativeElement.addEventListener("mouseleave", () => this.onMouseUp());

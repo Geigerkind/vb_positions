@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1671226629696,
+  "timestamp": 1671228675197,
   "index": "/vb_positions/index.html",
   "assetGroups": [
     {
@@ -11,14 +11,14 @@
         "ignoreVary": true
       },
       "urls": [
-        "/vb_positions/775.2bad82f93eacdaf3.js",
+        "/vb_positions/775.ba2f15f15f0b502e.js",
         "/vb_positions/favicon.ico",
         "/vb_positions/index.html",
-        "/vb_positions/main.8c0503f76c4e1b9c.js",
+        "/vb_positions/main.0cf2813ca5410cbc.js",
         "/vb_positions/manifest.webmanifest",
         "/vb_positions/polyfills.7e16bdbffcf7884a.js",
-        "/vb_positions/runtime.e6a5f2c3cdb7ca49.js",
-        "/vb_positions/styles.ae3478057f68f0d7.css"
+        "/vb_positions/runtime.45b372f26acf8236.js",
+        "/vb_positions/styles.e68da187ca60a5b5.css"
       ],
       "patterns": []
     },
@@ -73,7 +73,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/vb_positions/775.2bad82f93eacdaf3.js": "97505a88b7b843f4449b260a38542b9bb723374f",
+    "/vb_positions/775.ba2f15f15f0b502e.js": "2b2dc8665a30281c697b2196225ed3709166b8a6",
     "/vb_positions/assets/android-chrome-192x192.png": "8e83368a12490b640a9f5605940c840ad8c07da9",
     "/vb_positions/assets/android-chrome-512x512.png": "6a2b5043a63f13ceccdb683d34c68c979ce117bb",
     "/vb_positions/assets/apple-touch-icon.png": "90747c290e695e5c677cc0f06b251d33ba844af4",
@@ -90,8 +90,8 @@
     "/vb_positions/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/vb_positions/assets/site.webmanifest": "bf31baf91bdd2fcde24a45e3f2a1be33733c6f69",
     "/vb_positions/favicon.ico": "50ad428f2d74901a9ddf280128337c9c075404a5",
-    "/vb_positions/index.html": "616d202be76d4a44def730f236d185194a702125",
-    "/vb_positions/main.8c0503f76c4e1b9c.js": "d65ef60014dd8ef9ceeac930a55c5bcadf300a4f",
+    "/vb_positions/index.html": "c6bd4b0622e5cffd330f718cd4f01859d5fba9be",
+    "/vb_positions/main.0cf2813ca5410cbc.js": "b1a5103acdb58908b5d39a0cb805fdbf3607ba1a",
     "/vb_positions/manifest.webmanifest": "c48ff53cc4d614e27721baaa871fe2923f51e974",
     "/vb_positions/material-icons-outlined.78a93b2079680a08.woff": "b52ccd8fca4199d257b2a9fe377db29862f2853e",
     "/vb_positions/material-icons-outlined.f86cb7b0aa53f0fe.woff2": "2f9e28ab559782402f27332633c843c40209d95a",
@@ -116,8 +116,8 @@
     "/vb_positions/roboto-latin-700-normal.bd41d1cdc29811cf.woff": "6baf2c7cc3a03676c10ce872ef9fa1aa4e185901",
     "/vb_positions/roboto-latin-900-normal.1ee240152fd103c0.woff": "d4a23b132e1ca8a6cb4e678d519f6ae00a8aac58",
     "/vb_positions/roboto-latin-900-normal.2f95c19ebf5cbe2e.woff2": "0355a01c1ccb45cb728e7e07c41c8ebf456f70bb",
-    "/vb_positions/runtime.e6a5f2c3cdb7ca49.js": "e4a8080329b564ddfec3f241c84f0e89f72ae681",
-    "/vb_positions/styles.ae3478057f68f0d7.css": "d23f1bc75b9fa2c358962c13f31daf5ea779fc6e"
+    "/vb_positions/runtime.45b372f26acf8236.js": "bfc8838fe45b9567cbdc66e70ea82370efe952f7",
+    "/vb_positions/styles.e68da187ca60a5b5.css": "e20b4071d762fd324201056ef3dcb4178ed65c75"
   },
   "navigationUrls": [
     {
