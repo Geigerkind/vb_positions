@@ -65,6 +65,7 @@ export class FieldComponent implements AfterViewInit {
       window.addEventListener(
         event_mapping[0],
         event => {
+          event.preventDefault();
           const touch = (event as TouchEvent).touches[0];
           this.fieldElement.nativeElement.dispatchEvent(
             new MouseEvent(event_mapping[1], {
@@ -76,8 +77,14 @@ export class FieldComponent implements AfterViewInit {
         false
       );
     }
-    window.addEventListener("touchend", () => this.onMouseUp());
-    window.addEventListener("touchcancel", () => this.onMouseUp());
+    window.addEventListener("touchend", event => {
+      event.preventDefault();
+      this.onMouseUp();
+    });
+    window.addEventListener("touchcancel", event => {
+      event.preventDefault();
+      this.onMouseUp();
+    });
     this.fieldElement.nativeElement.addEventListener("mousedown", event => this.onMouseDown(event));
     this.fieldElement.nativeElement.addEventListener("mouseup", () => this.onMouseUp());
     this.fieldElement.nativeElement.addEventListener("mouseleave", () => this.onMouseUp());

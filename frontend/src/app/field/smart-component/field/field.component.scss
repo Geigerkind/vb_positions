@@ -1,6 +1,7 @@
 :host {
   display: block;
   height: 100%;
+  touch-action: none;
 }
 
 mat-toolbar {
@@ -23,4 +24,5 @@ canvas {
   display: block;
   height: calc(100% - 60px);
   width: 100%;
+  touch-action: none;
 }
