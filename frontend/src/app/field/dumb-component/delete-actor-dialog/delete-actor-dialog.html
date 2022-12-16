@@ -1,11 +1,10 @@
-<h1 mat-dialog-title> {{ "delete_actor_dialog.title" | translate }} </h1>
+<h1 mat-dialog-title>{{ "delete_actor_dialog.title" | translate }}</h1>
 <mat-dialog-content [formGroup]="formGroup" (submit)="onSubmit()">
   <form>
     <mat-form-field appearance="fill">
       <mat-label>{{ "delete_actor_dialog.placeholder.actor" | translate }}</mat-label>
       <mat-select formControlName="actor">
-        <mat-option *ngFor="let actor of data.actors;"
-                    [value]="actor.UUID">{{actor.toString()}}</mat-option>
+        <mat-option *ngFor="let actor of data.actors;" [value]="actor.UUID">{{actor.toString()}}</mat-option>
       </mat-select>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">

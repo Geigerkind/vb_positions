@@ -19,7 +19,6 @@ import { Router } from "@angular/router";
 
 /*
   TODO:
-  * Automatic deploy on github in a github page
   * Relative actor sizes?
  */
 

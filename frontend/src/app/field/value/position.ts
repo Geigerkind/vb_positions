@@ -13,6 +13,11 @@ export class Position {
   }
 
   public rotate(other: Position): Position {
-    return new Position(((this._position + other._position) % 6) + 1);
+    const offset = other._position - 1;
+    let newPosition = this._position + offset;
+    if (newPosition > 6) {
+      newPosition = newPosition - 6;
+    }
+    return new Position(newPosition);
   }
 }
