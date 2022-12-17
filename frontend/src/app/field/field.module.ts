@@ -11,6 +11,7 @@ import { CommonModule } from "@angular/common";
 import { DeleteRotationDialogComponent } from "./dumb-component/delete-rotation-dialog/delete-rotation-dialog.component";
 import { AddRotationDialogComponent } from "./dumb-component/add-rotation-dialog/add-rotation-dialog.component";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatSidenavModule } from "@angular/material/sidenav";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     ReactiveFormsModule,
     CommonModule,
     MatCheckboxModule,
+    MatSidenavModule,
   ],
 })
 export class FieldModule {}
