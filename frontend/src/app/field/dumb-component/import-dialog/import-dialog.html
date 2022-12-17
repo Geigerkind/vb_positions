@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>{{ "import_dialog.title" | translate }}</h1>
+<mat-dialog-content [formGroup]="formGroup" (submit)="onSubmit()">
+  <form>
+    <mat-form-field appearance="fill" tabindex="-1">
+      <mat-label>{{ "import_dialog.placeholder.link" | translate }}</mat-label>
+      <input matInput formControlName="link" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+      {{"import_dialog.submit" | translate}}
+    </button>
+  </form>
+</mat-dialog-content>

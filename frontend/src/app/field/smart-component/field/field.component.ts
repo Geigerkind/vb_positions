@@ -17,6 +17,8 @@ import { LocalStorageService } from "../../../shared/service/local-storage.servi
 import { RotationDto } from "../../dto/rotation-dto";
 import { Router } from "@angular/router";
 import { fromEvent } from "rxjs";
+import { ExportDialogComponent } from "../../dumb-component/export-dialog/export-dialog.component";
+import { ImportDialogComponent } from "../../dumb-component/import-dialog/import-dialog.component";
 
 @Component({
   selector: "vpms-field",
@@ -234,6 +236,25 @@ export class FieldComponent implements AfterViewInit {
       this.rotations.push(result.rotation);
       this.currentRotationIndex = this.rotations.length - 1;
       this.formGroup.patchValue({ current_rotation: result.rotation.UUID });
+      this.render();
+    });
+  }
+
+  onExportClicked(): void {
+    this.matDialog.open(ExportDialogComponent, { autoFocus: false });
+  }
+
+  onImportClicked(): void {
+    const dialogRef = this.matDialog.open(ImportDialogComponent, { autoFocus: false });
+    dialogRef.afterClosed().subscribe((urlSearchParams: URLSearchParams) => {
+      if (!urlSearchParams || !urlSearchParams.get("current_rotation") || !urlSearchParams.get("data")) {
+        return;
+      }
+      this.rotations = JSON.parse(atob(urlSearchParams.get("data")!)).map(dto => Rotation.fromDto(dto, this.context));
+      const uuid = urlSearchParams.get("current_rotation")!;
+      this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
+      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+
       this.render();
     });
   }

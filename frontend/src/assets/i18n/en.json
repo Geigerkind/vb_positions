@@ -6,7 +6,9 @@
     "delete_actor": "Delete actor",
     "add_actor": "Add actor",
     "add_rotation": "Add rotation",
-    "delete_rotation": "Delete rotation"
+    "delete_rotation": "Delete rotation",
+    "export": "Export rotations",
+    "import": "Import rotations"
   },
   "add_actor_dialog": {
     "title": "Add actor",
@@ -46,5 +48,19 @@
       "current_rotation": "Current rotation"
     },
     "submit": "Add rotation"
+  },
+  "export_dialog": {
+    "title": "Export rotations",
+    "placeholder": {
+      "copy_link": "Copy link"
+    },
+    "submit": "Copy"
+  },
+  "import_dialog": {
+    "title": "Import rotations",
+    "placeholder": {
+      "link": "Link"
+    },
+    "submit": "Import"
   }
 }

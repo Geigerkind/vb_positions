@@ -12,6 +12,8 @@ import { DeleteRotationDialogComponent } from "./dumb-component/delete-rotation-
 import { AddRotationDialogComponent } from "./dumb-component/add-rotation-dialog/add-rotation-dialog.component";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { ExportDialogComponent } from "./dumb-component/export-dialog/export-dialog.component";
+import { ImportDialogComponent } from "./dumb-component/import-dialog/import-dialog.component";
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { MatSidenavModule } from "@angular/material/sidenav";
     DeleteActorDialogComponent,
     DeleteRotationDialogComponent,
     AddRotationDialogComponent,
+    ExportDialogComponent,
+    ImportDialogComponent,
   ],
   imports: [
     FieldRoutingModule,

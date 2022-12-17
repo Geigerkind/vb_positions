@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>{{ "export_dialog.title" | translate }}</h1>
+<mat-dialog-content [formGroup]="formGroup" (submit)="onSubmit()">
+  <form>
+    <mat-form-field appearance="fill" tabindex="-1">
+      <mat-label>{{ "export_dialog.placeholder.copy_link" | translate }}</mat-label>
+      <input matInput formControlName="copy_link" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">{{"export_dialog.submit" | translate}}</button>
+  </form>
+</mat-dialog-content>
