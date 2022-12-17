@@ -266,7 +266,7 @@ export class FieldComponent implements AfterViewInit {
 
     // Dimensions: 18x9, each side 9x9, of which 3m is the front field
     const OUTSIDE_SPACE_LEFT_AND_RIGHT = canvasWidth * 0.025;
-    const OUTSIDE_SPACE_BACK = canvasHeight * 0.15;
+    const OUTSIDE_SPACE_BACK = canvasHeight * 0.025;
     // Including 1m from the opponent team
     const field_height_1m = (canvasHeight - OUTSIDE_SPACE_BACK) / 10;
     const field_width_1m = (canvasWidth - OUTSIDE_SPACE_LEFT_AND_RIGHT * 2) / 9;
