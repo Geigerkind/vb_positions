@@ -146,7 +146,7 @@ export class FieldComponent implements AfterViewInit {
   }
 
   public onAddActorClicked(): void {
-    const dialogRef = this.matDialog.open(AddActorDialogComponent);
+    const dialogRef = this.matDialog.open(AddActorDialogComponent, { autoFocus: false });
     dialogRef.afterClosed().subscribe((actor: Actor) => {
       if (!actor) {
         return;
@@ -182,6 +182,7 @@ export class FieldComponent implements AfterViewInit {
       data: {
         actors: this.rotation.shapes.map(shape => shape.actor),
       },
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -197,6 +198,7 @@ export class FieldComponent implements AfterViewInit {
       data: {
         rotations: this.rotations,
       },
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -220,7 +222,7 @@ export class FieldComponent implements AfterViewInit {
   }
 
   onAddRotationClicked(): void {
-    const dialogRef = this.matDialog.open(AddRotationDialogComponent);
+    const dialogRef = this.matDialog.open(AddRotationDialogComponent, { autoFocus: false });
     dialogRef.afterClosed().subscribe((result: { rotation: Rotation; copy_shapes: boolean }) => {
       if (!result) {
         return;
