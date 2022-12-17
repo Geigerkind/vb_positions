@@ -101,8 +101,7 @@ export class FieldComponent implements AfterViewInit {
         if (rotationDtos && actorDtos && current_rotation) {
           this.actors = actorDtos.map(dto => Actor.fromDto(dto, this.context));
           this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto));
-          const uuid = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION) as string;
-          this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
+          this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === current_rotation)!;
           this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
         } else {
           this.rotations = [new Rotation(new Position(1), "Default rotation")];
@@ -301,6 +300,10 @@ export class FieldComponent implements AfterViewInit {
       this.rotations.map(rotation => rotation.toDto())
     );
     LocalStorageService.store(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION, this.rotation.UUID);
+    LocalStorageService.store(
+      FieldComponent.LOCAL_STORAGE_KEY_ACTORS,
+      this.actors.map(actor => actor.toDto())
+    );
     this.router.navigate(["/"], {
       queryParams: {
         cr: this.rotation.UUID,
