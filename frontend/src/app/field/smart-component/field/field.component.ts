@@ -17,7 +17,6 @@ import { LocalStorageService } from "../../../shared/service/local-storage.servi
 import { RotationDto } from "../../dto/rotation-dto";
 import { Router } from "@angular/router";
 import { fromEvent } from "rxjs";
-import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
   selector: "vpms-field",
@@ -35,9 +34,6 @@ export class FieldComponent implements AfterViewInit {
 
   @ViewChild("field", { static: false })
   private fieldElement: ElementRef<HTMLCanvasElement>;
-
-  @ViewChild("sidenav", { static: false })
-  private sidenav: MatSidenav;
 
   private context: CanvasRenderingContext2D;
 
@@ -108,7 +104,6 @@ export class FieldComponent implements AfterViewInit {
     }, 100);
 
     fromEvent(window, "resize").subscribe(() => this.fixRenderDimensions());
-    this.sidenav._animationEnd.subscribe(() => this.fixRenderDimensions());
   }
 
   private fixRenderDimensions(): void {

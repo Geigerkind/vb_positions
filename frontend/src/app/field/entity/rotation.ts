@@ -21,7 +21,9 @@ export class Rotation {
 
   public static fromDto(rotationDto: RotationDto, context: CanvasRenderingContext2D): Rotation {
     const shapes = rotationDto.shapes.map(shape => ShapeFactory.fromDto(shape, context));
-    return new Rotation(shapes, new Position(rotationDto.rotation), rotationDto.name, rotationDto.UUID);
+    const rotationOffset = new Position(rotationDto.rotation);
+    shapes.forEach(shape => shape.setRotationOffset(rotationOffset));
+    return new Rotation(shapes, rotationOffset, rotationDto.name, rotationDto.UUID);
   }
 
   public toDto(): RotationDto {
