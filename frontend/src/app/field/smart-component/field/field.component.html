@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav mode="side" #sidenav>
+  <mat-sidenav mode="over" #sidenav>
     <mat-form-field [formGroup]="formGroup">
       <mat-select formControlName="current_rotation">
         <mat-option *ngFor="let rotation of rotations; index as i" [value]="rotation.UUID">{{
@@ -24,13 +24,8 @@
       {{ "field.delete_actor" | translate }}
     </button>
   </mat-sidenav>
-  <mat-sidenav-content #sidenavContent>
-    <button
-      (click)="sidenav.toggle(); render()"
-      mat-flat-button
-      class="toggle_sidenav"
-      [class.is_opened]="sidenav.opened"
-    >
+  <mat-sidenav-content>
+    <button (click)="sidenav.toggle()" mat-flat-button class="toggle_sidenav" [class.is_opened]="sidenav.opened">
       <mat-icon>arrow_right</mat-icon>
     </button>
     <canvas #field></canvas>

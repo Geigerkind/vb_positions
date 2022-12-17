@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>{{ "add_rotation_dialog.title" | translate }}</h1>
 <mat-dialog-content [formGroup]="formGroup" (submit)="onSubmit()">
   <form>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" tabindex="-1">
       <mat-label>{{ "add_rotation_dialog.placeholder.rotation_name" | translate }}</mat-label>
       <input matInput formControlName="rotation_name" />
     </mat-form-field>

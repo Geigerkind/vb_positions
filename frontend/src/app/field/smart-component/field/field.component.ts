@@ -17,7 +17,6 @@ import { LocalStorageService } from "../../../shared/service/local-storage.servi
 import { RotationDto } from "../../dto/rotation-dto";
 import { Router } from "@angular/router";
 import { fromEvent } from "rxjs";
-import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
   selector: "vpms-field",
@@ -35,9 +34,6 @@ export class FieldComponent implements AfterViewInit {
 
   @ViewChild("field", { static: false })
   private fieldElement: ElementRef<HTMLCanvasElement>;
-
-  @ViewChild("sidenav", { static: false })
-  private sidenav: MatSidenav;
 
   private context: CanvasRenderingContext2D;
 
@@ -108,7 +104,6 @@ export class FieldComponent implements AfterViewInit {
     }, 100);
 
     fromEvent(window, "resize").subscribe(() => this.fixRenderDimensions());
-    this.sidenav._animationEnd.subscribe(() => this.fixRenderDimensions());
   }
 
   private fixRenderDimensions(): void {
@@ -151,7 +146,7 @@ export class FieldComponent implements AfterViewInit {
   }
 
   public onAddActorClicked(): void {
-    const dialogRef = this.matDialog.open(AddActorDialogComponent);
+    const dialogRef = this.matDialog.open(AddActorDialogComponent, { autoFocus: false });
     dialogRef.afterClosed().subscribe((actor: Actor) => {
       if (!actor) {
         return;
@@ -187,6 +182,7 @@ export class FieldComponent implements AfterViewInit {
       data: {
         actors: this.rotation.shapes.map(shape => shape.actor),
       },
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -202,6 +198,7 @@ export class FieldComponent implements AfterViewInit {
       data: {
         rotations: this.rotations,
       },
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -225,7 +222,7 @@ export class FieldComponent implements AfterViewInit {
   }
 
   onAddRotationClicked(): void {
-    const dialogRef = this.matDialog.open(AddRotationDialogComponent);
+    const dialogRef = this.matDialog.open(AddRotationDialogComponent, { autoFocus: false });
     dialogRef.afterClosed().subscribe((result: { rotation: Rotation; copy_shapes: boolean }) => {
       if (!result) {
         return;
@@ -271,7 +268,7 @@ export class FieldComponent implements AfterViewInit {
 
     // Dimensions: 18x9, each side 9x9, of which 3m is the front field
     const OUTSIDE_SPACE_LEFT_AND_RIGHT = canvasWidth * 0.025;
-    const OUTSIDE_SPACE_BACK = canvasHeight * 0.15;
+    const OUTSIDE_SPACE_BACK = canvasHeight * 0.025;
     // Including 1m from the opponent team
     const field_height_1m = (canvasHeight - OUTSIDE_SPACE_BACK) / 10;
     const field_width_1m = (canvasWidth - OUTSIDE_SPACE_LEFT_AND_RIGHT * 2) / 9;
