@@ -1,24 +1,38 @@
-<mat-toolbar color="primary">
-  <mat-form-field [formGroup]="formGroup">
-    <mat-select formControlName="current_rotation">
-      <mat-option *ngFor="let rotation of rotations; index as i" [value]="rotation.UUID">{{
-        rotation.toString()
-      }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <button mat-raised-button (click)="onAddRotationClicked()">
-    {{ "field.add_rotation" | translate }}
-  </button>
-  <button mat-raised-button (click)="onDeleteRotationClicked()">
-    {{ "field.delete_rotation" | translate }}
-  </button>
-  <div id="rightSide">
-    <button mat-raised-button (click)="onAddActorClicked()">
+<mat-sidenav-container>
+  <mat-sidenav mode="side" #sidenav>
+    <mat-form-field [formGroup]="formGroup">
+      <mat-select formControlName="current_rotation">
+        <mat-option *ngFor="let rotation of rotations; index as i" [value]="rotation.UUID">{{
+          rotation.toString()
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-stroked-button (click)="onAddRotationClicked()">
+      <mat-icon>add</mat-icon>
+      {{ "field.add_rotation" | translate }}
+    </button>
+    <button mat-stroked-button (click)="onDeleteRotationClicked()">
+      <mat-icon>delete</mat-icon>
+      {{ "field.delete_rotation" | translate }}
+    </button>
+    <button mat-stroked-button (click)="onAddActorClicked()">
+      <mat-icon>add</mat-icon>
       {{ "field.add_actor" | translate }}
     </button>
-    <button mat-raised-button (click)="onDeleteActorClicked()">
+    <button mat-stroked-button (click)="onDeleteActorClicked()">
+      <mat-icon>delete</mat-icon>
       {{ "field.delete_actor" | translate }}
     </button>
-  </div>
-</mat-toolbar>
-<canvas #field></canvas>
+  </mat-sidenav>
+  <mat-sidenav-content #sidenavContent>
+    <button
+      (click)="sidenav.toggle(); render()"
+      mat-flat-button
+      class="toggle_sidenav"
+      [class.is_opened]="sidenav.opened"
+    >
+      <mat-icon>arrow_right</mat-icon>
+    </button>
+    <canvas #field></canvas>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -10,8 +10,7 @@ export class ShapeFactory {
   public static fromDto(shapeDto: ShapeDto, context: CanvasRenderingContext2D): Shape {
     const actor = Actor.fromDto(shapeDto.actor);
     const x = context.canvas.width * shapeDto.x_percent;
-    // TODO: Constant
-    const y = (context.canvas.height - 60) * shapeDto.y_percent;
+    const y = context.canvas.height * shapeDto.y_percent;
 
     switch (shapeDto.shape_type) {
       case ShapeType.Circle:

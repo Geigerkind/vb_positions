@@ -17,6 +17,7 @@ import { LocalStorageService } from "../../../shared/service/local-storage.servi
 import { RotationDto } from "../../dto/rotation-dto";
 import { Router } from "@angular/router";
 import { fromEvent } from "rxjs";
+import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
   selector: "vpms-field",
@@ -29,12 +30,14 @@ export class FieldComponent implements AfterViewInit {
   private static FRONT_FIELD_COLOR: string = "#FF5202";
   private static BACK_FIELD_COLOR: string = "#F8A941";
 
-  private static NAVIGATION_BAR_HEIGHT_IN_PX: number = 60;
   private static LOCAL_STORAGE_KEY: string = "rotations_storage";
   private static LOCAL_STORAGE_KEY_CURRENT_ROTATION: string = "current_rotation_uuid";
 
   @ViewChild("field", { static: false })
   private fieldElement: ElementRef<HTMLCanvasElement>;
+
+  @ViewChild("sidenav", { static: false })
+  private sidenav: MatSidenav;
 
   private context: CanvasRenderingContext2D;
 
@@ -55,8 +58,8 @@ export class FieldComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.context = this.fieldElement.nativeElement.getContext("2d")!;
-    this.context.canvas.width = window.innerWidth;
-    this.context.canvas.height = window.innerHeight - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
+    this.context.canvas.width = this.context.canvas.getBoundingClientRect().width;
+    this.context.canvas.height = this.context.canvas.getBoundingClientRect().height;
 
     for (const event_mapping of [
       ["touchstart", "mousedown"],
@@ -104,11 +107,14 @@ export class FieldComponent implements AfterViewInit {
       this.render();
     }, 100);
 
-    fromEvent(window, "resize").subscribe(() => {
-      this.context.canvas.width = window.innerWidth;
-      this.context.canvas.height = window.innerHeight - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
-      this.render();
-    });
+    fromEvent(window, "resize").subscribe(() => this.fixRenderDimensions());
+    this.sidenav._animationEnd.subscribe(() => this.fixRenderDimensions());
+  }
+
+  private fixRenderDimensions(): void {
+    this.context.canvas.width = this.context.canvas.getBoundingClientRect().width;
+    this.context.canvas.height = this.context.canvas.getBoundingClientRect().height;
+    this.render();
   }
 
   private onRotationChanged(uuid: string): void {
@@ -118,7 +124,7 @@ export class FieldComponent implements AfterViewInit {
 
   private onMouseDown(event: MouseEvent): void {
     const x = event.clientX;
-    const y = event.clientY - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
+    const y = event.clientY;
 
     for (let i = this.rotation.shapes.length - 1; i >= 0; --i) {
       const shape = this.rotation.shapes[i];
@@ -139,7 +145,7 @@ export class FieldComponent implements AfterViewInit {
     }
 
     const x = event.clientX;
-    const y = event.clientY - FieldComponent.NAVIGATION_BAR_HEIGHT_IN_PX;
+    const y = event.clientY;
     this.draggedShape.setPosition(x, y);
     this.render();
   }
@@ -151,8 +157,8 @@ export class FieldComponent implements AfterViewInit {
         return;
       }
 
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
+      const centerX = this.context.canvas.getBoundingClientRect().width / 2;
+      const centerY = this.context.canvas.getBoundingClientRect().height / 2;
 
       switch (actor.player_role) {
         case PlayerRole.Setter:
@@ -235,7 +241,7 @@ export class FieldComponent implements AfterViewInit {
     });
   }
 
-  private render(): void {
+  render(): void {
     this.initCourt();
     this.rotation.shapes.forEach(shape => shape.draw());
 
@@ -254,21 +260,24 @@ export class FieldComponent implements AfterViewInit {
   }
 
   private initCourt(): void {
-    this.context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    const canvasWidth = this.context.canvas.getBoundingClientRect().width;
+    const canvasHeight = this.context.canvas.getBoundingClientRect().height;
+
+    this.context.clearRect(0, 0, canvasWidth, canvasHeight);
 
     // General field color
     this.context.fillStyle = FieldComponent.OUTER_COLOR;
-    this.context.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    this.context.fillRect(0, 0, canvasWidth, canvasHeight);
 
     // Dimensions: 18x9, each side 9x9, of which 3m is the front field
-    const OUTSIDE_SPACE_LEFT_AND_RIGHT = window.innerWidth * 0.025;
-    const OUTSIDE_SPACE_BACK = window.innerHeight * 0.15;
+    const OUTSIDE_SPACE_LEFT_AND_RIGHT = canvasWidth * 0.025;
+    const OUTSIDE_SPACE_BACK = canvasHeight * 0.15;
     // Including 1m from the opponent team
-    const field_height_1m = (window.innerHeight - OUTSIDE_SPACE_BACK) / 10;
-    const field_width_1m = (window.innerWidth - OUTSIDE_SPACE_LEFT_AND_RIGHT * 2) / 9;
+    const field_height_1m = (canvasHeight - OUTSIDE_SPACE_BACK) / 10;
+    const field_width_1m = (canvasWidth - OUTSIDE_SPACE_LEFT_AND_RIGHT * 2) / 9;
 
     const field_width_start = OUTSIDE_SPACE_LEFT_AND_RIGHT;
-    const field_width = window.innerWidth - OUTSIDE_SPACE_LEFT_AND_RIGHT * 2;
+    const field_width = canvasWidth - OUTSIDE_SPACE_LEFT_AND_RIGHT * 2;
 
     // Front field
     this.context.fillStyle = FieldComponent.FRONT_FIELD_COLOR;

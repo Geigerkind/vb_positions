@@ -1,27 +1,55 @@
+@import "src/styles/colors";
+
 :host {
   display: block;
   height: 100%;
 }
 
-mat-toolbar {
-  height: 60px;
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 15rem;
+  padding: 1rem 1rem;
 
   button {
-    margin-left: 1rem;
+    width: 100%;
+    height: 3rem;
+    text-align: left;
+    margin-bottom: 0.5rem;
+
+    &:hover {
+      color: $color-primary-default;
+    }
   }
 
   mat-form-field {
-    width: 250px;
+    width: 100%;
+  }
+}
+
+.toggle_sidenav {
+  position: absolute;
+  top: 3rem;
+  left: -1rem;
+  z-index: 20;
+  transform: rotate(90deg);
+
+  &.is_opened {
+    mat-icon {
+      transform: rotate(90deg);
+    }
   }
 
-  #rightSide {
-    margin-left: auto;
+  mat-icon {
+    transform: rotate(-90deg);
   }
 }
 
 canvas {
   display: block;
-  height: calc(100% - 60px);
+  height: 100%;
   width: 100%;
   touch-action: none;
 }

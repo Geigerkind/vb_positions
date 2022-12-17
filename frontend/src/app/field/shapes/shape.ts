@@ -23,8 +23,7 @@ export abstract class Shape {
 
   public setPosition(x: number, y: number): void {
     this.x_percent = Math.max(0, Math.min(x / this.context.canvas.width, 1));
-    // TODO: Constant
-    this.y_percent = Math.max(0, Math.min(y / (this.context.canvas.height - 60), 1));
+    this.y_percent = Math.max(0, Math.min(y / this.context.canvas.height, 1));
   }
 
   get x(): number {
@@ -32,8 +31,7 @@ export abstract class Shape {
   }
 
   get y(): number {
-    // TODO: Constant
-    return (this.context.canvas.height - 60) * this.y_percent;
+    return this.context.canvas.height * this.y_percent;
   }
 
   public setRotationOffset(position: Position): void {
