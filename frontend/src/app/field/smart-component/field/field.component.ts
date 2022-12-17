@@ -82,22 +82,13 @@ export class FieldComponent implements AfterViewInit {
 
     // Hacky but it works!
     setTimeout(() => {
-      const queryParams = new URLSearchParams(window.location.search);
-      if (queryParams.get("data") && queryParams.get("current_rotation")) {
-        this.rotations = JSON.parse(atob(queryParams.get("data")!)).map(dto => Rotation.fromDto(dto, this.context));
-        const uuid = queryParams.get("current_rotation")!;
+      const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY) as RotationDto[] | undefined;
+      if (rotationDtos) {
+        this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto, this.context));
+        const uuid = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION) as string;
         this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
       } else {
-        const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY) as
-          | RotationDto[]
-          | undefined;
-        if (rotationDtos) {
-          this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto, this.context));
-          const uuid = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION) as string;
-          this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
-        } else {
-          this.rotations = [new Rotation([], new Position(1), "Default rotation")];
-        }
+        this.rotations = [new Rotation([], new Position(1), "Default rotation")];
       }
 
       this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
@@ -241,7 +232,14 @@ export class FieldComponent implements AfterViewInit {
   }
 
   onExportClicked(): void {
-    this.matDialog.open(ExportDialogComponent, { autoFocus: false });
+    this.matDialog.open(ExportDialogComponent, {
+      data: {
+        export_url: `current_rotation=${this.rotation.UUID}&data=${btoa(
+          JSON.stringify(this.rotations.map(rotation => rotation.toDto()))
+        )}`,
+      },
+      autoFocus: false,
+    });
   }
 
   onImportClicked(): void {
@@ -268,13 +266,6 @@ export class FieldComponent implements AfterViewInit {
       this.rotations.map(rotation => rotation.toDto())
     );
     LocalStorageService.store(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION, this.rotation.UUID);
-    this.router.navigate(["/"], {
-      queryParams: {
-        current_rotation: this.rotation.UUID,
-        data: btoa(JSON.stringify(this.rotations.map(rotation => rotation.toDto()))),
-      },
-      queryParamsHandling: "merge",
-    });
   }
 
   private initCourt(): void {

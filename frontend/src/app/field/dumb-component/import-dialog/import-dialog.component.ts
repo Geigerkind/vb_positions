@@ -13,7 +13,7 @@ export class ImportDialogComponent implements OnInit {
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<ImportDialogComponent>) {}
 
   onSubmit(): void {
-    const searchpart = this.formGroup.value.link.split("?")[1];
+    const searchpart = this.formGroup.value.link;
     this.dialogRef.close(new URLSearchParams(searchpart));
   }
 
