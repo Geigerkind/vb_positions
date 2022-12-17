@@ -15,20 +15,14 @@ export class AddRotationDialogComponent implements OnInit {
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddRotationDialogComponent>) {}
 
   onSubmit(): void {
-    this.dialogRef.close({
-      rotation: new Rotation(
-        [],
-        new Position(this.formGroup.value.current_rotation),
-        this.formGroup.value.rotation_name
-      ),
-      copy_shapes: this.formGroup.value.copy_shapes,
-    });
+    this.dialogRef.close(
+      new Rotation(new Position(this.formGroup.value.current_rotation), this.formGroup.value.rotation_name)
+    );
   }
 
   ngOnInit(): void {
     this.formGroup = this.fb.group({
       rotation_name: null,
-      copy_shapes: true,
       current_rotation: [1, Validators.required],
     });
   }

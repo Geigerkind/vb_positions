@@ -1,15 +1,13 @@
 import { Shape } from "./shape";
 import { Actor } from "../entity/actor";
-import { ShapeType } from "../value/shape-type";
-import { ShapeDto } from "../dto/shape-dto";
+import { ShapeFieldPosition } from "../value/shape-field-position";
 
 export class HalfCircle extends Shape {
   private static RELATIVE_RADIUS: number = 0.018 * 3.2;
   private static RADIUS_MAX: number = 50;
-  public readonly shape_type: ShapeType = ShapeType.HalfCircle;
 
-  constructor(actor: Actor, context: CanvasRenderingContext2D, x: number, y: number) {
-    super(actor, context, x, y);
+  constructor(actor: Actor, context: CanvasRenderingContext2D, field_positions?: Map<string, ShapeFieldPosition>) {
+    super(actor, context, field_positions);
   }
 
   get radius(): number {
@@ -56,18 +54,5 @@ export class HalfCircle extends Shape {
       clickY >= this.y - this.radius &&
       clickY <= this.y
     );
-  }
-
-  copy(): Shape {
-    return new HalfCircle(this.actor.copy(), this.context, this.x, this.y);
-  }
-
-  toDto(): ShapeDto {
-    return {
-      actor: this.actor.toDto(),
-      shape_type: this.shape_type,
-      x_percent: this.x_percent,
-      y_percent: this.y_percent,
-    };
   }
 }

@@ -44,7 +44,6 @@
     "title": "Add rotation",
     "placeholder": {
       "rotation_name": "Name",
-      "copy_shapes": "Copy current shapes",
       "current_rotation": "Current rotation"
     },
     "submit": "Add rotation"

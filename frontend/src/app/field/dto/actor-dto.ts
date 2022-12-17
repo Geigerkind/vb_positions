@@ -1,8 +1,10 @@
 import { PlayerRole } from "../value/player-role";
+import { ShapeDto } from "./shape-dto";
 
 export interface ActorDto {
-  UUID: string;
-  position: number;
-  player_role: PlayerRole;
-  player_name?: string;
+  u: string;
+  p: number;
+  pr: PlayerRole;
+  pn?: string;
+  s: ShapeDto;
 }

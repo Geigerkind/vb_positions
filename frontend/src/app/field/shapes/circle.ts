@@ -1,15 +1,18 @@
 import { Shape } from "./shape";
 import { Actor } from "../entity/actor";
-import { ShapeType } from "../value/shape-type";
-import { ShapeDto } from "../dto/shape-dto";
+import { ShapeFieldPosition } from "../value/shape-field-position";
 
 export class Circle extends Shape {
   private static RELATIVE_RADIUS: number = 0.016 * 3;
   private static RADIUS_MAX: number = 40;
-  public readonly shape_type: ShapeType = ShapeType.Circle;
 
-  constructor(actor: Actor, context: CanvasRenderingContext2D, x: number, y: number, private dashed: boolean) {
-    super(actor, context, x, y);
+  constructor(
+    actor: Actor,
+    context: CanvasRenderingContext2D,
+    private dashed: boolean,
+    field_positions?: Map<string, ShapeFieldPosition>
+  ) {
+    super(actor, context, field_positions);
   }
 
   get radius(): number {
@@ -59,19 +62,5 @@ export class Circle extends Shape {
       clickY >= this.y - this.radius &&
       clickY <= this.y + this.radius
     );
-  }
-
-  copy(): Shape {
-    return new Circle(this.actor.copy(), this.context, this.x, this.y, this.dashed);
-  }
-
-  toDto(): ShapeDto {
-    return {
-      actor: this.actor.toDto(),
-      dashed: this.dashed,
-      shape_type: this.shape_type,
-      x_percent: this.x_percent,
-      y_percent: this.y_percent,
-    };
   }
 }
