@@ -60,6 +60,10 @@ export abstract class Shape {
     }
   }
 
+  public removeRotation(uuid: string): void {
+    this.fieldPositions.delete(uuid);
+  }
+
   get x(): number {
     return this.context.canvas.width * this.getFieldPosition().x_percent;
   }
