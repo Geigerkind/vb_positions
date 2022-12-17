@@ -15,10 +15,10 @@ import { DeleteRotationDialogComponent } from "../../dumb-component/delete-rotat
 import { AddRotationDialogComponent } from "../../dumb-component/add-rotation-dialog/add-rotation-dialog.component";
 import { LocalStorageService } from "../../../shared/service/local-storage.service";
 import { RotationDto } from "../../dto/rotation-dto";
-import { Router } from "@angular/router";
 import { fromEvent } from "rxjs";
 import { ExportDialogComponent } from "../../dumb-component/export-dialog/export-dialog.component";
 import { ImportDialogComponent } from "../../dumb-component/import-dialog/import-dialog.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "vpms-field",
@@ -82,13 +82,20 @@ export class FieldComponent implements AfterViewInit {
 
     // Hacky but it works!
     setTimeout(() => {
-      const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY) as RotationDto[] | undefined;
-      if (rotationDtos) {
-        this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto, this.context));
-        const uuid = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION) as string;
-        this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams && searchParams.get("current_rotation") && searchParams.get("rotation_0")) {
+        this.importLink(searchParams);
       } else {
-        this.rotations = [new Rotation([], new Position(1), "Default rotation")];
+        const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY) as
+          | RotationDto[]
+          | undefined;
+        if (rotationDtos) {
+          this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto, this.context));
+          const uuid = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION) as string;
+          this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
+        } else {
+          this.rotations = [new Rotation([], new Position(1), "Default rotation")];
+        }
       }
 
       this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
@@ -234,9 +241,7 @@ export class FieldComponent implements AfterViewInit {
   onExportClicked(): void {
     this.matDialog.open(ExportDialogComponent, {
       data: {
-        export_url: `current_rotation=${this.rotation.UUID}&data=${btoa(
-          JSON.stringify(this.rotations.map(rotation => rotation.toDto()))
-        )}`,
+        export_url: window.location.href,
       },
       autoFocus: false,
     });
@@ -244,17 +249,29 @@ export class FieldComponent implements AfterViewInit {
 
   onImportClicked(): void {
     const dialogRef = this.matDialog.open(ImportDialogComponent, { autoFocus: false });
-    dialogRef.afterClosed().subscribe((urlSearchParams: URLSearchParams) => {
-      if (!urlSearchParams || !urlSearchParams.get("current_rotation") || !urlSearchParams.get("data")) {
-        return;
-      }
-      this.rotations = JSON.parse(atob(urlSearchParams.get("data")!)).map(dto => Rotation.fromDto(dto, this.context));
-      const uuid = urlSearchParams.get("current_rotation")!;
-      this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
-      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+    dialogRef.afterClosed().subscribe((urlSearchParams: URLSearchParams) => this.importLink(urlSearchParams));
+  }
 
-      this.render();
-    });
+  private importLink(urlSearchParams: URLSearchParams): void {
+    if (!urlSearchParams || !urlSearchParams.get("current_rotation") || !urlSearchParams.get("rotation_0")) {
+      return;
+    }
+
+    const rotations: Rotation[] = [];
+    let i = 0;
+    while (urlSearchParams.get("rotation_" + i)) {
+      rotations.push(
+        Rotation.fromDto(JSON.parse(atob(urlSearchParams.get("rotation_" + i)!)) as RotationDto, this.context)
+      );
+      ++i;
+    }
+
+    this.rotations = rotations;
+    const uuid = urlSearchParams.get("current_rotation")!;
+    this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
+    this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+
+    this.render();
   }
 
   render(): void {
@@ -266,6 +283,19 @@ export class FieldComponent implements AfterViewInit {
       this.rotations.map(rotation => rotation.toDto())
     );
     LocalStorageService.store(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION, this.rotation.UUID);
+    this.router.navigate(["/"], {
+      queryParams: {
+        current_rotation: this.rotation.UUID,
+        ...Object.fromEntries(
+          this.rotations.reduce((acc, rotation) => {
+            acc.set("rotation_" + acc.size, btoa(JSON.stringify(rotation.toDto())));
+            return acc;
+          }, new Map())
+        ),
+      },
+      replaceUrl: true,
+      queryParamsHandling: "merge",
+    });
   }
 
   private initCourt(): void {
