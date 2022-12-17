@@ -1,8 +1,5 @@
-import { ShapeDto } from "./shape-dto";
-
 export interface RotationDto {
-  UUID: string;
-  shapes: ShapeDto[];
-  rotation: number;
-  name?: string;
+  u: string;
+  r: number;
+  n?: string;
 }

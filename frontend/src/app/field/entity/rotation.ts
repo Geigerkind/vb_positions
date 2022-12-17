@@ -1,8 +1,6 @@
-import { Shape } from "../shapes/shape";
 import { generate_uuid } from "../../shared/util/generate_uuid";
 import { Position } from "../value/position";
 import { RotationDto } from "../dto/rotation-dto";
-import { ShapeFactory } from "../shapes/shape-factory";
 
 export class Rotation {
   private _UUID: string;
@@ -11,7 +9,7 @@ export class Rotation {
     return this._UUID;
   }
 
-  constructor(public shapes: Shape[], public rotation: Position, public name?: string, UUID?: string) {
+  constructor(public rotation: Position, public name?: string, UUID?: string) {
     if (UUID) {
       this._UUID = UUID;
     } else {
@@ -19,33 +17,17 @@ export class Rotation {
     }
   }
 
-  public static fromDto(rotationDto: RotationDto, context: CanvasRenderingContext2D): Rotation {
-    const shapes = rotationDto.shapes.map(shape => ShapeFactory.fromDto(shape, context));
-    const rotationOffset = new Position(rotationDto.rotation);
-    shapes.forEach(shape => shape.setRotationOffset(rotationOffset));
-    return new Rotation(shapes, rotationOffset, rotationDto.name, rotationDto.UUID);
+  public static fromDto(rotationDto: RotationDto): Rotation {
+    const rotationOffset = new Position(rotationDto.r);
+    return new Rotation(rotationOffset, rotationDto.n, rotationDto.u);
   }
 
   public toDto(): RotationDto {
     return {
-      name: this.name,
-      rotation: this.rotation.value,
-      shapes: this.shapes.map(shape => shape.toDto()),
-      UUID: this.UUID,
+      n: this.name,
+      r: this.rotation.value,
+      u: this.UUID,
     };
-  }
-
-  public addShape(shape: Shape): void {
-    shape.setRotationOffset(this.rotation);
-    this.shapes.push(shape);
-  }
-
-  public removeShapeByActorUUID(uuid: string): void {
-    const index = this.shapes.findIndex(shape => shape.actor.UUID === uuid);
-    if (index == null) {
-      return;
-    }
-    this.shapes.splice(index, 1);
   }
 
   public toString(): string {
