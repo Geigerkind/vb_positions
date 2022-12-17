@@ -52,14 +52,14 @@
   "export_dialog": {
     "title": "Export rotations",
     "placeholder": {
-      "copy_link": "Copy link"
+      "copy_link": "Data"
     },
     "submit": "Copy"
   },
   "import_dialog": {
     "title": "Import rotations",
     "placeholder": {
-      "link": "Link"
+      "link": "Data"
     },
     "submit": "Import"
   }
