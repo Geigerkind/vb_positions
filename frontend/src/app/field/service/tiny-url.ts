@@ -9,7 +9,7 @@ export class TinyUrl {
   constructor(private http: HttpClient) {}
 
   shorten(url: string): Observable<string> {
-    return this.http.get("https://cdpt.in/shorten?url=" + encodeURI(url), {
+    return this.http.get("https://cdpt.in/shorten?url=" + encodeURIComponent(url), {
       responseType: "text",
     });
   }
