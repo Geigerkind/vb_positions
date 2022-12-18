@@ -223,6 +223,7 @@ export class FieldComponent implements AfterViewInit {
       const currentRotationUUID = this.rotation.UUID;
       const index = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
       this.rotations.splice(index, 1);
+      this.actors.forEach(actor => actor.shape.removeRotation(uuid));
 
       if (currentRotationUUID === uuid) {
         if (this.rotations.length === 0) {
@@ -231,7 +232,6 @@ export class FieldComponent implements AfterViewInit {
         this.currentRotationIndex = 0;
         this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
         this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
-        this.actors.forEach(actor => actor.shape.removeRotation(this.rotation.UUID));
       }
 
       this.render();
