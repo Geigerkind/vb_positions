@@ -1,28 +1,26 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
-import {Circle} from "../../shapes/circle";
-import {Shape} from "../../shapes/shape";
-import {MatDialog} from "@angular/material/dialog";
-import {AddActorDialogComponent} from "../../dumb-component/add-actor-dialog/add-actor-dialog.component";
-import {Actor} from "../../entity/actor";
-import {PlayerRole} from "../../value/player-role";
-import {Position} from "../../value/position";
-import {HalfCircle} from "../../shapes/half-circle";
-import {Triangle} from "../../shapes/triangle";
-import {DeleteActorDialogComponent} from "../../dumb-component/delete-actor-dialog/delete-actor-dialog.component";
-import {Rotation} from "../../entity/rotation";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {
-  DeleteRotationDialogComponent
-} from "../../dumb-component/delete-rotation-dialog/delete-rotation-dialog.component";
-import {AddRotationDialogComponent} from "../../dumb-component/add-rotation-dialog/add-rotation-dialog.component";
-import {LocalStorageService} from "../../../shared/service/local-storage.service";
-import {RotationDto} from "../../dto/rotation-dto";
-import {fromEvent} from "rxjs";
-import {ExportDialogComponent} from "../../dumb-component/export-dialog/export-dialog.component";
-import {ImportDialogComponent} from "../../dumb-component/import-dialog/import-dialog.component";
-import {Router} from "@angular/router";
-import {ActorDto} from "../../dto/actor-dto";
-import {TinyUrl} from "../../service/tiny-url";
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { Circle } from "../../shapes/circle";
+import { Shape } from "../../shapes/shape";
+import { MatDialog } from "@angular/material/dialog";
+import { AddActorDialogComponent } from "../../dumb-component/add-actor-dialog/add-actor-dialog.component";
+import { Actor } from "../../entity/actor";
+import { PlayerRole } from "../../value/player-role";
+import { Position } from "../../value/position";
+import { HalfCircle } from "../../shapes/half-circle";
+import { Triangle } from "../../shapes/triangle";
+import { DeleteActorDialogComponent } from "../../dumb-component/delete-actor-dialog/delete-actor-dialog.component";
+import { Rotation } from "../../entity/rotation";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DeleteRotationDialogComponent } from "../../dumb-component/delete-rotation-dialog/delete-rotation-dialog.component";
+import { AddRotationDialogComponent } from "../../dumb-component/add-rotation-dialog/add-rotation-dialog.component";
+import { LocalStorageService } from "../../../shared/service/local-storage.service";
+import { RotationDto } from "../../dto/rotation-dto";
+import { fromEvent } from "rxjs";
+import { ExportDialogComponent } from "../../dumb-component/export-dialog/export-dialog.component";
+import { ImportDialogComponent } from "../../dumb-component/import-dialog/import-dialog.component";
+import { Router } from "@angular/router";
+import { ActorDto } from "../../dto/actor-dto";
+import { TinyUrl } from "../../service/tiny-url";
 
 @Component({
   selector: "vpms-field",
@@ -39,7 +37,7 @@ export class FieldComponent implements AfterViewInit {
   private static LOCAL_STORAGE_KEY_ROTATIONS: string = "rotations_storage";
   private static LOCAL_STORAGE_KEY_CURRENT_ROTATION: string = "current_rotation_uuid";
 
-  @ViewChild("field", {static: false})
+  @ViewChild("field", { static: false })
   private fieldElement: ElementRef<HTMLCanvasElement>;
 
   private context: CanvasRenderingContext2D;
@@ -54,7 +52,12 @@ export class FieldComponent implements AfterViewInit {
     return this.rotations[this.currentRotationIndex];
   }
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private matDialog: MatDialog, private tinyUrl: TinyUrl) {
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private matDialog: MatDialog,
+    private tinyUrl: TinyUrl
+  ) {
     this.formGroup = this.formBuilder.group({
       current_rotation: [null, Validators.required],
     });
@@ -112,7 +115,7 @@ export class FieldComponent implements AfterViewInit {
         }
       }
 
-      this.formGroup.patchValue({current_rotation: this.rotation.UUID});
+      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
       this.formGroup.valueChanges.subscribe(value => this.onRotationChanged(value.current_rotation));
       this.render();
     }, 100);
@@ -161,7 +164,7 @@ export class FieldComponent implements AfterViewInit {
   }
 
   public onAddActorClicked(): void {
-    const dialogRef = this.matDialog.open(AddActorDialogComponent, {autoFocus: false});
+    const dialogRef = this.matDialog.open(AddActorDialogComponent, { autoFocus: false });
     dialogRef.afterClosed().subscribe((actor: Actor) => {
       if (!actor) {
         return;
@@ -233,7 +236,7 @@ export class FieldComponent implements AfterViewInit {
           this.rotations.push(new Rotation(new Position(1), "Default rotation"));
         }
         this.currentRotationIndex = 0;
-        this.formGroup.patchValue({current_rotation: this.rotation.UUID});
+        this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
         this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
         this.actors.forEach(actor => actor.shape.removeRotation(this.rotation.UUID));
       }
@@ -243,7 +246,7 @@ export class FieldComponent implements AfterViewInit {
   }
 
   onAddRotationClicked(): void {
-    const dialogRef = this.matDialog.open(AddRotationDialogComponent, {autoFocus: false});
+    const dialogRef = this.matDialog.open(AddRotationDialogComponent, { autoFocus: false });
     dialogRef.afterClosed().subscribe((rotation: Rotation) => {
       if (!rotation) {
         return;
@@ -252,7 +255,7 @@ export class FieldComponent implements AfterViewInit {
       this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
       this.rotations.push(rotation);
       this.currentRotationIndex = this.rotations.length - 1;
-      this.formGroup.patchValue({current_rotation: rotation.UUID});
+      this.formGroup.patchValue({ current_rotation: rotation.UUID });
       this.render();
     });
   }
@@ -267,7 +270,7 @@ export class FieldComponent implements AfterViewInit {
   }
 
   onImportClicked(): void {
-    const dialogRef = this.matDialog.open(ImportDialogComponent, {autoFocus: false});
+    const dialogRef = this.matDialog.open(ImportDialogComponent, { autoFocus: false });
     dialogRef.afterClosed().subscribe((urlSearchParams: URLSearchParams) => this.importLink(urlSearchParams));
   }
 
@@ -291,7 +294,7 @@ export class FieldComponent implements AfterViewInit {
     this.rotations = rotations;
     const uuid = urlSearchParams.get("cr")!;
     this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
-    this.formGroup.patchValue({current_rotation: this.rotation.UUID});
+    this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
     this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
 
     this.render();
