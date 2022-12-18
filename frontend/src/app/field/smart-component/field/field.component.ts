@@ -20,7 +20,6 @@ import { ExportDialogComponent } from "../../dumb-component/export-dialog/export
 import { ImportDialogComponent } from "../../dumb-component/import-dialog/import-dialog.component";
 import { Router } from "@angular/router";
 import { ActorDto } from "../../dto/actor-dto";
-import { TinyUrl } from "../../service/tiny-url";
 
 @Component({
   selector: "vpms-field",
@@ -52,16 +51,10 @@ export class FieldComponent implements AfterViewInit {
     return this.rotations[this.currentRotationIndex];
   }
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private matDialog: MatDialog,
-    private tinyUrl: TinyUrl
-  ) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private matDialog: MatDialog) {
     this.formGroup = this.formBuilder.group({
       current_rotation: [null, Validators.required],
     });
-    this.tinyUrl.shorten("http://google.com").subscribe(test => console.log(test));
   }
 
   ngAfterViewInit(): void {
@@ -262,9 +255,6 @@ export class FieldComponent implements AfterViewInit {
 
   onExportClicked(): void {
     this.matDialog.open(ExportDialogComponent, {
-      data: {
-        export_url: window.location.href,
-      },
       autoFocus: false,
     });
   }

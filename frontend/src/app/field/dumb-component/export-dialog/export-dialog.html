@@ -5,6 +5,8 @@
       <mat-label>{{ "export_dialog.placeholder.copy_link" | translate }}</mat-label>
       <input matInput formControlName="copy_link" />
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">{{"export_dialog.submit" | translate}}</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+      {{"export_dialog.submit" | translate}}
+    </button>
   </form>
 </mat-dialog-content>
