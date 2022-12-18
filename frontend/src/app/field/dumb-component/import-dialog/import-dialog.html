@@ -5,6 +5,7 @@
       <mat-label>{{ "import_dialog.placeholder.link" | translate }}</mat-label>
       <input matInput formControlName="link" />
     </mat-form-field>
+    <input formControlName="resolved_url" style="display: none" />
     <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
       {{"import_dialog.submit" | translate}}
     </button>

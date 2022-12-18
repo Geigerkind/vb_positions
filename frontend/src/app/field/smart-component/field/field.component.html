@@ -27,10 +27,10 @@
       <mat-icon>share</mat-icon>
       {{ "field.export" | translate }}
     </button>
-    <!--    <button mat-stroked-button (click)="onImportClicked()">-->
-    <!--      <mat-icon>import_export</mat-icon>-->
-    <!--      {{ "field.import" | translate }}-->
-    <!--    </button>-->
+    <button mat-stroked-button (click)="onImportClicked()">
+      <mat-icon>import_export</mat-icon>
+      {{ "field.import" | translate }}
+    </button>
   </mat-sidenav>
   <mat-sidenav-content>
     <button (click)="sidenav.toggle()" mat-flat-button class="toggle_sidenav" [class.is_opened]="sidenav.opened">
