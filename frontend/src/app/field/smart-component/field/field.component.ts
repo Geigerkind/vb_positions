@@ -20,7 +20,6 @@ import { ExportDialogComponent } from "../../dumb-component/export-dialog/export
 import { ImportDialogComponent } from "../../dumb-component/import-dialog/import-dialog.component";
 import { Router } from "@angular/router";
 import { ActorDto } from "../../dto/actor-dto";
-import { TinyUrl } from "../../service/tiny-url";
 
 @Component({
   selector: "vpms-field",
@@ -52,16 +51,10 @@ export class FieldComponent implements AfterViewInit {
     return this.rotations[this.currentRotationIndex];
   }
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private matDialog: MatDialog,
-    private tinyUrl: TinyUrl
-  ) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private matDialog: MatDialog) {
     this.formGroup = this.formBuilder.group({
       current_rotation: [null, Validators.required],
     });
-    this.tinyUrl.shorten("http://google.com").subscribe(test => console.log(test));
   }
 
   ngAfterViewInit(): void {
@@ -230,6 +223,7 @@ export class FieldComponent implements AfterViewInit {
       const currentRotationUUID = this.rotation.UUID;
       const index = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
       this.rotations.splice(index, 1);
+      this.actors.forEach(actor => actor.shape.removeRotation(uuid));
 
       if (currentRotationUUID === uuid) {
         if (this.rotations.length === 0) {
@@ -238,7 +232,6 @@ export class FieldComponent implements AfterViewInit {
         this.currentRotationIndex = 0;
         this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
         this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
-        this.actors.forEach(actor => actor.shape.removeRotation(this.rotation.UUID));
       }
 
       this.render();
@@ -262,9 +255,6 @@ export class FieldComponent implements AfterViewInit {
 
   onExportClicked(): void {
     this.matDialog.open(ExportDialogComponent, {
-      data: {
-        export_url: window.location.href,
-      },
       autoFocus: false,
     });
   }
