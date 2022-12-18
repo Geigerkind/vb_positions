@@ -316,7 +316,6 @@ export class FieldComponent implements AfterViewInit {
         ),
       },
       replaceUrl: true,
-      queryParamsHandling: "merge",
     });
   }
 
