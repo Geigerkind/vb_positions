@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { Circle } from "../../shapes/circle";
-import { Shape } from "../../shapes/shape";
 import { MatDialog } from "@angular/material/dialog";
 import { AddActorDialogComponent } from "../../dumb-component/add-actor-dialog/add-actor-dialog.component";
 import { Actor } from "../../entity/actor";
@@ -23,6 +22,9 @@ import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { ExportData } from "../../dto/export-data";
 import { ExportDataDto } from "../../dto/export-data-dto";
 import { Router } from "@angular/router";
+import { ActorShape } from "../../shapes/actor-shape";
+import { Line } from "../../shapes/line";
+import { FieldMode } from "../../value/field-mode";
 
 @Component({
   selector: "vpms-field",
@@ -44,11 +46,16 @@ export class FieldComponent implements AfterViewInit {
 
   private context: CanvasRenderingContext2D;
 
-  private draggedShape?: Shape;
+  private draggedShape?: ActorShape;
+  private drawnLine?: Line;
+  private mouseDown: boolean = false;
   private actors: Actor[] = [];
   public rotations: Rotation[] = [];
   private currentRotationIndex: number = 0;
   public formGroup: FormGroup;
+
+  FieldMode: typeof FieldMode = FieldMode;
+  public fieldMode: FieldMode = FieldMode.MOVE_ACTOR;
 
   get rotation(): Rotation {
     return this.rotations[this.currentRotationIndex];
@@ -140,28 +147,47 @@ export class FieldComponent implements AfterViewInit {
   private onMouseDown(event: MouseEvent): void {
     const x = event.clientX;
     const y = event.clientY;
+    this.mouseDown = true;
 
-    for (let i = this.actors.length - 1; i >= 0; --i) {
-      const shape = this.actors[i].shape;
-      if (shape.isHit(x, y)) {
-        this.draggedShape = shape;
-        return;
+    if (this.fieldMode === FieldMode.MOVE_ACTOR) {
+      for (let i = this.actors.length - 1; i >= 0; --i) {
+        const shape = this.actors[i].shape;
+        if (shape.isHit(x, y)) {
+          this.draggedShape = shape;
+          return;
+        }
       }
+    } else if (this.fieldMode === FieldMode.DRAW_LINE) {
+      this.drawnLine = new Line(this.context);
+      this.drawnLine.addPosition(x, y);
+      this.rotation.addLine(this.drawnLine);
     }
   }
 
   private onMouseUp(): void {
     this.draggedShape = undefined;
+    this.drawnLine = undefined;
+    this.mouseDown = false;
   }
 
   private onMouseMove(event: MouseEvent): void {
-    if (!this.draggedShape) {
-      return;
-    }
-
     const x = event.clientX;
     const y = event.clientY;
-    this.draggedShape.setPosition(x, y);
+
+    if (this.fieldMode === FieldMode.ERASE_LINE) {
+      if (this.mouseDown) {
+        this.rotation.removeIfHitLine(x, y);
+      }
+    } else {
+      if (this.draggedShape) {
+        this.draggedShape.setPosition(x, y);
+      } else if (this.drawnLine) {
+        this.drawnLine.addPosition(x, y);
+      } else {
+        return;
+      }
+    }
+
     this.render();
   }
 
@@ -194,7 +220,7 @@ export class FieldComponent implements AfterViewInit {
     });
   }
 
-  private addShape(actor: Actor, shape: Shape): void {
+  private addShape(actor: Actor, shape: ActorShape): void {
     shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation);
     actor.setShape(shape);
     this.actors.push(actor);
@@ -301,9 +327,30 @@ export class FieldComponent implements AfterViewInit {
       });
   }
 
+  setMoveActorMode(): void {
+    this.fieldMode = FieldMode.MOVE_ACTOR;
+  }
+
+  onToggleDrawMode(): void {
+    if (this.fieldMode === FieldMode.DRAW_LINE) {
+      this.fieldMode = FieldMode.MOVE_ACTOR;
+    } else {
+      this.fieldMode = FieldMode.DRAW_LINE;
+    }
+  }
+
+  onToggleEraseMode(): void {
+    if (this.fieldMode === FieldMode.ERASE_LINE) {
+      this.fieldMode = FieldMode.MOVE_ACTOR;
+    } else {
+      this.fieldMode = FieldMode.ERASE_LINE;
+    }
+  }
+
   render(): void {
     this.initCourt();
     this.actors.forEach(actor => actor.draw());
+    this.rotation.draw();
 
     LocalStorageService.store(
       FieldComponent.LOCAL_STORAGE_KEY_ROTATIONS,

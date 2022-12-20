@@ -1,14 +1,14 @@
-import { ShapeDto } from "../dto/shape-dto";
-import { Shape } from "./shape";
 import { Actor } from "../entity/actor";
 import { HalfCircle } from "./half-circle";
 import { PlayerRole } from "../value/player-role";
 import { Triangle } from "./triangle";
 import { Circle } from "./circle";
 import { ShapeFieldPosition } from "../value/shape-field-position";
+import { ActorShapeDto } from "../dto/actor-shape-dto";
+import { ActorShape } from "./actor-shape";
 
 export class ShapeFactory {
-  public static fromDto(actor: Actor, shapeDto: ShapeDto, context: CanvasRenderingContext2D): Shape {
+  public static fromActorDto(actor: Actor, shapeDto: ActorShapeDto, context: CanvasRenderingContext2D): ActorShape {
     const field_positions = new Map(
       shapeDto.f.map(dto => [
         dto.u,
