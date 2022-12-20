@@ -19,12 +19,12 @@ export class Rotation {
 
   public static fromDto(rotationDto: RotationDto): Rotation {
     const rotationOffset = new Position(rotationDto.r);
-    return new Rotation(rotationOffset, rotationDto.n, rotationDto.u);
+    return new Rotation(rotationOffset, rotationDto.n === "NULL" ? undefined : rotationDto.n, rotationDto.u);
   }
 
   public toDto(): RotationDto {
     return {
-      n: this.name,
+      n: this.name ?? "NULL",
       r: this.rotation.value,
       u: this.UUID,
     };

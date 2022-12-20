@@ -1,5 +1,5 @@
-import { ShapeFieldPosition } from "../value/shape-field-position";
+import { ShapeFieldPositionDto } from "./shape-field-position-dto";
 
 export interface ShapeDto {
-  f: [string, ShapeFieldPosition][];
+  f: ShapeFieldPositionDto[];
 }

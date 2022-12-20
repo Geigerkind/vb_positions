@@ -5,6 +5,6 @@ export interface ActorDto {
   u: string;
   p: number;
   pr: PlayerRole;
-  pn?: string;
+  pn: string;
   s: ShapeDto;
 }

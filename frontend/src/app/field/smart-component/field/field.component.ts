@@ -18,8 +18,11 @@ import { RotationDto } from "../../dto/rotation-dto";
 import { fromEvent } from "rxjs";
 import { ExportDialogComponent } from "../../dumb-component/export-dialog/export-dialog.component";
 import { ImportDialogComponent } from "../../dumb-component/import-dialog/import-dialog.component";
-import { Router } from "@angular/router";
 import { ActorDto } from "../../dto/actor-dto";
+import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { ExportData } from "../../dto/export-data";
+import { ExportDataDto } from "../../dto/export-data-dto";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "vpms-field",
@@ -51,7 +54,12 @@ export class FieldComponent implements AfterViewInit {
     return this.rotations[this.currentRotationIndex];
   }
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private matDialog: MatDialog) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private matDialog: MatDialog,
+    private store: AngularFirestore,
+    private router: Router
+  ) {
     this.formGroup = this.formBuilder.group({
       current_rotation: [null, Validators.required],
     });
@@ -84,10 +92,11 @@ export class FieldComponent implements AfterViewInit {
     this.fieldElement.nativeElement.addEventListener("mousemove", event => this.onMouseMove(event));
 
     // Hacky but it works!
-    setTimeout(() => {
+    setTimeout(async () => {
       const searchParams = new URLSearchParams(window.location.search);
-      if (searchParams && searchParams.get("cr") && searchParams.get("a") && searchParams.get("r0")) {
-        this.importLink(searchParams);
+      if (searchParams && searchParams.get("store") && searchParams.get("store")!.length === 30) {
+        await this.importLink(searchParams.get("store")!);
+        this.router.navigate(["/"]);
       } else {
         const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_ROTATIONS) as
           | RotationDto[]
@@ -256,38 +265,40 @@ export class FieldComponent implements AfterViewInit {
   onExportClicked(): void {
     this.matDialog.open(ExportDialogComponent, {
       autoFocus: false,
+      data: {
+        actors: this.actors,
+        rotations: this.rotations,
+        current_rotation: this.rotation.UUID,
+      } as ExportData,
     });
   }
 
   onImportClicked(): void {
     const dialogRef = this.matDialog.open(ImportDialogComponent, { autoFocus: false });
-    dialogRef.afterClosed().subscribe((urlSearchParams: URLSearchParams) => this.importLink(urlSearchParams));
+    dialogRef.afterClosed().subscribe((storeId: string) => this.importLink(storeId));
   }
 
-  private importLink(urlSearchParams: URLSearchParams): void {
-    if (!urlSearchParams || !urlSearchParams.get("cr") || !urlSearchParams.get("a") || !urlSearchParams.get("r0")) {
+  private async importLink(storeId: string): Promise<void> {
+    if (!storeId || storeId.length !== 30) {
       return;
     }
 
-    this.actors = JSON.parse(atob(urlSearchParams.get("a")!)).map(actorDto => Actor.fromDto(actorDto, this.context));
+    await this.store
+      .collection(storeId)
+      .get()
+      .toPromise()
+      .then((exportData: any) => {
+        const exportDataDto = exportData.docs[0].data() as ExportDataDto;
 
-    const rotations: Rotation[] = [];
-    let i = 0;
-    while (urlSearchParams.get("r" + i)) {
-      rotations.push(
-        // @ts-ignore
-        Rotation.fromDto(JSON.parse(atob(urlSearchParams.get("r" + i)!)) as RotationDto, this.context)
-      );
-      ++i;
-    }
+        this.actors = exportDataDto.actors.map(actorDto => Actor.fromDto(actorDto, this.context));
+        this.rotations = exportDataDto.rotations.map(rotationDto => Rotation.fromDto(rotationDto));
+        const uuid = exportDataDto.current_rotation;
+        this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
+        this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+        this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
 
-    this.rotations = rotations;
-    const uuid = urlSearchParams.get("cr")!;
-    this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
-    this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
-    this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
-
-    this.render();
+        this.render();
+      });
   }
 
   render(): void {
@@ -303,20 +314,6 @@ export class FieldComponent implements AfterViewInit {
       FieldComponent.LOCAL_STORAGE_KEY_ACTORS,
       this.actors.map(actor => actor.toDto())
     );
-    this.router.navigate(["/"], {
-      queryParams: {
-        cr: this.rotation.UUID,
-        a: btoa(JSON.stringify(this.actors.map(actor => actor.toDto()))),
-        ...Object.fromEntries(
-          this.rotations.reduce((acc, rotation) => {
-            // @ts-ignore
-            acc.set("r" + acc.size, btoa(JSON.stringify(rotation.toDto())));
-            return acc;
-          }, new Map())
-        ),
-      },
-      replaceUrl: true,
-    });
   }
 
   private initCourt(): void {

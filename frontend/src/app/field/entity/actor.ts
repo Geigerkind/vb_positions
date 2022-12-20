@@ -36,7 +36,12 @@ export class Actor {
   }
 
   public static fromDto(actorDto: ActorDto, context: CanvasRenderingContext2D): Actor {
-    const actor = new Actor(new Position(actorDto.p), actorDto.pr, actorDto.pn, actorDto.u);
+    const actor = new Actor(
+      new Position(actorDto.p),
+      actorDto.pr,
+      actorDto.pn === "NULL" ? undefined : actorDto.pn,
+      actorDto.u
+    );
     const shape = ShapeFactory.fromDto(actor, actorDto.s, context);
     actor.setShape(shape);
     return actor;
@@ -44,7 +49,7 @@ export class Actor {
 
   public toDto(): ActorDto {
     return {
-      pn: this.player_name,
+      pn: this.player_name ?? "NULL",
       pr: this.player_role,
       p: this.position.value,
       u: this.UUID,

@@ -5,10 +5,19 @@ import { HalfCircle } from "./half-circle";
 import { PlayerRole } from "../value/player-role";
 import { Triangle } from "./triangle";
 import { Circle } from "./circle";
+import { ShapeFieldPosition } from "../value/shape-field-position";
 
 export class ShapeFactory {
   public static fromDto(actor: Actor, shapeDto: ShapeDto, context: CanvasRenderingContext2D): Shape {
-    const field_positions = new Map(shapeDto.f);
+    const field_positions = new Map(
+      shapeDto.f.map(dto => [
+        dto.u,
+        {
+          x_percent: dto.x,
+          y_percent: dto.y,
+        } as ShapeFieldPosition,
+      ])
+    );
     switch (actor.player_role) {
       case PlayerRole.Setter:
         return new HalfCircle(actor, context, field_positions);

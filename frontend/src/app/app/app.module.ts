@@ -11,6 +11,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../../environments/environment";
+import { AngularFireModule } from "@angular/fire/compat";
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,7 @@ import { environment } from "../../environments/environment";
       // or after 30 seconds (whichever comes first).
       registrationStrategy: "registerWhenStable:30000",
     }),
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [],
   bootstrap: [AppComponent],

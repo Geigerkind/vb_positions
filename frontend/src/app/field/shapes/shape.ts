@@ -2,6 +2,7 @@ import { Actor } from "../entity/actor";
 import { Position } from "../value/position";
 import { ShapeDto } from "../dto/shape-dto";
 import { ShapeFieldPosition } from "../value/shape-field-position";
+import { ShapeFieldPositionDto } from "../dto/shape-field-position-dto";
 
 export abstract class Shape {
   protected rotationOffset: Position;
@@ -23,7 +24,13 @@ export abstract class Shape {
 
   toDto(): ShapeDto {
     return {
-      f: [...this.fieldPositions.entries()],
+      f: [...this.fieldPositions.entries()].map(([uuid, fieldPosition]) => {
+        return {
+          x: fieldPosition.x_percent,
+          y: fieldPosition.y_percent,
+          u: uuid,
+        } as ShapeFieldPositionDto;
+      }),
     };
   }
 
