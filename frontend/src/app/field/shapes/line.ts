@@ -1,12 +1,13 @@
 import { Shape } from "./shape";
-import { ShapeDto } from "../dto/shape-dto";
 import { ShapeFieldPosition } from "../value/shape-field-position";
+import { LineShapeDto } from "../dto/line-shape-dto";
 
 export class Line extends Shape {
-  private positions: ShapeFieldPosition[] = [];
+  private positions: ShapeFieldPosition[];
 
-  constructor(context: CanvasRenderingContext2D) {
+  constructor(context: CanvasRenderingContext2D, positions?: ShapeFieldPosition[]) {
     super(context);
+    this.positions = positions ?? [];
   }
 
   addPosition(x: number, y: number): void {
@@ -34,28 +35,29 @@ export class Line extends Shape {
     const clickX = this.toDiscreteX(x);
     const clickY = this.toDiscreteY(y);
 
+    const LEEWAY: number = 2;
     let lastPosition = this.positions[0];
     for (let i = 1; i < this.positions.length; ++i) {
       const currentPosition = this.positions[i];
       if (lastPosition.x < currentPosition.x) {
-        const betweenX = lastPosition.x <= clickX && currentPosition.x >= clickX;
+        const betweenX = lastPosition.x - LEEWAY <= clickX && currentPosition.x + LEEWAY >= clickX;
         if (lastPosition.y < currentPosition.y) {
-          if (betweenX && lastPosition.y <= clickY && currentPosition.y >= clickY) {
+          if (betweenX && lastPosition.y - LEEWAY <= clickY && currentPosition.y + LEEWAY >= clickY) {
             return true;
           }
         } else {
-          if (betweenX && lastPosition.y >= clickY && currentPosition.y <= clickY) {
+          if (betweenX && lastPosition.y + LEEWAY >= clickY && currentPosition.y - LEEWAY <= clickY) {
             return true;
           }
         }
       } else {
-        const betweenX = lastPosition.x >= clickX && currentPosition.x <= clickX;
+        const betweenX = lastPosition.x + LEEWAY >= clickX && currentPosition.x - LEEWAY <= clickX;
         if (lastPosition.y < currentPosition.y) {
-          if (betweenX && lastPosition.y <= clickY && currentPosition.y >= clickY) {
+          if (betweenX && lastPosition.y - LEEWAY <= clickY && currentPosition.y + LEEWAY >= clickY) {
             return true;
           }
         } else {
-          if (betweenX && lastPosition.y >= clickY && currentPosition.y <= clickY) {
+          if (betweenX && lastPosition.y + LEEWAY >= clickY && currentPosition.y - LEEWAY <= clickY) {
             return true;
           }
         }
@@ -66,8 +68,14 @@ export class Line extends Shape {
     return false;
   }
 
-  toDto(): ShapeDto {
-    // @ts-ignore
-    return undefined;
+  toDto(): LineShapeDto {
+    return {
+      f: Object.fromEntries(
+        this.positions.reduce((acc, item) => {
+          acc.set(acc.size, item);
+          return acc;
+        }, new Map())
+      ),
+    };
   }
 }

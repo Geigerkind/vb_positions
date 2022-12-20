@@ -6,6 +6,8 @@ import { Circle } from "./circle";
 import { ShapeFieldPosition } from "../value/shape-field-position";
 import { ActorShapeDto } from "../dto/actor-shape-dto";
 import { ActorShape } from "./actor-shape";
+import { LineShapeDto } from "../dto/line-shape-dto";
+import { Line } from "./line";
 
 export class ShapeFactory {
   public static fromActorDto(actor: Actor, shapeDto: ActorShapeDto, context: CanvasRenderingContext2D): ActorShape {
@@ -30,5 +32,18 @@ export class ShapeFactory {
       case PlayerRole.OppositeHitter:
         return new Circle(actor, context, true, field_positions);
     }
+  }
+
+  public static fromLineDto(lineDto: LineShapeDto, context: CanvasRenderingContext2D): Line {
+    const maxPos = Math.max(...Object.keys(lineDto.f).map(str => Number(str)));
+    const positions: ShapeFieldPosition[] = [];
+    for (let i = 0; i <= maxPos; ++i) {
+      positions.push({
+        x: Number(lineDto.f[i.toString()].x),
+        y: Number(lineDto.f[i.toString()].y),
+      } as ShapeFieldPosition);
+    }
+
+    return new Line(context, positions);
   }
 }

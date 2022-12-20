@@ -2,6 +2,7 @@ import { generate_uuid } from "../../shared/util/generate_uuid";
 import { Position } from "../value/position";
 import { RotationDto } from "../dto/rotation-dto";
 import { Line } from "../shapes/line";
+import { ShapeFactory } from "../shapes/shape-factory";
 
 export class Rotation {
   private _UUID: string;
@@ -16,9 +17,10 @@ export class Rotation {
     this._lines = lines ?? [];
   }
 
-  public static fromDto(rotationDto: RotationDto): Rotation {
+  public static fromDto(rotationDto: RotationDto, context: CanvasRenderingContext2D): Rotation {
     const rotationOffset = new Position(rotationDto.r);
-    return new Rotation(rotationOffset, rotationDto.n === "NULL" ? undefined : rotationDto.n, rotationDto.u);
+    const lines = rotationDto.l.map(dto => ShapeFactory.fromLineDto(dto, context));
+    return new Rotation(rotationOffset, rotationDto.n === "NULL" ? undefined : rotationDto.n, rotationDto.u, lines);
   }
 
   public toDto(): RotationDto {
@@ -26,6 +28,7 @@ export class Rotation {
       n: this.name ?? "NULL",
       r: this.rotation.value,
       u: this.UUID,
+      l: this._lines.map(line => line.toDto()),
     };
   }
 

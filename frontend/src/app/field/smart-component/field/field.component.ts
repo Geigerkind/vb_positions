@@ -116,7 +116,7 @@ export class FieldComponent implements AfterViewInit {
           | undefined;
         if (rotationDtos && actorDtos && current_rotation) {
           this.actors = actorDtos.map(dto => Actor.fromDto(dto, this.context));
-          this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto));
+          this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto, this.context));
           this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === current_rotation)!;
           this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
         } else {
@@ -264,11 +264,11 @@ export class FieldComponent implements AfterViewInit {
         if (this.rotations.length === 0) {
           this.rotations.push(new Rotation(new Position(1), "Default rotation"));
         }
-        this.currentRotationIndex = 0;
         this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
         this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
       }
 
+      this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === currentRotationUUID);
       this.render();
     });
   }
@@ -317,7 +317,7 @@ export class FieldComponent implements AfterViewInit {
         const exportDataDto = exportData.docs[0].data() as ExportDataDto;
 
         this.actors = exportDataDto.actors.map(actorDto => Actor.fromDto(actorDto, this.context));
-        this.rotations = exportDataDto.rotations.map(rotationDto => Rotation.fromDto(rotationDto));
+        this.rotations = exportDataDto.rotations.map(rotationDto => Rotation.fromDto(rotationDto, this.context));
         const uuid = exportDataDto.current_rotation;
         this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
         this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
