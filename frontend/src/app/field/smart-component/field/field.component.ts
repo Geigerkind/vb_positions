@@ -115,9 +115,9 @@ export class FieldComponent implements AfterViewInit {
         } else {
           this.rotations = [new Rotation(new Position(1), "Default rotation")];
         }
+        this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
       }
 
-      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
       this.formGroup.valueChanges.subscribe(value => this.onRotationChanged(value.current_rotation));
       this.render();
     }, 100);

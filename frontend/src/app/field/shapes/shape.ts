@@ -5,6 +5,8 @@ import { ShapeFieldPosition } from "../value/shape-field-position";
 import { ShapeFieldPositionDto } from "../dto/shape-field-position-dto";
 
 export abstract class Shape {
+  protected static FIELD_RESOLUTION: number = 9000;
+
   protected rotationOffset: Position;
 
   protected fieldPositions: Map<string, ShapeFieldPosition>;
@@ -26,8 +28,8 @@ export abstract class Shape {
     return {
       f: [...this.fieldPositions.entries()].map(([uuid, fieldPosition]) => {
         return {
-          x: fieldPosition.x_percent,
-          y: fieldPosition.y_percent,
+          x: Number(fieldPosition.x.toFixed(0)).valueOf(),
+          y: Number(fieldPosition.y.toFixed(0)).valueOf(),
           u: uuid,
         } as ShapeFieldPositionDto;
       }),
@@ -42,8 +44,11 @@ export abstract class Shape {
 
   public setPosition(x: number, y: number): void {
     this.fieldPositions.set(this._rotationUUID, {
-      x_percent: Math.max(0, Math.min(x / this.context.canvas.width, 1)),
-      y_percent: Math.max(0, Math.min(y / this.context.canvas.height, 1)),
+      x: Math.max(
+        0,
+        Math.min(Math.ceil(x * (Shape.FIELD_RESOLUTION / this.context.canvas.width)), Shape.FIELD_RESOLUTION)
+      ),
+      y: Math.max(0, Math.min(y * (Shape.FIELD_RESOLUTION / this.context.canvas.height), Shape.FIELD_RESOLUTION)),
     });
   }
 
@@ -60,10 +65,7 @@ export abstract class Shape {
       this.setPosition(this.context.canvas.width / 2, this.context.canvas.height / 2);
     } else if (!this.fieldPositions.has(rotationUUID)) {
       const prevPosition = this.fieldPositions.get(prevUUID)!;
-      this.setPosition(
-        this.context.canvas.width * prevPosition.x_percent,
-        this.context.canvas.height * prevPosition.y_percent
-      );
+      this.setPosition(this.context.canvas.width * prevPosition.x, this.context.canvas.height * prevPosition.y);
     }
   }
 
@@ -72,11 +74,11 @@ export abstract class Shape {
   }
 
   get x(): number {
-    return this.context.canvas.width * this.getFieldPosition().x_percent;
+    return this.getFieldPosition().x * (this.context.canvas.width / Shape.FIELD_RESOLUTION);
   }
 
   get y(): number {
-    return this.context.canvas.height * this.getFieldPosition().y_percent;
+    return this.getFieldPosition().y * (this.context.canvas.height / Shape.FIELD_RESOLUTION);
   }
 
   protected currentPosition(): Position {

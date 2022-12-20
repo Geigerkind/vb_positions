@@ -13,8 +13,8 @@ export class ShapeFactory {
       shapeDto.f.map(dto => [
         dto.u,
         {
-          x_percent: dto.x,
-          y_percent: dto.y,
+          x: dto.x,
+          y: dto.y,
         } as ShapeFieldPosition,
       ])
     );
