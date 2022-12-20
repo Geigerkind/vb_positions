@@ -1,7 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { MatDialogRef } from "@angular/material/dialog";
+import { Component, Inject, OnInit } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { TinyUrl } from "../../service/tiny-url";
+import { ExportData } from "../../dto/export-data";
+import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { generate_uuid } from "../../../shared/util/generate_uuid";
+import { from } from "rxjs";
+import { ExportDataDto } from "../../dto/export-data-dto";
 
 @Component({
   selector: "vpms-export-actor-dialog",
@@ -14,7 +18,8 @@ export class ExportDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<ExportDialogComponent>,
-    private tinyUrl: TinyUrl
+    @Inject(MAT_DIALOG_DATA) private data: ExportData,
+    private store: AngularFirestore
   ) {}
 
   onSubmit(): void {
@@ -26,6 +31,15 @@ export class ExportDialogComponent implements OnInit {
     this.formGroup = this.fb.group({
       copy_link: [{ value: null, disabled: false }, Validators.required],
     });
-    this.tinyUrl.shorten(window.location.href).subscribe(url => this.formGroup.patchValue({ copy_link: url }));
+    const storeId = generate_uuid(30);
+    from(
+      this.store.collection(storeId).add({
+        actors: this.data.actors.map(actor => actor.toDto()),
+        rotations: this.data.rotations.map(rotation => rotation.toDto()),
+        current_rotation: this.data.current_rotation,
+      } as ExportDataDto)
+    ).subscribe(() => {
+      this.formGroup.patchValue({ copy_link: `${window.location.href}?store=${storeId}` });
+    });
   }
 }

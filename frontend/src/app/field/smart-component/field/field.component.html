@@ -31,6 +31,18 @@
       <mat-icon>import_export</mat-icon>
       {{ "field.import" | translate }}
     </button>
+    <button mat-stroked-button [class.toggled]="fieldMode === FieldMode.MOVE_ACTOR" (click)="setMoveActorMode()">
+      <mat-icon>person</mat-icon>
+      {{ "field.actor_mode" | translate }}
+    </button>
+    <button mat-stroked-button [class.toggled]="fieldMode === FieldMode.DRAW_LINE" (click)="onToggleDrawMode()">
+      <mat-icon>mode_edit_outline</mat-icon>
+      {{ "field.draw_mode" | translate }}
+    </button>
+    <button mat-stroked-button [class.toggled]="fieldMode === FieldMode.ERASE_LINE" (click)="onToggleEraseMode()">
+      <mat-icon>auto_fix_normal</mat-icon>
+      {{ "field.erase_mode" | translate }}
+    </button>
   </mat-sidenav>
   <mat-sidenav-content>
     <button (click)="sidenav.toggle()" mat-flat-button class="toggle_sidenav" [class.is_opened]="sidenav.opened">

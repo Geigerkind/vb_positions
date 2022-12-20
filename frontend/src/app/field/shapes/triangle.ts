@@ -1,8 +1,8 @@
-import { Shape } from "./shape";
 import { Actor } from "../entity/actor";
 import { ShapeFieldPosition } from "../value/shape-field-position";
+import { ActorShape } from "./actor-shape";
 
-export class Triangle extends Shape {
+export class Triangle extends ActorShape {
   private static RELATIVE_SIZE: number = 0.016 * 2.5;
   private static SIZE_MAX: number = 40;
 

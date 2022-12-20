@@ -1,4 +1,4 @@
 export interface ShapeFieldPosition {
-  x_percent: number;
-  y_percent: number;
+  x: number;
+  y: number;
 }

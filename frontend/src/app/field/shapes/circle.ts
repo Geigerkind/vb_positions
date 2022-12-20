@@ -1,8 +1,8 @@
-import { Shape } from "./shape";
 import { Actor } from "../entity/actor";
 import { ShapeFieldPosition } from "../value/shape-field-position";
+import { ActorShape } from "./actor-shape";
 
-export class Circle extends Shape {
+export class Circle extends ActorShape {
   private static RELATIVE_RADIUS: number = 0.016 * 3;
   private static RADIUS_MAX: number = 40;
 

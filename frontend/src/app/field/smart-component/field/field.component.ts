@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { Circle } from "../../shapes/circle";
-import { Shape } from "../../shapes/shape";
 import { MatDialog } from "@angular/material/dialog";
 import { AddActorDialogComponent } from "../../dumb-component/add-actor-dialog/add-actor-dialog.component";
 import { Actor } from "../../entity/actor";
@@ -18,8 +17,14 @@ import { RotationDto } from "../../dto/rotation-dto";
 import { fromEvent } from "rxjs";
 import { ExportDialogComponent } from "../../dumb-component/export-dialog/export-dialog.component";
 import { ImportDialogComponent } from "../../dumb-component/import-dialog/import-dialog.component";
-import { Router } from "@angular/router";
 import { ActorDto } from "../../dto/actor-dto";
+import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { ExportData } from "../../dto/export-data";
+import { ExportDataDto } from "../../dto/export-data-dto";
+import { Router } from "@angular/router";
+import { ActorShape } from "../../shapes/actor-shape";
+import { Line } from "../../shapes/line";
+import { FieldMode } from "../../value/field-mode";
 
 @Component({
   selector: "vpms-field",
@@ -41,17 +46,27 @@ export class FieldComponent implements AfterViewInit {
 
   private context: CanvasRenderingContext2D;
 
-  private draggedShape?: Shape;
+  private draggedShape?: ActorShape;
+  private drawnLine?: Line;
+  private mouseDown: boolean = false;
   private actors: Actor[] = [];
   public rotations: Rotation[] = [];
   private currentRotationIndex: number = 0;
   public formGroup: FormGroup;
 
+  FieldMode: typeof FieldMode = FieldMode;
+  public fieldMode: FieldMode = FieldMode.MOVE_ACTOR;
+
   get rotation(): Rotation {
     return this.rotations[this.currentRotationIndex];
   }
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private matDialog: MatDialog) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private matDialog: MatDialog,
+    private store: AngularFirestore,
+    private router: Router
+  ) {
     this.formGroup = this.formBuilder.group({
       current_rotation: [null, Validators.required],
     });
@@ -84,10 +99,11 @@ export class FieldComponent implements AfterViewInit {
     this.fieldElement.nativeElement.addEventListener("mousemove", event => this.onMouseMove(event));
 
     // Hacky but it works!
-    setTimeout(() => {
+    setTimeout(async () => {
       const searchParams = new URLSearchParams(window.location.search);
-      if (searchParams && searchParams.get("cr") && searchParams.get("a") && searchParams.get("r0")) {
-        this.importLink(searchParams);
+      if (searchParams && searchParams.get("store") && searchParams.get("store")!.length === 30) {
+        await this.importLink(searchParams.get("store")!);
+        this.router.navigate(["/"]);
       } else {
         const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_ROTATIONS) as
           | RotationDto[]
@@ -106,9 +122,9 @@ export class FieldComponent implements AfterViewInit {
         } else {
           this.rotations = [new Rotation(new Position(1), "Default rotation")];
         }
+        this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
       }
 
-      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
       this.formGroup.valueChanges.subscribe(value => this.onRotationChanged(value.current_rotation));
       this.render();
     }, 100);
@@ -131,28 +147,47 @@ export class FieldComponent implements AfterViewInit {
   private onMouseDown(event: MouseEvent): void {
     const x = event.clientX;
     const y = event.clientY;
+    this.mouseDown = true;
 
-    for (let i = this.actors.length - 1; i >= 0; --i) {
-      const shape = this.actors[i].shape;
-      if (shape.isHit(x, y)) {
-        this.draggedShape = shape;
-        return;
+    if (this.fieldMode === FieldMode.MOVE_ACTOR) {
+      for (let i = this.actors.length - 1; i >= 0; --i) {
+        const shape = this.actors[i].shape;
+        if (shape.isHit(x, y)) {
+          this.draggedShape = shape;
+          return;
+        }
       }
+    } else if (this.fieldMode === FieldMode.DRAW_LINE) {
+      this.drawnLine = new Line(this.context);
+      this.drawnLine.addPosition(x, y);
+      this.rotation.addLine(this.drawnLine);
     }
   }
 
   private onMouseUp(): void {
     this.draggedShape = undefined;
+    this.drawnLine = undefined;
+    this.mouseDown = false;
   }
 
   private onMouseMove(event: MouseEvent): void {
-    if (!this.draggedShape) {
-      return;
-    }
-
     const x = event.clientX;
     const y = event.clientY;
-    this.draggedShape.setPosition(x, y);
+
+    if (this.fieldMode === FieldMode.ERASE_LINE) {
+      if (this.mouseDown) {
+        this.rotation.removeIfHitLine(x, y);
+      }
+    } else {
+      if (this.draggedShape) {
+        this.draggedShape.setPosition(x, y);
+      } else if (this.drawnLine) {
+        this.drawnLine.addPosition(x, y);
+      } else {
+        return;
+      }
+    }
+
     this.render();
   }
 
@@ -185,7 +220,7 @@ export class FieldComponent implements AfterViewInit {
     });
   }
 
-  private addShape(actor: Actor, shape: Shape): void {
+  private addShape(actor: Actor, shape: ActorShape): void {
     shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation);
     actor.setShape(shape);
     this.actors.push(actor);
@@ -256,43 +291,66 @@ export class FieldComponent implements AfterViewInit {
   onExportClicked(): void {
     this.matDialog.open(ExportDialogComponent, {
       autoFocus: false,
+      data: {
+        actors: this.actors,
+        rotations: this.rotations,
+        current_rotation: this.rotation.UUID,
+      } as ExportData,
     });
   }
 
   onImportClicked(): void {
     const dialogRef = this.matDialog.open(ImportDialogComponent, { autoFocus: false });
-    dialogRef.afterClosed().subscribe((urlSearchParams: URLSearchParams) => this.importLink(urlSearchParams));
+    dialogRef.afterClosed().subscribe((storeId: string) => this.importLink(storeId));
   }
 
-  private importLink(urlSearchParams: URLSearchParams): void {
-    if (!urlSearchParams || !urlSearchParams.get("cr") || !urlSearchParams.get("a") || !urlSearchParams.get("r0")) {
+  private async importLink(storeId: string): Promise<void> {
+    if (!storeId || storeId.length !== 30) {
       return;
     }
 
-    this.actors = JSON.parse(atob(urlSearchParams.get("a")!)).map(actorDto => Actor.fromDto(actorDto, this.context));
+    await this.store
+      .collection(storeId)
+      .get()
+      .toPromise()
+      .then((exportData: any) => {
+        const exportDataDto = exportData.docs[0].data() as ExportDataDto;
 
-    const rotations: Rotation[] = [];
-    let i = 0;
-    while (urlSearchParams.get("r" + i)) {
-      rotations.push(
-        // @ts-ignore
-        Rotation.fromDto(JSON.parse(atob(urlSearchParams.get("r" + i)!)) as RotationDto, this.context)
-      );
-      ++i;
+        this.actors = exportDataDto.actors.map(actorDto => Actor.fromDto(actorDto, this.context));
+        this.rotations = exportDataDto.rotations.map(rotationDto => Rotation.fromDto(rotationDto));
+        const uuid = exportDataDto.current_rotation;
+        this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
+        this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+        this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
+
+        this.render();
+      });
+  }
+
+  setMoveActorMode(): void {
+    this.fieldMode = FieldMode.MOVE_ACTOR;
+  }
+
+  onToggleDrawMode(): void {
+    if (this.fieldMode === FieldMode.DRAW_LINE) {
+      this.fieldMode = FieldMode.MOVE_ACTOR;
+    } else {
+      this.fieldMode = FieldMode.DRAW_LINE;
     }
+  }
 
-    this.rotations = rotations;
-    const uuid = urlSearchParams.get("cr")!;
-    this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
-    this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
-    this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
-
-    this.render();
+  onToggleEraseMode(): void {
+    if (this.fieldMode === FieldMode.ERASE_LINE) {
+      this.fieldMode = FieldMode.MOVE_ACTOR;
+    } else {
+      this.fieldMode = FieldMode.ERASE_LINE;
+    }
   }
 
   render(): void {
     this.initCourt();
     this.actors.forEach(actor => actor.draw());
+    this.rotation.draw();
 
     LocalStorageService.store(
       FieldComponent.LOCAL_STORAGE_KEY_ROTATIONS,
@@ -303,20 +361,6 @@ export class FieldComponent implements AfterViewInit {
       FieldComponent.LOCAL_STORAGE_KEY_ACTORS,
       this.actors.map(actor => actor.toDto())
     );
-    this.router.navigate(["/"], {
-      queryParams: {
-        cr: this.rotation.UUID,
-        a: btoa(JSON.stringify(this.actors.map(actor => actor.toDto()))),
-        ...Object.fromEntries(
-          this.rotations.reduce((acc, rotation) => {
-            // @ts-ignore
-            acc.set("r" + acc.size, btoa(JSON.stringify(rotation.toDto())));
-            return acc;
-          }, new Map())
-        ),
-      },
-      replaceUrl: true,
-    });
   }
 
   private initCourt(): void {

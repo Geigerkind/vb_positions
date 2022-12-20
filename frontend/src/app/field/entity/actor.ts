@@ -2,18 +2,18 @@ import { Position } from "../value/position";
 import { PlayerRole } from "../value/player-role";
 import { generate_uuid } from "../../shared/util/generate_uuid";
 import { ActorDto } from "../dto/actor-dto";
-import { Shape } from "../shapes/shape";
 import { ShapeFactory } from "../shapes/shape-factory";
+import { ActorShape } from "../shapes/actor-shape";
 
 export class Actor {
   private _UUID: string;
-  private _shape: Shape;
+  private _shape: ActorShape;
 
   get UUID(): string {
     return this._UUID;
   }
 
-  get shape(): Shape {
+  get shape(): ActorShape {
     return this._shape;
   }
 
@@ -22,7 +22,7 @@ export class Actor {
     public readonly player_role: PlayerRole,
     public readonly player_name?: string,
     UUID?: string,
-    shape?: Shape
+    shape?: ActorShape
   ) {
     if (UUID) {
       this._UUID = UUID;
@@ -36,15 +36,20 @@ export class Actor {
   }
 
   public static fromDto(actorDto: ActorDto, context: CanvasRenderingContext2D): Actor {
-    const actor = new Actor(new Position(actorDto.p), actorDto.pr, actorDto.pn, actorDto.u);
-    const shape = ShapeFactory.fromDto(actor, actorDto.s, context);
+    const actor = new Actor(
+      new Position(actorDto.p),
+      actorDto.pr,
+      actorDto.pn === "NULL" ? undefined : actorDto.pn,
+      actorDto.u
+    );
+    const shape = ShapeFactory.fromActorDto(actor, actorDto.s, context);
     actor.setShape(shape);
     return actor;
   }
 
   public toDto(): ActorDto {
     return {
-      pn: this.player_name,
+      pn: this.player_name ?? "NULL",
       pr: this.player_role,
       p: this.position.value,
       u: this.UUID,
@@ -52,7 +57,7 @@ export class Actor {
     };
   }
 
-  public setShape(shape: Shape): void {
+  public setShape(shape: ActorShape): void {
     this._shape = shape;
   }
 
