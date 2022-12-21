@@ -11,13 +11,14 @@
     "import": "Import rotations",
     "actor_mode": "Actor mode",
     "draw_mode": "Draw mode",
-    "erase_mode": "Erase mode"
+    "erase_mode": "Erase mode",
+    "source_code": "View source code"
   },
   "add_actor_dialog": {
     "title": "Add actor",
     "placeholder": {
       "player_name": "Player name",
-      "position": "Position",
+      "position": "Position in rotation 1",
       "player_role": "Player role"
     },
     "player_roles": {
@@ -25,7 +26,8 @@
       "middle_blocker": "Middle blocker",
       "libero": "Libero",
       "outside_hitter": "Outside hitter",
-      "opposite_hitter": "Opposite hitter"
+      "opposite_hitter": "Opposite hitter",
+      "defensive_specialist": "Defensive specialist"
     },
     "submit": "Create actor"
   },

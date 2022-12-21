@@ -43,6 +43,12 @@
       <mat-icon>auto_fix_normal</mat-icon>
       {{ "field.erase_mode" | translate }}
     </button>
+    <a href="https://github.com/Geigerkind/vb_positions" target="_blank" style="margin-top: auto">
+      <button mat-stroked-button>
+        <mat-icon>code</mat-icon>
+        {{ "field.source_code" | translate }}
+      </button>
+    </a>
   </mat-sidenav>
   <mat-sidenav-content>
     <button (click)="sidenav.toggle()" mat-flat-button class="toggle_sidenav" [class.is_opened]="sidenav.opened">

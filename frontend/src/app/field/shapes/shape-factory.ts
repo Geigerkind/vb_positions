@@ -8,6 +8,7 @@ import { ActorShapeDto } from "../dto/actor-shape-dto";
 import { ActorShape } from "./actor-shape";
 import { LineShapeDto } from "../dto/line-shape-dto";
 import { Line } from "./line";
+import { Square } from "./square";
 
 export class ShapeFactory {
   public static fromActorDto(actor: Actor, shapeDto: ActorShapeDto, context: CanvasRenderingContext2D): ActorShape {
@@ -27,6 +28,8 @@ export class ShapeFactory {
         return new Triangle(actor, context, false, field_positions);
       case PlayerRole.Libero:
         return new Triangle(actor, context, false, field_positions);
+      case PlayerRole.DefensiveSpecialist:
+        return new Square(actor, context, field_positions);
       case PlayerRole.OutsideHitter:
         return new Circle(actor, context, false, field_positions);
       case PlayerRole.OppositeHitter:

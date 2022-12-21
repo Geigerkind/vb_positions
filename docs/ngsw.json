@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1671559068738,
+  "timestamp": 1671612178345,
   "index": "/vb_positions/index.html",
   "assetGroups": [
     {
@@ -11,14 +11,14 @@
         "ignoreVary": true
       },
       "urls": [
-        "/vb_positions/318.554576c9b1035476.js",
+        "/vb_positions/699.ddfc2b9ae29aa62b.js",
         "/vb_positions/favicon.ico",
         "/vb_positions/index.html",
-        "/vb_positions/main.65af5707f2aa5b4c.js",
+        "/vb_positions/main.0773c08c2042f717.js",
         "/vb_positions/manifest.webmanifest",
         "/vb_positions/polyfills.7e16bdbffcf7884a.js",
-        "/vb_positions/runtime.f230f95d7bec2d1a.js",
-        "/vb_positions/styles.f3668357bc235871.css"
+        "/vb_positions/runtime.d00063982103c4f8.js",
+        "/vb_positions/styles.9eae1f007fdfe37d.css"
       ],
       "patterns": []
     },
@@ -61,13 +61,13 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/vb_positions/318.554576c9b1035476.js": "c6c2fa356044e4840f4d7888887ed622b95e641a",
-    "/vb_positions/assets/i18n/en.json": "6b60c2efe22a19d76a04f783f2165709beeed80e",
+    "/vb_positions/699.ddfc2b9ae29aa62b.js": "9bf4c1086e8ec771848e0be03c775c26531b01dc",
+    "/vb_positions/assets/i18n/en.json": "c979498fc66879be05cd7f593f0c658d836f3fdd",
     "/vb_positions/assets/icons/icon-192x192.png": "8e83368a12490b640a9f5605940c840ad8c07da9",
     "/vb_positions/assets/icons/icon-512x512.png": "6a2b5043a63f13ceccdb683d34c68c979ce117bb",
     "/vb_positions/favicon.ico": "50ad428f2d74901a9ddf280128337c9c075404a5",
-    "/vb_positions/index.html": "60355b713c4bf56462aadbc1524e1fdadac7be16",
-    "/vb_positions/main.65af5707f2aa5b4c.js": "acf3c5944a6eddde7aa1589b68afc403ea164d3e",
+    "/vb_positions/index.html": "e27da8bd1178504382bd648652afb20f503e8e59",
+    "/vb_positions/main.0773c08c2042f717.js": "9b6f45427eae5f32624d5d2593fb04d8968f28d0",
     "/vb_positions/manifest.webmanifest": "2823cdb08cfbe1103edb0114375fb4b2390e42eb",
     "/vb_positions/material-icons-outlined.78a93b2079680a08.woff": "b52ccd8fca4199d257b2a9fe377db29862f2853e",
     "/vb_positions/material-icons-outlined.f86cb7b0aa53f0fe.woff2": "2f9e28ab559782402f27332633c843c40209d95a",
@@ -92,8 +92,8 @@
     "/vb_positions/roboto-latin-700-normal.bd41d1cdc29811cf.woff": "6baf2c7cc3a03676c10ce872ef9fa1aa4e185901",
     "/vb_positions/roboto-latin-900-normal.1ee240152fd103c0.woff": "d4a23b132e1ca8a6cb4e678d519f6ae00a8aac58",
     "/vb_positions/roboto-latin-900-normal.2f95c19ebf5cbe2e.woff2": "0355a01c1ccb45cb728e7e07c41c8ebf456f70bb",
-    "/vb_positions/runtime.f230f95d7bec2d1a.js": "9e8e3c0482203e19e7bdd944b7c323a930a2369e",
-    "/vb_positions/styles.f3668357bc235871.css": "8fe69f58b083ba21bd19d9e07797cac3ba0adc84"
+    "/vb_positions/runtime.d00063982103c4f8.js": "152338be4721ed91b6769d6823bdfde211b7e319",
+    "/vb_positions/styles.9eae1f007fdfe37d.css": "e06c489626d1b7e03459abacaade7d2a63117624"
   },
   "navigationUrls": [
     {
