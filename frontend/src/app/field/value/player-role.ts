@@ -4,4 +4,5 @@ export enum PlayerRole {
   Libero = "Libero",
   OutsideHitter = "Outside hitter",
   OppositeHitter = "Opposite hitter",
+  DefensiveSpecialist = "Defensive specialist",
 }

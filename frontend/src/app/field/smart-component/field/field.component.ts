@@ -25,6 +25,7 @@ import { Router } from "@angular/router";
 import { ActorShape } from "../../shapes/actor-shape";
 import { Line } from "../../shapes/line";
 import { FieldMode } from "../../value/field-mode";
+import { Square } from "../../shapes/square";
 
 @Component({
   selector: "vpms-field",
@@ -207,6 +208,9 @@ export class FieldComponent implements AfterViewInit {
           break;
         case PlayerRole.Libero:
           this.addShape(actor, new Triangle(actor, this.context, true));
+          break;
+        case PlayerRole.DefensiveSpecialist:
+          this.addShape(actor, new Square(actor, this.context));
           break;
         case PlayerRole.OutsideHitter:
           this.addShape(actor, new Circle(actor, this.context, false));
