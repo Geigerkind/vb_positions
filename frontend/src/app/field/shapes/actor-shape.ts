@@ -6,12 +6,13 @@ import { ShapeFieldPositionDto } from "../dto/shape-field-position-dto";
 import { ActorShapeDto } from "../dto/actor-shape-dto";
 
 export abstract class ActorShape extends Shape {
+  protected static readonly ACTOR_COLOR: string = "#34abcd";
   protected rotationOffset: Position;
 
   protected fieldPositions: Map<string, ShapeFieldPosition>;
   protected _rotationUUID: string;
 
-  constructor(
+  protected constructor(
     public actor: Actor,
     context: CanvasRenderingContext2D,
     field_positions?: Map<string, ShapeFieldPosition>
@@ -78,7 +79,7 @@ export abstract class ActorShape extends Shape {
       this.setPosition(this.context.canvas.width / 2, this.context.canvas.height / 2);
     } else if (!this.fieldPositions.has(rotationUUID)) {
       const prevPosition = this.fieldPositions.get(prevUUID)!;
-      this.setPosition(this.context.canvas.width * prevPosition.x, this.context.canvas.height * prevPosition.y);
+      this.setPosition(this.fromDiscreteX(prevPosition.x), this.fromDiscreteY(prevPosition.y));
     }
   }
 

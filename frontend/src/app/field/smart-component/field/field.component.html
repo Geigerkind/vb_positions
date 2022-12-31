@@ -23,6 +23,20 @@
       <mat-icon>delete</mat-icon>
       {{ "field.delete_actor" | translate }}
     </button>
+    <h1>{{ "field.subtitle.mode" | translate }}</h1>
+    <button mat-stroked-button [class.toggled]="courtMode === CourtMode.MOVE_ACTOR" (click)="setMoveActorMode()">
+      <mat-icon>person</mat-icon>
+      {{ "field.actor_mode" | translate }}
+    </button>
+    <button mat-stroked-button [class.toggled]="courtMode === CourtMode.DRAW_LINE" (click)="onToggleDrawMode()">
+      <mat-icon>mode_edit_outline</mat-icon>
+      {{ "field.draw_mode" | translate }}
+    </button>
+    <button mat-stroked-button [class.toggled]="courtMode === CourtMode.ERASE_LINE" (click)="onToggleEraseMode()">
+      <mat-icon>auto_fix_normal</mat-icon>
+      {{ "field.erase_mode" | translate }}
+    </button>
+    <h1>{{ "field.subtitle.share" | translate }}</h1>
     <button mat-stroked-button (click)="onExportClicked()">
       <mat-icon>share</mat-icon>
       {{ "field.export" | translate }}
@@ -30,18 +44,6 @@
     <button mat-stroked-button (click)="onImportClicked()">
       <mat-icon>import_export</mat-icon>
       {{ "field.import" | translate }}
-    </button>
-    <button mat-stroked-button [class.toggled]="fieldMode === FieldMode.MOVE_ACTOR" (click)="setMoveActorMode()">
-      <mat-icon>person</mat-icon>
-      {{ "field.actor_mode" | translate }}
-    </button>
-    <button mat-stroked-button [class.toggled]="fieldMode === FieldMode.DRAW_LINE" (click)="onToggleDrawMode()">
-      <mat-icon>mode_edit_outline</mat-icon>
-      {{ "field.draw_mode" | translate }}
-    </button>
-    <button mat-stroked-button [class.toggled]="fieldMode === FieldMode.ERASE_LINE" (click)="onToggleEraseMode()">
-      <mat-icon>auto_fix_normal</mat-icon>
-      {{ "field.erase_mode" | translate }}
     </button>
     <a href="https://github.com/Geigerkind/vb_positions" target="_blank" style="margin-top: auto">
       <button mat-stroked-button>
@@ -54,6 +56,15 @@
     <button (click)="sidenav.toggle()" mat-flat-button class="toggle_sidenav" [class.is_opened]="sidenav.opened">
       <mat-icon>arrow_right</mat-icon>
     </button>
-    <canvas #field></canvas>
+    <vpms-court
+      #court
+      [actors]="actorShapes"
+      [lines]="lineShapes"
+      [courtMode]="courtMode"
+      (onReady)="onCourtReady($event)"
+      (onRender)="onCourtRender()"
+      (onLineAdded)="onLineAdded($event)"
+      (onLineErased)="onLineErased($event)"
+    ></vpms-court>
   </mat-sidenav-content>
 </mat-sidenav-container>

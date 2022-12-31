@@ -12,7 +12,11 @@
     "actor_mode": "Actor mode",
     "draw_mode": "Draw mode",
     "erase_mode": "Erase mode",
-    "source_code": "View source code"
+    "source_code": "View source code",
+    "subtitle": {
+      "share": "Share",
+      "mode": "Current mode"
+    }
   },
   "add_actor_dialog": {
     "title": "Add actor",
@@ -49,7 +53,8 @@
     "title": "Add rotation",
     "placeholder": {
       "rotation_name": "Name",
-      "current_rotation": "Current rotation"
+      "current_rotation": "Current rotation",
+      "add_before": "Add before"
     },
     "submit": "Add rotation"
   },

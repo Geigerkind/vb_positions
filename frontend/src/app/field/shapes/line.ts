@@ -3,7 +3,7 @@ import { ShapeFieldPosition } from "../value/shape-field-position";
 import { LineShapeDto } from "../dto/line-shape-dto";
 
 export class Line extends Shape {
-  private positions: ShapeFieldPosition[];
+  private readonly positions: ShapeFieldPosition[];
 
   constructor(context: CanvasRenderingContext2D, positions?: ShapeFieldPosition[]) {
     super(context);
@@ -22,6 +22,7 @@ export class Line extends Shape {
       return;
     }
     this.context.beginPath();
+    this.context.setLineDash([]);
     this.context.moveTo(this.fromDiscreteX(this.positions[0].x), this.fromDiscreteY(this.positions[0].y));
     for (let i = 1; i < this.positions.length; ++i) {
       this.context.lineTo(this.fromDiscreteX(this.positions[i].x), this.fromDiscreteY(this.positions[i].y));

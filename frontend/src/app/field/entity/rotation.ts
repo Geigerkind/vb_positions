@@ -12,6 +12,10 @@ export class Rotation {
     return this._UUID;
   }
 
+  get lines(): Line[] {
+    return this._lines;
+  }
+
   constructor(public rotation: Position, public name?: string, UUID?: string, lines?: Line[]) {
     this._UUID = UUID ?? generate_uuid();
     this._lines = lines ?? [];
@@ -43,12 +47,8 @@ export class Rotation {
     this._lines.push(line);
   }
 
-  public draw(): void {
-    this._lines.forEach(line => line.draw());
-  }
-
-  public removeIfHitLine(x: number, y: number): void {
-    const index = this._lines.findIndex(line => line.isHit(x, y));
+  public removeLine(line: Line): void {
+    const index = this._lines.findIndex(l => l === line);
     if (index < 0) {
       return;
     }

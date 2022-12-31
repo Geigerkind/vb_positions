@@ -46,7 +46,7 @@ export class Square extends ActorShape {
     this.context.lineTo(this.x - this.size, this.y - this.size);
     this.context.closePath();
     this.context.stroke();
-    this.context.fillStyle = "red";
+    this.context.fillStyle = ActorShape.ACTOR_COLOR;
     this.context.fill();
   }
 
