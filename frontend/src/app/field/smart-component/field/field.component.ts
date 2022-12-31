@@ -103,7 +103,7 @@ export class FieldComponent implements AfterViewInit {
     setTimeout(async () => {
       const searchParams = new URLSearchParams(window.location.search);
       if (searchParams && searchParams.get("store") && searchParams.get("store")!.length === 30) {
-        await this.importLink(searchParams.get("store")!);
+        this.importLink(searchParams.get("store")!);
         this.router.navigate(["/"]);
       } else {
         const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_ROTATIONS) as
@@ -267,12 +267,13 @@ export class FieldComponent implements AfterViewInit {
       if (currentRotationUUID === uuid) {
         if (this.rotations.length === 0) {
           this.rotations.push(new Rotation(new Position(1), "Default rotation"));
+          this.currentRotationIndex = 0;
         }
-        this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
-        this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
+      } else {
+        this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === currentRotationUUID);
       }
-
-      this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === currentRotationUUID);
+      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+      this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
       this.render();
     });
   }
@@ -284,10 +285,10 @@ export class FieldComponent implements AfterViewInit {
         return;
       }
 
-      this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
       this.rotations.push(rotation);
       this.currentRotationIndex = this.rotations.length - 1;
       this.formGroup.patchValue({ current_rotation: rotation.UUID });
+      this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
       this.render();
     });
   }
@@ -308,16 +309,15 @@ export class FieldComponent implements AfterViewInit {
     dialogRef.afterClosed().subscribe((storeId: string) => this.importLink(storeId));
   }
 
-  private async importLink(storeId: string): Promise<void> {
+  private importLink(storeId: string): void {
     if (!storeId || storeId.length !== 30) {
       return;
     }
 
-    await this.store
+    this.store
       .collection(storeId)
       .get()
-      .toPromise()
-      .then((exportData: any) => {
+      .subscribe((exportData: any) => {
         const exportDataDto = exportData.docs[0].data() as ExportDataDto;
 
         this.actors = exportDataDto.actors.map(actorDto => Actor.fromDto(actorDto, this.context));
