@@ -14,10 +14,12 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { ExportDialogComponent } from "./dumb-component/export-dialog/export-dialog.component";
 import { ImportDialogComponent } from "./dumb-component/import-dialog/import-dialog.component";
+import { CourtComponent } from "./dumb-component/court/court.component";
 
 @NgModule({
   declarations: [
     FieldComponent,
+    CourtComponent,
     AddActorDialogComponent,
     DeleteActorDialogComponent,
     DeleteRotationDialogComponent,
