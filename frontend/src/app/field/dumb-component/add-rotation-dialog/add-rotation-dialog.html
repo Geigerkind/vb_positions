@@ -16,6 +16,14 @@
         <mat-option [value]="6">6</mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ "add_rotation_dialog.placeholder.add_before" | translate }}</mat-label>
+      <mat-select formControlName="add_before">
+        <mat-option *ngFor="let rotation of data.rotations;" [value]="rotation.UUID"
+          >{{rotation.toString()}}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
       {{"add_rotation_dialog.submit" | translate}}
     </button>
