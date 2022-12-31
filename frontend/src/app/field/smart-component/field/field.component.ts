@@ -285,20 +285,20 @@ export class FieldComponent implements AfterViewInit {
         rotations: this.rotations,
       },
     });
-    dialogRef.afterClosed().subscribe(({ rotation, add_before }: { rotation: Rotation; add_before?: string }) => {
-      if (!rotation) {
+    dialogRef.afterClosed().subscribe((result: { rotation: Rotation; add_before?: string }) => {
+      if (!result) {
         return;
       }
 
-      if (add_before) {
-        const index = this.rotations.findIndex(rot => rot.UUID === add_before)!;
-        this.rotations.splice(index, 0, rotation);
+      if (result.add_before) {
+        const index = this.rotations.findIndex(rot => rot.UUID === result.add_before)!;
+        this.rotations.splice(index, 0, result.rotation);
         this.currentRotationIndex = index;
       } else {
-        this.rotations.push(rotation);
+        this.rotations.push(result.rotation);
         this.currentRotationIndex = this.rotations.length - 1;
       }
-      this.formGroup.patchValue({ current_rotation: rotation.UUID });
+      this.formGroup.patchValue({ current_rotation: result.rotation.UUID });
       this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
       this.render();
     });
