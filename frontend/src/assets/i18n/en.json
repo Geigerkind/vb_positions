@@ -1,6 +1,10 @@
 {
   "app": {
-    "title": "Volleyball Positions Management System"
+    "title": "Volleyball Management System"
+  },
+  "home": {
+    "field": "Position management",
+    "statistics": "Statistics"
   },
   "field": {
     "delete_actor": "Delete actor",
@@ -71,5 +75,12 @@
       "link": "Link"
     },
     "submit": "Import"
+  },
+  "statistics": {
+    "login": {
+      "team_name": "Team name",
+      "submit": "View statistics",
+      "back": "Back"
+    }
   }
 }

@@ -1,0 +1,48 @@
+@import "src/styles/colors";
+
+:host {
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 6rem);
+  width: calc(100% - 6rem);
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding: 3rem;
+
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+    padding: 0.5rem;
+    height: calc(100% - 1rem);
+    width: calc(100% - 1rem);
+  }
+}
+
+button {
+  width: calc(50% - 0.5rem);
+  height: 100%;
+  font-size: 2rem;
+
+  &:hover {
+    background: $color-primary-default;
+    color: white;
+
+    mat-icon {
+      color: white;
+    }
+  }
+
+  &:last-child {
+    margin-left: 1rem;
+  }
+
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+    height: calc(100% - 1rem);
+
+    &:last-child {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
+}

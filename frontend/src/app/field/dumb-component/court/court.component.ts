@@ -61,6 +61,7 @@ export class CourtComponent implements AfterViewInit, OnChanges {
 
     // Hacky but it works!
     setTimeout(() => this.onReady.emit(this.context), 100);
+    setTimeout(() => this.fixRenderDimensions(), 50);
   }
 
   ngOnChanges(): void {

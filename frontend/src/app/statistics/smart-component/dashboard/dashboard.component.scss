@@ -1,6 +1,8 @@
+@import "src/styles/colors";
+
 :host {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #cccccc;
+  width: 100%;
 }
