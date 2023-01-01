@@ -1,5 +1,5 @@
-export interface ReceiveType {
-  BELOW_WAIST;
-  BELOW_HEAD;
-  ABOVE_HEAD;
+export enum ReceiveType {
+  DIG,
+  TOSS,
+  OTHER,
 }

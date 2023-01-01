@@ -1,5 +1,7 @@
 export enum ServeType {
-  BELOW_HEAD,
-  ABOVE_HEAD,
+  UNDERHAND,
+  OVERHAND,
+  FLOATER,
   JUMP,
+  JUMP_FLOATER,
 }
