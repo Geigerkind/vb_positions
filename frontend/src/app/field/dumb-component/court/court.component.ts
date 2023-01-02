@@ -3,6 +3,7 @@ import { fromEvent } from "rxjs";
 import { ActorShape } from "../../shapes/actor-shape";
 import { Line } from "../../shapes/line";
 import { CourtMode } from "../../value/court-mode";
+import { Volleyball } from "../../shapes/volleyball";
 
 @Component({
   selector: "vpms-court",
@@ -15,6 +16,7 @@ export class CourtComponent implements AfterViewInit, OnChanges {
   private static FRONT_FIELD_COLOR: string = "#FF5202";
   private static BACK_FIELD_COLOR: string = "#F8A941";
 
+  @Input() measureMode: boolean = false;
   @Input() actors: ActorShape[] = [];
   @Input() lines: Line[] = [];
   @Input() courtMode: CourtMode = CourtMode.MOVE_ACTOR;
@@ -22,6 +24,7 @@ export class CourtComponent implements AfterViewInit, OnChanges {
   @Output() onReady = new EventEmitter<CanvasRenderingContext2D>();
   @Output() onLineAdded = new EventEmitter<Line>();
   @Output() onLineErased = new EventEmitter<Line>();
+  @Output() volleyballPosition = new EventEmitter<[number, number]>();
 
   @ViewChild("field", { static: false })
   private fieldElement: ElementRef<HTMLCanvasElement>;
@@ -30,6 +33,8 @@ export class CourtComponent implements AfterViewInit, OnChanges {
   private draggedShape?: ActorShape;
   private drawnLine?: Line;
   private mouseDown: boolean = false;
+
+  private _volleyball?: Volleyball;
 
   ngAfterViewInit(): void {
     this.context = this.fieldElement.nativeElement.getContext("2d")!;
@@ -57,11 +62,17 @@ export class CourtComponent implements AfterViewInit, OnChanges {
     this.fieldElement.nativeElement.addEventListener("mouseleave", () => this.onMouseUp());
     this.fieldElement.nativeElement.addEventListener("mousemove", event => this.onMouseMove(event));
 
-    fromEvent(window, "resize").subscribe(() => this.fixRenderDimensions());
+    if (this.measureMode) {
+      this._volleyball = new Volleyball(this.context);
+      this._volleyball.setPosition(this.context.canvas.width / 2, this.context.canvas.height / 2);
+    }
+
+    fromEvent(window, "resize").subscribe(() => this.render());
 
     // Hacky but it works!
     setTimeout(() => this.onReady.emit(this.context), 100);
-    setTimeout(() => this.fixRenderDimensions(), 50);
+    setTimeout(() => this.render(), 50);
+    setTimeout(() => this.render(), 500);
   }
 
   ngOnChanges(): void {
@@ -71,16 +82,16 @@ export class CourtComponent implements AfterViewInit, OnChanges {
     this.render();
   }
 
-  private fixRenderDimensions(): void {
-    this.context.canvas.width = this.context.canvas.getBoundingClientRect().width;
-    this.context.canvas.height = this.context.canvas.getBoundingClientRect().height;
-    this.render();
-  }
-
   private onMouseDown(event: MouseEvent): void {
-    const x = event.clientX;
-    const y = event.clientY;
+    const rect = this.context.canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
     this.mouseDown = true;
+
+    if (this._volleyball && this._volleyball.isHit(x, y)) {
+      this.draggedShape = this._volleyball;
+      return;
+    }
 
     if (this.courtMode === CourtMode.MOVE_ACTOR) {
       for (let i = this.actors.length - 1; i >= 0; --i) {
@@ -107,8 +118,9 @@ export class CourtComponent implements AfterViewInit, OnChanges {
   }
 
   private onMouseMove(event: MouseEvent): void {
-    const x = event.clientX;
-    const y = event.clientY;
+    const rect = this.context.canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
 
     if (this.courtMode === CourtMode.ERASE_LINE) {
       if (this.mouseDown) {
@@ -120,6 +132,9 @@ export class CourtComponent implements AfterViewInit, OnChanges {
       }
     } else {
       if (this.draggedShape) {
+        if (this._volleyball) {
+          this.emitVolleyballPosition();
+        }
         this.draggedShape.setPosition(x, y);
       } else if (this.drawnLine) {
         this.drawnLine.addPosition(x, y);
@@ -132,12 +147,19 @@ export class CourtComponent implements AfterViewInit, OnChanges {
   }
 
   render(): void {
+    this.context.canvas.width = this.context.canvas.getBoundingClientRect().width;
+    this.context.canvas.height = this.context.canvas.getBoundingClientRect().height;
+
     this.initCourt();
     this.actors.forEach(actor => actor.draw());
     this.lines.forEach(actor => actor.draw());
     if (this.drawnLine) {
       this.drawnLine.draw();
     }
+    if (this._volleyball) {
+      this._volleyball.draw();
+    }
+
     this.onRender.emit();
   }
 
@@ -184,5 +206,25 @@ export class CourtComponent implements AfterViewInit, OnChanges {
 
     // Net line
     this.context.fillRect(field_width_start, field_height_1m - line_height * 3, field_width, line_height * 3);
+  }
+
+  private emitVolleyballPosition(): void {
+    if (!this._volleyball) {
+      return;
+    }
+
+    // When I implemented discrete coords, I forgot to add margin for the outer spaces
+    // So I have to convert the coordinates now instead of just dividing by 1000
+    const position = this._volleyball.getFieldPosition();
+    const outer_space = 9000 * 0.025;
+    const enemy_space = 900;
+    const new_origin = [outer_space, enemy_space];
+    const x_coefficient = (9000 + outer_space * 2) / 9000;
+    const y_coefficient = (9000 + outer_space + enemy_space) / 9000;
+
+    this.volleyballPosition.emit([
+      Number((((position.x - new_origin[0]) / 1000) * x_coefficient).toFixed(2)),
+      Number((((position.y - new_origin[1]) / 1000) * y_coefficient).toFixed(2)),
+    ]);
   }
 }

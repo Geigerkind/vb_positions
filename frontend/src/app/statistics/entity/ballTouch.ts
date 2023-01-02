@@ -3,8 +3,9 @@ import { BallTouchType } from "../value/ballTouchType";
 import { MetaData } from "./metaData";
 
 export interface BallTouch {
-  id: number;
+  uuid: string;
   player: Player;
   touchType: BallTouchType;
   metaData: MetaData;
+  addedAt: Date;
 }

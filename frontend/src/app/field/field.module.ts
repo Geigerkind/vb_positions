@@ -37,5 +37,6 @@ import { CourtComponent } from "./dumb-component/court/court.component";
     MatCheckboxModule,
     MatSidenavModule,
   ],
+  exports: [CourtComponent],
 })
 export class FieldModule {}

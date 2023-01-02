@@ -1,0 +1,12 @@
+<form [formGroup]="formGroup" (submit)="onSubmit()">
+  <mat-form-field appearance="outline" color="primary" tabindex="-1">
+    <mat-label>{{ "statistics.addPlayer.player_name" | translate }}</mat-label>
+    <input matInput formControlName="player_name" />
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+    {{ "statistics.add" | translate }}
+  </button>
+  <button mat-raised-button color="primary" type="button" routerLink="/statistics/add_data">
+    {{ "statistics.back" | translate }}
+  </button>
+</form>

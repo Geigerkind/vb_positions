@@ -4,7 +4,10 @@ import { LoginComponent } from "./smart-component/login/login.component";
 import { IsTeamNotSetGuardService } from "./guard/isTeamNotSet.guard.service";
 import { DashboardComponent } from "./smart-component/dashboard/dashboard.component";
 import { IsTeamSetGuardService } from "./guard/isTeamSet.guard.service";
-import { AddDataMenuComponent } from "./dumb-component/addDataMenu/addDataMenu.component";
+import { AddDataMenuComponent } from "./smart-component/addDataMenu/addDataMenu.component";
+import { AddPlayerComponent } from "./smart-component/add-player/add-player.component";
+import { AddMetadataComponent } from "./smart-component/add-metadata/add-metadata.component";
+import { AddServeComponent } from "./smart-component/add-serve/add-serve.component";
 
 const routes: Routes = [
   {
@@ -15,6 +18,21 @@ const routes: Routes = [
   {
     path: "add_data",
     component: AddDataMenuComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "add_data/player",
+    component: AddPlayerComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "add_data/metadata",
+    component: AddMetadataComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "add_data/serve",
+    component: AddServeComponent,
     canActivate: [IsTeamSetGuardService],
   },
   {

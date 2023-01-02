@@ -1,5 +1,4 @@
 export interface MetaData {
-  id: number;
-  now: Date;
+  uuid: string;
   labels: string[];
 }

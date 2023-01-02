@@ -77,6 +77,8 @@
     "submit": "Import"
   },
   "statistics": {
+    "back": "Back",
+    "add": "Add",
     "login": {
       "team_name": "Team name",
       "submit": "View statistics",
@@ -88,12 +90,24 @@
       "dashboard": "View dashboard"
     },
     "addMenu": {
-      "metadata": "Meta data",
+      "player": "Player",
+      "metadata": "Metadata",
       "serve": "Serve",
       "receive": "Receive",
       "toss": "Toss",
       "attack": "Attack",
       "block": "Block"
+    },
+    "addPlayer": {
+      "player_name": "Player name"
+    },
+    "addMetadata": {
+      "title": "Enter list of labels",
+      "newLabel": "New label..."
+    },
+    "courtDialog": {
+      "abort": "Abort",
+      "setPosition": "Set position"
     }
   }
 }

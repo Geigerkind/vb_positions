@@ -1,0 +1,44 @@
+@import "src/styles/colors";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+
+  &, mat-form-field {
+    max-width: 600px;
+    width: 100%;
+  }
+}
+
+button:last-child {
+  margin-top: 0.5rem;
+}
+
+#inner_form {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+
+  mat-form-field::ng-deep .mat-form-field-wrapper {
+    margin: 0;
+  }
+
+  mat-form-field, button {
+    height: 50px;
+  }
+
+  button {
+    margin-left: 0.5rem;
+    margin-top: 0;
+  }
+}
