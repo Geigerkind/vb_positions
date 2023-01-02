@@ -1,0 +1,40 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="over" #sidenav>
+    <button mat-stroked-button routerLink="/statistics/dashboard" routerLinkActive="toggled">
+      <mat-icon>bar_chart</mat-icon>
+      {{ "statistics.sidebar.dashboard" | translate }}
+    </button>
+    <button mat-stroked-button routerLink="/statistics/add_data" routerLinkActive="toggled">
+      <mat-icon>add</mat-icon>
+      {{ "statistics.sidebar.addData" | translate }}
+    </button>
+    <div style="margin-top: auto">
+      <button mat-stroked-button routerLink="/field">
+        <mat-icon>calendar_view_month</mat-icon>
+        {{ "home.field" | translate }}
+      </button>
+      <button mat-stroked-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        {{ "statistics.sidebar.logout" | translate }}
+      </button>
+      <a href="https://github.com/Geigerkind/vb_positions" target="_blank">
+        <button mat-stroked-button>
+          <mat-icon>code</mat-icon>
+          {{ "field.source_code" | translate }}
+        </button>
+      </a>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <button
+      color="primary"
+      (click)="sidenav.toggle()"
+      mat-flat-button
+      class="toggle_sidenav"
+      [class.is_opened]="sidenav.opened"
+    >
+      <mat-icon>arrow_right</mat-icon>
+    </button>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

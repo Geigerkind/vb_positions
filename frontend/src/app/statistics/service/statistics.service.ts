@@ -5,7 +5,7 @@ import { AngularFirestore } from "@angular/fire/compat/firestore";
   providedIn: "root",
 })
 export class StatisticsService {
-  private currentTeamName?: string;
+  private currentTeamName?: string = "TODO REMOVE!";
 
   get teamName(): string | undefined {
     return this.currentTeamName;
@@ -15,6 +15,10 @@ export class StatisticsService {
 
   viewTeam(teamName: string): void {
     this.currentTeamName = teamName;
+  }
+
+  logout(): void {
+    this.currentTeamName = undefined;
   }
 
   isTeamSet(): boolean {

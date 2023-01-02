@@ -9,9 +9,11 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { LoginComponent } from "./smart-component/login/login.component";
 import { DashboardComponent } from "./smart-component/dashboard/dashboard.component";
+import { SidebarComponent } from "./smart-component/sidebar/sidebar.component";
+import { AddDataMenuComponent } from "./dumb-component/addDataMenu/addDataMenu.component";
 
 @NgModule({
-  declarations: [LoginComponent, DashboardComponent],
+  declarations: [LoginComponent, DashboardComponent, SidebarComponent, AddDataMenuComponent],
   imports: [
     StatisticsRoutingModule,
     SharedModule,

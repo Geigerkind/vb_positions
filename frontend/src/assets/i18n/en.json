@@ -81,6 +81,19 @@
       "team_name": "Team name",
       "submit": "View statistics",
       "back": "Back"
+    },
+    "sidebar": {
+      "logout": "Logout",
+      "addData": "Add data",
+      "dashboard": "View dashboard"
+    },
+    "addMenu": {
+      "metadata": "Meta data",
+      "serve": "Serve",
+      "receive": "Receive",
+      "toss": "Toss",
+      "attack": "Attack",
+      "block": "Block"
     }
   }
 }

@@ -1,0 +1,56 @@
+@import "src/styles/colors";
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.toggled {
+  color: $color-primary-default;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 15rem;
+  padding: 1rem 1rem;
+
+  button {
+    width: 100%;
+    height: 3rem;
+    text-align: left;
+    margin-bottom: 0.5rem;
+
+    &:hover {
+      color: $color-primary-default;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.toggle_sidenav {
+  position: absolute;
+  top: 3rem;
+  left: -1rem;
+  z-index: 20;
+  transform: rotate(90deg);
+
+  & mat-icon {
+    color: white;
+  }
+
+  &.is_opened {
+    mat-icon {
+      transform: rotate(90deg);
+    }
+  }
+
+  mat-icon {
+    transform: rotate(-90deg);
+  }
+}

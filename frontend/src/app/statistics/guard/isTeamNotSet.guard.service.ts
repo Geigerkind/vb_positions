@@ -12,6 +12,6 @@ export class IsTeamNotSetGuardService implements CanActivate {
     if (!this.statisticsService.isTeamSet()) {
       return true;
     }
-    return this.router.parseUrl("/statistics");
+    return this.router.parseUrl("/statistics/dashboard");
   }
 }
