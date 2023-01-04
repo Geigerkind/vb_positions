@@ -1,0 +1,6 @@
+<mat-form-field appearance="outline" [formGroup]="formGroup">
+  <mat-label>{{ "statistics.metadataFormField.title" | translate }}</mat-label>
+  <mat-select formControlName="metadata_uuid">
+    <mat-option [value]="metadata.uuid" *ngFor="let metadata of metadatas">{{ metadata.labels.join(", ") }}</mat-option>
+  </mat-select>
+</mat-form-field>

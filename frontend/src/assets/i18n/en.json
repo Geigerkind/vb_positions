@@ -96,18 +96,43 @@
       "receive": "Receive",
       "toss": "Toss",
       "attack": "Attack",
-      "block": "Block"
+      "block": "Block",
+      "requirement": "Requires at least one player and one metadata entry"
     },
     "addPlayer": {
+      "title": "Add player",
       "player_name": "Player name"
     },
     "addMetadata": {
-      "title": "Enter list of labels",
+      "title": "Add metadata",
+      "placeholder": "Enter list of labels",
       "newLabel": "New label..."
     },
     "courtDialog": {
       "abort": "Abort",
       "setPosition": "Set position"
+    },
+    "metadataFormField": {
+      "title": "Metadata"
+    },
+    "playerFormField": {
+      "title": "Player"
+    },
+    "addServe": {
+      "title": "Add serve",
+      "serve_type": "What kind of serve?",
+      "failure_type": "Has the serve failed?",
+      "selectImpactPoint": "Select impact point...",
+      "underhand": "Underhand",
+      "overhand": "Overhand",
+      "floater": "Floater",
+      "jump": "Jump",
+      "jump_floater": "Jump Floater",
+      "none": "No",
+      "net": "Net",
+      "out": "Out",
+      "other": "Other",
+      "selectTarget": "Select impact point"
     }
   }
 }

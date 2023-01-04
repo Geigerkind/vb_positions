@@ -1,0 +1,6 @@
+<mat-form-field appearance="outline" [formGroup]="formGroup">
+  <mat-label>{{ "statistics.playerFormField.title" | translate }}</mat-label>
+  <mat-select formControlName="player_uuid">
+    <mat-option [value]="player.uuid" *ngFor="let player of players">{{ player.name }}</mat-option>
+  </mat-select>
+</mat-form-field>

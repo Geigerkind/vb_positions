@@ -1,20 +1,21 @@
 <div id="container">
+  <h1>{{ "statistics.addMetadata.title" | translate }}</h1>
   <mat-form-field appearance="outline">
-    <mat-label>{{ "statistics.addMetadata.title" | translate }}</mat-label>
+    <mat-label>{{ "statistics.addMetadata.placeholder" | translate }}</mat-label>
     <mat-chip-list #chipGrid>
-      <mat-chip *ngFor="let label of labels; index as i"
-                (removed)="remove(i)"
-      >
-        {{label}}
+      <mat-chip *ngFor="let label of labels; index as i" (removed)="remove(i)">
+        {{ label }}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
-      <input placeholder="{{ 'statistics.addMetadata.newLabel' | translate }}"
-             [matChipInputFor]="chipGrid"
-             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-             [matChipInputAddOnBlur]="false"
-             (matChipInputTokenEnd)="add($event)"/>
+      <input
+        placeholder="{{ 'statistics.addMetadata.newLabel' | translate }}"
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="false"
+        (matChipInputTokenEnd)="add($event)"
+      />
     </mat-chip-list>
   </mat-form-field>
   <button mat-raised-button color="primary" type="button" [disabled]="labels.length === 0" (click)="onSubmit()">

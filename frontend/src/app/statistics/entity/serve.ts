@@ -5,7 +5,7 @@ import { BallTouch } from "./ballTouch";
 
 export interface Serve extends BallTouch {
   serveType: ServeType;
-  failureType?: FailureType;
+  failureType: FailureType;
   targetPoint?: TargetPointXY;
   ballTouch?: BallTouch;
 }

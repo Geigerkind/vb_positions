@@ -3,20 +3,30 @@
 :host {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
   justify-content: center;
-  align-content: center;
   align-items: center;
+  height: calc(100% - 2rem);
+  width: calc(100% - 2rem);
+  padding: 1rem;
 }
 
 form {
   display: flex;
   flex-direction: column;
 
-  &, mat-form-field {
+  &,
+  mat-form-field {
     max-width: 600px;
     width: 100%;
+  }
+
+  mat-button-toggle-group,
+  span {
+    margin-bottom: 1rem;
+  }
+
+  #impactPoint {
+    margin-bottom: 0.5rem;
   }
 }
 

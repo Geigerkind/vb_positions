@@ -3,10 +3,10 @@
 :host {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
+  height: calc(100% - 2rem);
+  width: calc(100% - 2rem);
+  padding: 1rem;
   justify-content: center;
-  align-content: center;
   align-items: center;
 }
 
@@ -14,7 +14,8 @@ form {
   display: flex;
   flex-direction: column;
 
-  &, mat-form-field {
+  &,
+  mat-form-field {
     max-width: 600px;
     width: 100%;
   }

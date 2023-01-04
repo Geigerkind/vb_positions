@@ -8,23 +8,48 @@
       <mat-icon>description</mat-icon>
       {{ "statistics.addMenu.metadata" | translate }}
     </button>
-    <button mat-raised-button routerLink="/statistics/add_data/serve">
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/serve"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
       <mat-icon>sports_handball</mat-icon>
       {{ "statistics.addMenu.serve" | translate }}
     </button>
-    <button mat-raised-button routerLink="/statistics/add_data/receive">
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/receive"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
       <mat-icon>shield</mat-icon>
       {{ "statistics.addMenu.receive" | translate }}
     </button>
-    <button mat-raised-button routerLink="/statistics/add_data/toss">
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/toss"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
       <mat-icon>sports_volleyball</mat-icon>
       {{ "statistics.addMenu.toss" | translate }}
     </button>
-    <button mat-raised-button routerLink="/statistics/add_data/attack">
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/attack"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
       <mat-icon>sports_handball</mat-icon>
       {{ "statistics.addMenu.attack" | translate }}
     </button>
-    <button mat-raised-button routerLink="/statistics/add_data/block">
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/block"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
       <mat-icon>security</mat-icon>
       {{ "statistics.addMenu.block" | translate }}
     </button>

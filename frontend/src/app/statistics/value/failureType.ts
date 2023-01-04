@@ -3,4 +3,5 @@ export enum FailureType {
   Out,
   Miss,
   Other,
+  NONE_TECHNICAL,
 }

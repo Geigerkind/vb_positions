@@ -1,8 +1,41 @@
 <form [formGroup]="formGroup" (submit)="onSubmit()">
-  <mat-form-field appearance="outline" color="primary" tabindex="-1">
-    <mat-label>{{ "statistics.addPlayer.player_name" | translate }}</mat-label>
-    <input matInput formControlName="player_name" />
-  </mat-form-field>
+  <h1>{{ "statistics.addServe.title" | translate }}</h1>
+  <vpms-players-form-field [formGroup]="formGroup" [players]="statisticsService.players"></vpms-players-form-field>
+  <vpms-metadata-form-field [formGroup]="formGroup" [metadatas]="statisticsService.metadata"></vpms-metadata-form-field>
+  <h3>{{ "statistics.addServe.serve_type" | translate }}</h3>
+  <mat-button-toggle-group formControlName="serve_type">
+    <mat-button-toggle [value]="ServeType.UNDERHAND">{{
+      "statistics.addServe.underhand" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="ServeType.OVERHAND">{{ "statistics.addServe.overhand" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="ServeType.FLOATER">{{ "statistics.addServe.floater" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="ServeType.JUMP">{{ "statistics.addServe.jump" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="ServeType.JUMP_FLOATER">{{
+      "statistics.addServe.jump_floater" | translate
+    }}</mat-button-toggle>
+  </mat-button-toggle-group>
+  <h3>{{ "statistics.addServe.failure_type" | translate }}</h3>
+  <mat-button-toggle-group formControlName="failure_type">
+    <mat-button-toggle [value]="FailureType.NONE_TECHNICAL">{{
+      "statistics.addServe.none" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="FailureType.Net">{{ "statistics.addServe.net" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="FailureType.Out">{{ "statistics.addServe.out" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="FailureType.Other">{{ "statistics.addServe.other" | translate }}</mat-button-toggle>
+  </mat-button-toggle-group>
+  <button
+    mat-raised-button
+    color="primary"
+    id="impactPoint"
+    type="button"
+    *ngIf="!serveFailed()"
+    (click)="openCourtDialog()"
+  >
+    {{ "statistics.addServe.selectTarget" | translate }}
+  </button>
+  <span *ngIf="!serveFailed() && !hasTargetPosition()">{{ "statistics.addServe.selectImpactPoint" | translate }}</span>
+  <span *ngIf="!serveFailed() && hasTargetPosition()">{{ formatTargetPosition() }}</span>
+
   <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
     {{ "statistics.add" | translate }}
   </button>

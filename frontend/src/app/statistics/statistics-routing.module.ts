@@ -8,6 +8,7 @@ import { AddDataMenuComponent } from "./smart-component/addDataMenu/addDataMenu.
 import { AddPlayerComponent } from "./smart-component/add-player/add-player.component";
 import { AddMetadataComponent } from "./smart-component/add-metadata/add-metadata.component";
 import { AddServeComponent } from "./smart-component/add-serve/add-serve.component";
+import { HasPlayersAndMetadataGuardService } from "./guard/hasPlayersAndMetadata.guard.service";
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
   {
     path: "add_data/serve",
     component: AddServeComponent,
-    canActivate: [IsTeamSetGuardService],
+    canActivate: [IsTeamSetGuardService, HasPlayersAndMetadataGuardService],
   },
   {
     path: "login",
