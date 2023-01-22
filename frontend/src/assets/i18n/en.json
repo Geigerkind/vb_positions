@@ -118,21 +118,44 @@
     "playerFormField": {
       "title": "Player"
     },
+    "failure_type": {
+      "title": "Has this touch failed?",
+      "none": "No",
+      "net": "Net",
+      "out": "Out",
+      "other": "Other"
+    },
+    "target": {
+      "title": "Select impact point",
+      "placeholder": "Select impact point..."
+    },
     "addServe": {
       "title": "Add serve",
       "serve_type": "What kind of serve?",
-      "failure_type": "Has the serve failed?",
-      "selectImpactPoint": "Select impact point...",
       "underhand": "Underhand",
       "overhand": "Overhand",
       "floater": "Floater",
       "jump": "Jump",
-      "jump_floater": "Jump Floater",
-      "none": "No",
-      "net": "Net",
-      "out": "Out",
-      "other": "Other",
-      "selectTarget": "Select impact point"
+      "jump_floater": "Jump Floater"
+    },
+    "addToss": {
+      "title": "Add toss",
+      "toss_type": "What kind of toss?",
+      "shot": "Shot",
+      "parabolic": "Parabolic"
+    },
+    "addAttack": {
+      "title": "Add attack"
+    },
+    "addBlock": {
+      "title": "Add block"
+    },
+    "addReceive": {
+      "title": "Add Receive",
+      "receive_type": "What kind of receive?",
+      "dig": "Dig",
+      "toss": "Toss",
+      "other": "Other"
     }
   }
 }

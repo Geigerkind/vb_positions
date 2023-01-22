@@ -1,0 +1,22 @@
+<form [formGroup]="formGroup" (submit)="onSubmit()">
+  <h1>{{ "statistics.addReceive.title" | translate }}</h1>
+  <vpms-players-form-field [formGroup]="formGroup" [players]="statisticsService.players"></vpms-players-form-field>
+  <vpms-metadata-form-field [formGroup]="formGroup" [metadatas]="statisticsService.metadata"></vpms-metadata-form-field>
+  <h3>{{ "statistics.addReceive.receive_type" | translate }}</h3>
+  <mat-button-toggle-group formControlName="receive_type">
+    <mat-button-toggle [value]="ReceiveType.DIG">{{ "statistics.addReceive.dig" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="ReceiveType.TOSS">{{ "statistics.addReceive.toss" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="ReceiveType.OTHER">{{ "statistics.addReceive.other" | translate }}</mat-button-toggle>
+  </mat-button-toggle-group>
+  <button mat-raised-button color="primary" id="impactPoint" type="button" (click)="openCourtDialog()">
+    {{ "statistics.target.title" | translate }}
+  </button>
+  <span *ngIf="hasTargetPosition()">{{ formatTargetPosition() }}</span>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+    {{ "statistics.add" | translate }}
+  </button>
+  <button mat-raised-button color="primary" type="button" routerLink="/statistics/add_data">
+    {{ "statistics.back" | translate }}
+  </button>
+</form>

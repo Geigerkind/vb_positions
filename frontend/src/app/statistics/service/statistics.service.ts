@@ -8,7 +8,13 @@ import { FailureType } from "../value/failureType";
 import { BallTouch } from "../entity/ballTouch";
 import { Serve } from "../entity/serve";
 import { BallTouchType } from "../value/ballTouchType";
-import { TargetPointXY } from "../value/targetPointXY";
+import { TargetPoint } from "../value/targetPoint";
+import { ReceiveType } from "../value/receiveType";
+import { Receive } from "../entity/receive";
+import { TossType } from "../value/tossType";
+import { Toss } from "../entity/toss";
+import { Attack } from "../entity/attack";
+import { Block } from "../entity/block";
 
 @Injectable({
   providedIn: "root",
@@ -109,14 +115,125 @@ export class StatisticsService {
       failureType: failure_type,
       metaData: this.getMetadata(metadata_uuid),
       player: this.getPlayer(player_uuid),
+      serveType: serve_type,
       targetPoint:
         target_position === null
           ? undefined
           : ({
               x: target_position[0],
               y: target_position[1],
-            } as TargetPointXY),
+            } as TargetPoint),
     } as Serve);
+  }
+
+  addAttack(
+    player_uuid: string,
+    metadata_uuid: string,
+    failure_type: FailureType,
+    target_position: [number, number] | null
+  ): void {
+    const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
+    this._lastUsedPlayer = this.getPlayer(player_uuid);
+    this._lastUsedMetadata = this.getMetadata(metadata_uuid);
+
+    this._ballTouches.push({
+      uuid,
+      touchType: BallTouchType.Attack,
+      addedAt: new Date(),
+      failureType: failure_type,
+      metaData: this.getMetadata(metadata_uuid),
+      player: this.getPlayer(player_uuid),
+      targetPoint:
+        target_position === null
+          ? undefined
+          : ({
+              x: target_position[0],
+              y: target_position[1],
+            } as TargetPoint),
+    } as Attack);
+  }
+
+  addBlock(
+    player_uuid: string,
+    metadata_uuid: string,
+    failure_type: FailureType,
+    target_position: [number, number] | null
+  ): void {
+    const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
+    this._lastUsedPlayer = this.getPlayer(player_uuid);
+    this._lastUsedMetadata = this.getMetadata(metadata_uuid);
+
+    this._ballTouches.push({
+      uuid,
+      touchType: BallTouchType.Attack,
+      addedAt: new Date(),
+      failureType: failure_type,
+      metaData: this.getMetadata(metadata_uuid),
+      player: this.getPlayer(player_uuid),
+      targetPoint:
+        target_position === null
+          ? undefined
+          : ({
+              x: target_position[0],
+              y: target_position[1],
+            } as TargetPoint),
+    } as Block);
+  }
+
+  addToss(
+    player_uuid: string,
+    metadata_uuid: string,
+    toss_type: TossType,
+    failure_type: FailureType,
+    target_position: [number, number] | null
+  ): void {
+    const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
+    this._lastUsedPlayer = this.getPlayer(player_uuid);
+    this._lastUsedMetadata = this.getMetadata(metadata_uuid);
+
+    this._ballTouches.push({
+      uuid,
+      touchType: BallTouchType.Toss,
+      addedAt: new Date(),
+      metaData: this.getMetadata(metadata_uuid),
+      player: this.getPlayer(player_uuid),
+      tossType: toss_type,
+      failureType: failure_type,
+      targetPoint:
+        target_position === null
+          ? undefined
+          : ({
+              x: target_position[0],
+              y: target_position[1],
+            } as TargetPoint),
+    } as Toss);
+  }
+
+  addReceive(
+    player_uuid: string,
+    metadata_uuid: string,
+    receive_type: ReceiveType,
+    target_position: [number, number] | null
+  ): void {
+    const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
+    this._lastUsedPlayer = this.getPlayer(player_uuid);
+    this._lastUsedMetadata = this.getMetadata(metadata_uuid);
+
+    this._ballTouches.push({
+      uuid,
+      touchType: BallTouchType.Receive,
+      addedAt: new Date(),
+      player: this.getPlayer(player_uuid),
+      metaData: this.getMetadata(metadata_uuid),
+      receiveType: receive_type,
+      targetPoint:
+        target_position === null
+          ? undefined
+          : ({
+              x: target_position[0],
+              y: target_position[1],
+            } as TargetPoint),
+    } as Receive);
   }
 
   private getMetadata(uuid: string): Metadata {

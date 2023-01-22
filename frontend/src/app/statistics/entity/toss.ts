@@ -1,9 +1,11 @@
-import { TargetPointXYZ } from "../value/targetPointXYZ";
+import { TargetPoint } from "../value/targetPoint";
 import { TossType } from "../value/tossType";
 import { BallTouch } from "./ballTouch";
+import { FailureType } from "../value/failureType";
 
 export interface Toss extends BallTouch {
-  targetPoint: TargetPointXYZ;
   tossType: TossType;
+  failureType: FailureType;
+  targetPoint?: TargetPoint;
   ballTouch?: BallTouch;
 }

@@ -1,11 +1,11 @@
 import { ServeType } from "../value/serveType";
-import { TargetPointXY } from "../value/targetPointXY";
+import { TargetPoint } from "../value/targetPoint";
 import { FailureType } from "../value/failureType";
 import { BallTouch } from "./ballTouch";
 
 export interface Serve extends BallTouch {
   serveType: ServeType;
   failureType: FailureType;
-  targetPoint?: TargetPointXY;
+  targetPoint?: TargetPoint;
   ballTouch?: BallTouch;
 }

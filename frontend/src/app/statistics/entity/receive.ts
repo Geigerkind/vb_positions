@@ -1,9 +1,9 @@
 import { ReceiveType } from "../value/receiveType";
 import { BallTouch } from "./ballTouch";
-import { TargetPointXYZ } from "../value/targetPointXYZ";
+import { TargetPoint } from "../value/targetPoint";
 
 export interface Receive extends BallTouch {
   receiveType: ReceiveType;
-  targetPoint: TargetPointXYZ;
+  targetPoint: TargetPoint;
   ballTouch?: BallTouch;
 }

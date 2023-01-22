@@ -9,6 +9,10 @@ import { AddPlayerComponent } from "./smart-component/add-player/add-player.comp
 import { AddMetadataComponent } from "./smart-component/add-metadata/add-metadata.component";
 import { AddServeComponent } from "./smart-component/add-serve/add-serve.component";
 import { HasPlayersAndMetadataGuardService } from "./guard/hasPlayersAndMetadata.guard.service";
+import { AddReceiveComponent } from "./smart-component/add-receive/add-receive.component";
+import { AddTossComponent } from "./smart-component/add-toss/add-toss.component";
+import { AddAttackComponent } from "./smart-component/add-attack/add-attack.component";
+import { AddBlockComponent } from "./smart-component/add-block/add-block.component";
 
 const routes: Routes = [
   {
@@ -34,6 +38,26 @@ const routes: Routes = [
   {
     path: "add_data/serve",
     component: AddServeComponent,
+    canActivate: [IsTeamSetGuardService, HasPlayersAndMetadataGuardService],
+  },
+  {
+    path: "add_data/receive",
+    component: AddReceiveComponent,
+    canActivate: [IsTeamSetGuardService, HasPlayersAndMetadataGuardService],
+  },
+  {
+    path: "add_data/toss",
+    component: AddTossComponent,
+    canActivate: [IsTeamSetGuardService, HasPlayersAndMetadataGuardService],
+  },
+  {
+    path: "add_data/attack",
+    component: AddAttackComponent,
+    canActivate: [IsTeamSetGuardService, HasPlayersAndMetadataGuardService],
+  },
+  {
+    path: "add_data/block",
+    component: AddBlockComponent,
     canActivate: [IsTeamSetGuardService, HasPlayersAndMetadataGuardService],
   },
   {

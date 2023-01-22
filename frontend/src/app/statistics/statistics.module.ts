@@ -21,6 +21,10 @@ import { FieldModule } from "../field/field.module";
 import { PlayersFormFieldComponent } from "./dumb-component/players-form-field/players-form-field.component";
 import { MetadataFormFieldComponent } from "./dumb-component/metadata-form-field/metadata-form-field.component";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { AddReceiveComponent } from "./smart-component/add-receive/add-receive.component";
+import { AddTossComponent } from "./smart-component/add-toss/add-toss.component";
+import { AddAttackComponent } from "./smart-component/add-attack/add-attack.component";
+import { AddBlockComponent } from "./smart-component/add-block/add-block.component";
 
 @NgModule({
   declarations: [
@@ -31,6 +35,10 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
     AddPlayerComponent,
     AddMetadataComponent,
     AddServeComponent,
+    AddReceiveComponent,
+    AddTossComponent,
+    AddAttackComponent,
+    AddBlockComponent,
     CourtDialogComponent,
     PlayersFormFieldComponent,
     MetadataFormFieldComponent,
