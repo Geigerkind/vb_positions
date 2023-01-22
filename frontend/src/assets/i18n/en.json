@@ -78,6 +78,11 @@
     "submit": "Import"
   },
   "statistics": {
+    "dashboard": {
+      "players": "Select players",
+      "labels": "Select labels",
+      "receives": "Receive positions"
+    },
     "back": "Back",
     "add": "Add",
     "login": {

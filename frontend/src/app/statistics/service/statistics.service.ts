@@ -42,6 +42,8 @@ export class StatisticsService {
 
   private _lastUsedPlayer?: Player;
   private _lastUsedMetadata?: Metadata;
+  private _filterPlayers: Player[] = [];
+  private _filterLabels: string[] = [];
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;
@@ -61,6 +63,27 @@ export class StatisticsService {
 
   get metadata(): Metadata[] {
     return this._metadata;
+  }
+
+  get filterPlayers(): Player[] {
+    return this._filterPlayers;
+  }
+
+  get filterLabels(): string[] {
+    return this._filterLabels;
+  }
+
+  get labels(): string[] {
+    return this.metadata
+      .map(m => m.labels)
+      .reduce((acc, labels) => {
+        for (const label of labels) {
+          if (!acc.includes(label)) {
+            acc.push(label);
+          }
+        }
+        return acc;
+      }, []);
   }
 
   get previousBallTouches(): BallTouch[] {
@@ -83,6 +106,14 @@ export class StatisticsService {
 
   hasPlayersAndMetadata(): boolean {
     return this._players.length > 0 && this._metadata.length > 0;
+  }
+
+  setCurrentFilterPlayers(player_uuids: string[]): void {
+    this._filterPlayers = this._players.filter(player => player_uuids.includes(player.uuid));
+  }
+
+  setCurrentFilterLabels(labels: string[]): void {
+    this._filterLabels = labels;
   }
 
   addPlayer(player_name: string): void {

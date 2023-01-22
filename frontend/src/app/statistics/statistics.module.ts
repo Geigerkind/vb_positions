@@ -28,6 +28,7 @@ import { AddBlockComponent } from "./smart-component/add-block/add-block.compone
 import { FailureTypeFormFieldComponent } from "./dumb-component/failure-type-form-field/failure-type-form-field.component";
 import { TargetPositionFormFieldComponent } from "./dumb-component/target-position-form-field/target-position-form-field.component";
 import { BalltouchFormFieldComponent } from "./dumb-component/balltouch-form-field/balltouch-form-field.component";
+import { FilterBarComponent } from "./smart-component/filter-bar/filter-bar.component";
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { BalltouchFormFieldComponent } from "./dumb-component/balltouch-form-fie
     FailureTypeFormFieldComponent,
     TargetPositionFormFieldComponent,
     BalltouchFormFieldComponent,
+    FilterBarComponent,
   ],
   imports: [
     StatisticsRoutingModule,
