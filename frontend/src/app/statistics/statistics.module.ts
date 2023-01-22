@@ -25,6 +25,8 @@ import { AddReceiveComponent } from "./smart-component/add-receive/add-receive.c
 import { AddTossComponent } from "./smart-component/add-toss/add-toss.component";
 import { AddAttackComponent } from "./smart-component/add-attack/add-attack.component";
 import { AddBlockComponent } from "./smart-component/add-block/add-block.component";
+import { FailureTypeFormFieldComponent } from "./dumb-component/failure-type-form-field/failure-type-form-field.component";
+import { TargetPositionFormFieldComponent } from "./dumb-component/target-position-form-field/target-position-form-field.component";
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { AddBlockComponent } from "./smart-component/add-block/add-block.compone
     CourtDialogComponent,
     PlayersFormFieldComponent,
     MetadataFormFieldComponent,
+    FailureTypeFormFieldComponent,
+    TargetPositionFormFieldComponent,
   ],
   imports: [
     StatisticsRoutingModule,

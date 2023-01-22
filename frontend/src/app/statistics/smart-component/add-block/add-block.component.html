@@ -2,27 +2,8 @@
   <h1>{{ "statistics.addBlock.title" | translate }}</h1>
   <vpms-players-form-field [formGroup]="formGroup" [players]="statisticsService.players"></vpms-players-form-field>
   <vpms-metadata-form-field [formGroup]="formGroup" [metadatas]="statisticsService.metadata"></vpms-metadata-form-field>
-  <h3>{{ "statistics.failure_type.title" | translate }}</h3>
-  <mat-button-toggle-group formControlName="failure_type">
-    <mat-button-toggle [value]="FailureType.NONE_TECHNICAL">{{
-      "statistics.failure_type.none" | translate
-    }}</mat-button-toggle>
-    <mat-button-toggle [value]="FailureType.Net">{{ "statistics.failure_type.net" | translate }}</mat-button-toggle>
-    <mat-button-toggle [value]="FailureType.Out">{{ "statistics.failure_type.out" | translate }}</mat-button-toggle>
-    <mat-button-toggle [value]="FailureType.Other">{{ "statistics.failure_type.other" | translate }}</mat-button-toggle>
-  </mat-button-toggle-group>
-  <button
-    mat-raised-button
-    color="primary"
-    id="impactPoint"
-    type="button"
-    *ngIf="!blockFailed()"
-    (click)="openCourtDialog()"
-  >
-    {{ "statistics.target.title" | translate }}
-  </button>
-  <span *ngIf="!blockFailed() && !hasTargetPosition()">{{ "statistics.target.placeholder" | translate }}</span>
-  <span *ngIf="!blockFailed() && hasTargetPosition()">{{ formatTargetPosition() }}</span>
+  <vpms-failure-type-form-field [formGroup]="formGroup"></vpms-failure-type-form-field>
+  <vpms-target-position-form-field [formGroup]="formGroup"></vpms-target-position-form-field>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
     {{ "statistics.add" | translate }}

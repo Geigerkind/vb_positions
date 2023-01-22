@@ -1,0 +1,12 @@
+<button
+  mat-raised-button
+  color="primary"
+  id="impactPoint"
+  type="button"
+  *ngIf="!touchFailed()"
+  (click)="openCourtDialog()"
+>
+  {{ "statistics.target.title" | translate }}
+</button>
+<span *ngIf="!touchFailed() && !hasTargetPosition()">{{ "statistics.target.placeholder" | translate }}</span>
+<span *ngIf="!touchFailed() && hasTargetPosition()">{{ formatTargetPosition() }}</span>

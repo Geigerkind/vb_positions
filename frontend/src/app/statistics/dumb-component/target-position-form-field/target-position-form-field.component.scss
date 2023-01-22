@@ -1,0 +1,14 @@
+@import "src/styles/colors";
+
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+#impactPoint {
+  margin-bottom: 0.5rem;
+}
+
+span {
+  margin-bottom: 0.5rem;
+}

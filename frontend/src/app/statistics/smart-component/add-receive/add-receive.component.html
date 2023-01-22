@@ -8,10 +8,7 @@
     <mat-button-toggle [value]="ReceiveType.TOSS">{{ "statistics.addReceive.toss" | translate }}</mat-button-toggle>
     <mat-button-toggle [value]="ReceiveType.OTHER">{{ "statistics.addReceive.other" | translate }}</mat-button-toggle>
   </mat-button-toggle-group>
-  <button mat-raised-button color="primary" id="impactPoint" type="button" (click)="openCourtDialog()">
-    {{ "statistics.target.title" | translate }}
-  </button>
-  <span *ngIf="hasTargetPosition()">{{ formatTargetPosition() }}</span>
+  <vpms-target-position-form-field [formGroup]="formGroup"></vpms-target-position-form-field>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
     {{ "statistics.add" | translate }}
