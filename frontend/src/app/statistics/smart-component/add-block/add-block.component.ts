@@ -13,6 +13,7 @@ export class AddBlockComponent {
 
   constructor(formBuilder: FormBuilder, public statisticsService: StatisticsService, private router: Router) {
     this.formGroup = formBuilder.group({
+      ballTouch_uuid: null,
       player_uuid: [statisticsService.lastUsedPlayer?.uuid, Validators.required],
       metadata_uuid: [statisticsService.lastUsedMetadata?.uuid, Validators.required],
       failure_type: [null, Validators.required],
@@ -26,7 +27,8 @@ export class AddBlockComponent {
       values.player_uuid,
       values.metadata_uuid,
       values.failure_type,
-      values.target_position
+      values.target_position,
+      values.ballTouch_uuid
     );
     this.router.navigate(["/statistics/add_data"]);
   }

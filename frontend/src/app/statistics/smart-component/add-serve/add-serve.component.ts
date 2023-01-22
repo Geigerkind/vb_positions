@@ -15,6 +15,7 @@ export class AddServeComponent {
 
   constructor(formBuilder: FormBuilder, public statisticsService: StatisticsService, private router: Router) {
     this.formGroup = formBuilder.group({
+      ballTouch_uuid: null,
       player_uuid: [statisticsService.lastUsedPlayer?.uuid, Validators.required],
       metadata_uuid: [statisticsService.lastUsedMetadata?.uuid, Validators.required],
       serve_type: [null, Validators.required],
@@ -30,7 +31,8 @@ export class AddServeComponent {
       values.metadata_uuid,
       values.serve_type,
       values.failure_type,
-      values.target_position
+      values.target_position,
+      values.ballTouch_uuid
     );
     this.router.navigate(["/statistics/add_data"]);
   }

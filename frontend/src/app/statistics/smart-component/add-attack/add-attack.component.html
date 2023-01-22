@@ -1,5 +1,9 @@
 <form [formGroup]="formGroup" (submit)="onSubmit()">
   <h1>{{ "statistics.addAttack.title" | translate }}</h1>
+  <vpms-balltouch-form-field
+    [formGroup]="formGroup"
+    [balltouches]="statisticsService.previousBallTouches"
+  ></vpms-balltouch-form-field>
   <vpms-players-form-field [formGroup]="formGroup" [players]="statisticsService.players"></vpms-players-form-field>
   <vpms-metadata-form-field [formGroup]="formGroup" [metadatas]="statisticsService.metadata"></vpms-metadata-form-field>
   <vpms-failure-type-form-field [formGroup]="formGroup"></vpms-failure-type-form-field>

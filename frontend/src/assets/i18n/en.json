@@ -119,6 +119,10 @@
     "playerFormField": {
       "title": "Player"
     },
+    "ballTouchFormField": {
+      "title": "Previous ball touch",
+      "noBallTouch": "No ball touch"
+    },
     "failure_type": {
       "title": "Has this touch failed?",
       "none": "No",

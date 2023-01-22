@@ -63,6 +63,10 @@ export class StatisticsService {
     return this._metadata;
   }
 
+  get previousBallTouches(): BallTouch[] {
+    return this._ballTouches.slice(-10);
+  }
+
   constructor(private angularFirestore: AngularFirestore) {}
 
   viewTeam(teamName: string): void {
@@ -102,12 +106,14 @@ export class StatisticsService {
     metadata_uuid: string,
     serve_type: ServeType,
     failure_type: FailureType,
-    target_position: [number, number, number, number] | null
+    target_position: [number, number, number, number] | null,
+    ballTouch_uuid?: string
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
+    this._ballTouchesLookup.set(uuid, this._ballTouches.length);
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Serve,
@@ -123,6 +129,7 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
+      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
     } as Serve);
   }
 
@@ -130,12 +137,14 @@ export class StatisticsService {
     player_uuid: string,
     metadata_uuid: string,
     failure_type: FailureType,
-    target_position: [number, number, number, number] | null
+    target_position: [number, number, number, number] | null,
+    ballTouch_uuid?: string
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
+    this._ballTouchesLookup.set(uuid, this._ballTouches.length);
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Attack,
@@ -150,6 +159,7 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
+      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
     } as Attack);
   }
 
@@ -157,12 +167,14 @@ export class StatisticsService {
     player_uuid: string,
     metadata_uuid: string,
     failure_type: FailureType,
-    target_position: [number, number, number, number] | null
+    target_position: [number, number, number, number] | null,
+    ballTouch_uuid?: string
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
+    this._ballTouchesLookup.set(uuid, this._ballTouches.length);
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Attack,
@@ -177,6 +189,7 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
+      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
     } as Block);
   }
 
@@ -185,12 +198,14 @@ export class StatisticsService {
     metadata_uuid: string,
     toss_type: TossType,
     failure_type: FailureType,
-    target_position: [number, number, number, number] | null
+    target_position: [number, number, number, number] | null,
+    ballTouch_uuid?: string
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
+    this._ballTouchesLookup.set(uuid, this._ballTouches.length);
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Toss,
@@ -206,6 +221,7 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
+      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
     } as Toss);
   }
 
@@ -213,12 +229,14 @@ export class StatisticsService {
     player_uuid: string,
     metadata_uuid: string,
     receive_type: ReceiveType,
-    target_position: [number, number, number, number] | null
+    target_position: [number, number, number, number] | null,
+    ballTouch_uuid?: string
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
+    this._ballTouchesLookup.set(uuid, this._ballTouches.length);
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Receive,
@@ -233,6 +251,7 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
+      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
     } as Receive);
   }
 
@@ -242,6 +261,10 @@ export class StatisticsService {
 
   private getPlayer(uuid: string): Player {
     return this._players[this._playersLookup.get(uuid)!];
+  }
+
+  private getBallTouch(uuid: string): BallTouch {
+    return this._ballTouches[this._ballTouchesLookup.get(uuid)!];
   }
 
   private findAndAddUniqueUUID(lookupTable: Map<string, number>, index: number): string {

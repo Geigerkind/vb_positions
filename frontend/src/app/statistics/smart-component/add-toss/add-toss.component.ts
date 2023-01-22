@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { StatisticsService } from "../../service/statistics.service";
 import { Router } from "@angular/router";
-import { FailureType } from "../../value/failureType";
 import { TossType } from "../../value/tossType";
 
 @Component({
@@ -12,11 +11,11 @@ import { TossType } from "../../value/tossType";
 })
 export class AddTossComponent {
   TossType: typeof TossType = TossType;
-  FailureType: typeof FailureType = FailureType;
   formGroup: FormGroup;
 
   constructor(formBuilder: FormBuilder, public statisticsService: StatisticsService, private router: Router) {
     this.formGroup = formBuilder.group({
+      ballTouch_uuid: null,
       player_uuid: [statisticsService.lastUsedPlayer?.uuid, Validators.required],
       metadata_uuid: [statisticsService.lastUsedMetadata?.uuid, Validators.required],
       toss_type: [null, Validators.required],
@@ -32,7 +31,8 @@ export class AddTossComponent {
       values.metadata_uuid,
       values.toss_type,
       values.failure_type,
-      values.target_position
+      values.target_position,
+      values.ballTouch_uuid
     );
     this.router.navigate(["/statistics/add_data"]);
   }

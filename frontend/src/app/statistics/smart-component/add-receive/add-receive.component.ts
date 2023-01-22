@@ -15,6 +15,7 @@ export class AddReceiveComponent {
 
   constructor(formBuilder: FormBuilder, public statisticsService: StatisticsService, private router: Router) {
     this.formGroup = formBuilder.group({
+      ballTouch_uuid: null,
       player_uuid: [statisticsService.lastUsedPlayer?.uuid, Validators.required],
       metadata_uuid: [statisticsService.lastUsedMetadata?.uuid, Validators.required],
       receive_type: [null, Validators.required],
@@ -28,7 +29,8 @@ export class AddReceiveComponent {
       values.player_uuid,
       values.metadata_uuid,
       values.receive_type,
-      values.target_position
+      values.target_position,
+      values.ballTouch_uuid
     );
     this.router.navigate(["/statistics/add_data"]);
   }
