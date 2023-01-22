@@ -79,6 +79,7 @@
   },
   "statistics": {
     "dashboard": {
+      "title": "Dashboard",
       "players": "Select players",
       "labels": "Select labels",
       "receives": "Receive positions"
@@ -93,7 +94,8 @@
     "sidebar": {
       "logout": "Logout",
       "addData": "Add data",
-      "dashboard": "View dashboard"
+      "dashboard": "View dashboard",
+      "receives": "Receives"
     },
     "addMenu": {
       "player": "Player",

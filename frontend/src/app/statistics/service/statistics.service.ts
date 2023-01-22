@@ -73,6 +73,17 @@ export class StatisticsService {
     return this._filterLabels;
   }
 
+  get filteredBallTouches(): BallTouch[] {
+    const player_uuids = this.filterPlayers.map(p => p.uuid);
+    return this._ballTouches.filter(
+      bt => player_uuids.includes(bt.player.uuid) && bt.metaData.labels.some(label => this.filterLabels.includes(label))
+    );
+  }
+
+  get filteredReceives(): Receive[] {
+    return this.filteredBallTouches.filter(bt => bt.touchType === BallTouchType.Receive) as Receive[];
+  }
+
   get labels(): string[] {
     return this.metadata
       .map(m => m.labels)

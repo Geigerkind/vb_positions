@@ -13,6 +13,7 @@ import { AddReceiveComponent } from "./smart-component/add-receive/add-receive.c
 import { AddTossComponent } from "./smart-component/add-toss/add-toss.component";
 import { AddAttackComponent } from "./smart-component/add-attack/add-attack.component";
 import { AddBlockComponent } from "./smart-component/add-block/add-block.component";
+import { ReceivesComponent } from "./smart-component/receives/receives.component";
 
 const routes: Routes = [
   {
@@ -23,6 +24,11 @@ const routes: Routes = [
   {
     path: "add_data",
     component: AddDataMenuComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "receives",
+    component: ReceivesComponent,
     canActivate: [IsTeamSetGuardService],
   },
   {

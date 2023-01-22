@@ -25,6 +25,9 @@ export class TargetPositionFormFieldComponent implements OnInit {
         }
         (this.formGroup.controls as any).target_position.updateValueAndValidity();
       });
+    } else {
+      (this.formGroup.controls as any).target_position.setValidators(Validators.required);
+      (this.formGroup.controls as any).target_position.updateValueAndValidity();
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { StatisticsService } from "../../service/statistics.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
 
@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup } from "@angular/forms";
   styleUrls: ["./filter-bar.component.scss"],
 })
 export class FilterBarComponent {
+  @Output() onFilterChanged: EventEmitter<void> = new EventEmitter();
+
   formGroup: FormGroup;
 
   constructor(formBuilder: FormBuilder, public statisticsService: StatisticsService) {
@@ -22,6 +24,7 @@ export class FilterBarComponent {
       if (values.labels) {
         this.statisticsService.setCurrentFilterLabels(values.labels);
       }
+      this.onFilterChanged.emit();
     });
   }
 }

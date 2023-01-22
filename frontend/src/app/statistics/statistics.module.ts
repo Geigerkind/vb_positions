@@ -29,6 +29,7 @@ import { FailureTypeFormFieldComponent } from "./dumb-component/failure-type-for
 import { TargetPositionFormFieldComponent } from "./dumb-component/target-position-form-field/target-position-form-field.component";
 import { BalltouchFormFieldComponent } from "./dumb-component/balltouch-form-field/balltouch-form-field.component";
 import { FilterBarComponent } from "./smart-component/filter-bar/filter-bar.component";
+import { ReceivesComponent } from "./smart-component/receives/receives.component";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { FilterBarComponent } from "./smart-component/filter-bar/filter-bar.comp
     TargetPositionFormFieldComponent,
     BalltouchFormFieldComponent,
     FilterBarComponent,
+    ReceivesComponent,
   ],
   imports: [
     StatisticsRoutingModule,

@@ -20,6 +20,8 @@ export class CourtComponent implements AfterViewInit, OnChanges {
   @Input() actors: ActorShape[] = [];
   @Input() lines: Line[] = [];
   @Input() courtMode: CourtMode = CourtMode.MOVE_ACTOR;
+  @Input() customRender: (context: CanvasRenderingContext2D) => void = () => {};
+
   @Output() onRender = new EventEmitter<void>();
   @Output() onReady = new EventEmitter<CanvasRenderingContext2D>();
   @Output() onLineAdded = new EventEmitter<Line>();
@@ -159,6 +161,7 @@ export class CourtComponent implements AfterViewInit, OnChanges {
     if (this._volleyball) {
       this._volleyball.draw();
     }
+    this.customRender(this.context);
 
     this.onRender.emit();
   }

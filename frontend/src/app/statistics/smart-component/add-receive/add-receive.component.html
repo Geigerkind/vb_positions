@@ -12,7 +12,7 @@
     <mat-button-toggle [value]="ReceiveType.TOSS">{{ "statistics.addReceive.toss" | translate }}</mat-button-toggle>
     <mat-button-toggle [value]="ReceiveType.OTHER">{{ "statistics.addReceive.other" | translate }}</mat-button-toggle>
   </mat-button-toggle-group>
-  <vpms-target-position-form-field [formGroup]="formGroup"></vpms-target-position-form-field>
+  <vpms-target-position-form-field [formGroup]="formGroup" [hasFailureType]="false"></vpms-target-position-form-field>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
     {{ "statistics.add" | translate }}
