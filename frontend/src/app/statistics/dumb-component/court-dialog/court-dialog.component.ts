@@ -7,7 +7,7 @@ import { MatDialogRef } from "@angular/material/dialog";
   styleUrls: ["./court-dialog.component.scss"],
 })
 export class CourtDialogComponent {
-  volleyballPosition: [number, number] = [4.5, 4.5];
+  volleyballPosition: [number, number, number, number] = [4725, 5000, 4.5, 4.5];
 
   constructor(private matDialogRef: MatDialogRef<CourtDialogComponent>) {}
 
@@ -19,7 +19,7 @@ export class CourtDialogComponent {
     this.matDialogRef.close(this.volleyballPosition);
   }
 
-  onVolleyballPositionChanged(position: [number, number]): void {
+  onVolleyballPositionChanged(position: [number, number, number, number]): void {
     this.volleyballPosition = position;
   }
 }

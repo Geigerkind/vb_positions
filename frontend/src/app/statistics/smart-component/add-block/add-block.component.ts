@@ -65,6 +65,6 @@ export class AddBlockComponent {
 
   formatTargetPosition(): string {
     const target_position = this.formGroup.value.target_position;
-    return `X: ${target_position[0]}m | Y: ${target_position[1]}m`;
+    return `X: ${target_position[2]}m | Y: ${target_position[3]}m`;
   }
 }

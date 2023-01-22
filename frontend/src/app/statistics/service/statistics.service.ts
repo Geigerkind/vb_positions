@@ -102,7 +102,7 @@ export class StatisticsService {
     metadata_uuid: string,
     serve_type: ServeType,
     failure_type: FailureType,
-    target_position: [number, number] | null
+    target_position: [number, number, number, number] | null
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
@@ -130,7 +130,7 @@ export class StatisticsService {
     player_uuid: string,
     metadata_uuid: string,
     failure_type: FailureType,
-    target_position: [number, number] | null
+    target_position: [number, number, number, number] | null
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
@@ -157,7 +157,7 @@ export class StatisticsService {
     player_uuid: string,
     metadata_uuid: string,
     failure_type: FailureType,
-    target_position: [number, number] | null
+    target_position: [number, number, number, number] | null
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
@@ -185,7 +185,7 @@ export class StatisticsService {
     metadata_uuid: string,
     toss_type: TossType,
     failure_type: FailureType,
-    target_position: [number, number] | null
+    target_position: [number, number, number, number] | null
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);
@@ -213,7 +213,7 @@ export class StatisticsService {
     player_uuid: string,
     metadata_uuid: string,
     receive_type: ReceiveType,
-    target_position: [number, number] | null
+    target_position: [number, number, number, number] | null
   ): void {
     const uuid = this.findAndAddUniqueUUID(this._ballTouchesLookup, this._ballTouches.length);
     this._lastUsedPlayer = this.getPlayer(player_uuid);

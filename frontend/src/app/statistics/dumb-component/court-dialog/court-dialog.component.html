@@ -1,8 +1,8 @@
 <mat-dialog-content>
   <vpms-court [measureMode]="true" (volleyballPosition)="onVolleyballPositionChanged($event)"> </vpms-court>
   <div id="control_space">
-    <span>X: {{ volleyballPosition[0] }}m</span>
-    <span>Y: {{ volleyballPosition[1] }}m</span>
+    <span>X: {{ volleyballPosition[2] }}m&nbsp;|&nbsp;</span>
+    <span> Y: {{ volleyballPosition[3] }}m</span>
     <div style="margin-left: auto">
       <button mat-raised-button color="primary" type="button" (click)="abort()">
         {{ "statistics.courtDialog.abort" | translate }}

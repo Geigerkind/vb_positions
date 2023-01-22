@@ -24,7 +24,7 @@ export class CourtComponent implements AfterViewInit, OnChanges {
   @Output() onReady = new EventEmitter<CanvasRenderingContext2D>();
   @Output() onLineAdded = new EventEmitter<Line>();
   @Output() onLineErased = new EventEmitter<Line>();
-  @Output() volleyballPosition = new EventEmitter<[number, number]>();
+  @Output() volleyballPosition = new EventEmitter<[number, number, number, number]>();
 
   @ViewChild("field", { static: false })
   private fieldElement: ElementRef<HTMLCanvasElement>;
@@ -214,9 +214,11 @@ export class CourtComponent implements AfterViewInit, OnChanges {
     }
 
     const position = this._volleyball.getFieldPosition();
-    const new_origin = [225, 900];
+    const new_origin = [225, 1000];
 
     this.volleyballPosition.emit([
+      position.x,
+      position.y,
       Number(((position.x - new_origin[0]) / 1000).toFixed(2)),
       Number(((position.y - new_origin[1]) / 1000).toFixed(2)),
     ]);
