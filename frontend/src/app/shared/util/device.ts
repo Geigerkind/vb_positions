@@ -1,8 +1,8 @@
 export class Device {
   public static isMobileDevice(): boolean {
     return (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
-      "ontouchstart" in window
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(navigator.userAgent) ||
+      window.matchMedia("(max-width: 600px)").matches
     );
   }
 

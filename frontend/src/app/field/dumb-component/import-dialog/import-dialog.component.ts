@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 export class ImportDialogComponent implements OnInit {
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<ImportDialogComponent>) {}
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<ImportDialogComponent>) {}
 
   onSubmit(): void {
     const split = this.formGroup.value.link.split("?store=");

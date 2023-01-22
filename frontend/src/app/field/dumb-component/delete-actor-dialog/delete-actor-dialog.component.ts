@@ -13,7 +13,7 @@ export class DeleteActorDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<DeleteActorDialogComponent>,
+    public dialogRef: MatDialogRef<DeleteActorDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { actors: Actor[] }
   ) {}
 

@@ -7,6 +7,7 @@
     "statistics": "Statistics"
   },
   "field": {
+    "close": "Close dialog",
     "delete_actor": "Delete actor",
     "add_actor": "Add actor",
     "add_rotation": "Add rotation",

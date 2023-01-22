@@ -26,6 +26,7 @@ import { Line } from "../../shapes/line";
 import { CourtMode } from "../../value/court-mode";
 import { Square } from "../../shapes/square";
 import { CourtComponent } from "../../dumb-component/court/court.component";
+import { Device } from "../../../shared/util/device";
 
 @Component({
   selector: "vpms-field",
@@ -110,7 +111,10 @@ export class FieldComponent {
   }
 
   public onAddActorClicked(): void {
-    const dialogRef = this.matDialog.open(AddActorDialogComponent, { autoFocus: false });
+    const dialogRef = this.matDialog.open(AddActorDialogComponent, {
+      autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
+    });
     dialogRef.afterClosed().subscribe((actor: Actor) => {
       if (!actor) {
         return;
@@ -153,6 +157,7 @@ export class FieldComponent {
         actors: this.actors,
       },
       autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -170,6 +175,7 @@ export class FieldComponent {
         rotations: this.rotations,
       },
       autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -201,6 +207,7 @@ export class FieldComponent {
       data: {
         rotations: this.rotations,
       },
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
     });
     dialogRef.afterClosed().subscribe((result: { rotation: Rotation; add_before?: string }) => {
       if (!result) {
@@ -229,11 +236,15 @@ export class FieldComponent {
         rotations: this.rotations,
         current_rotation: this.rotation.UUID,
       } as ExportData,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
     });
   }
 
   onImportClicked(): void {
-    const dialogRef = this.matDialog.open(ImportDialogComponent, { autoFocus: false });
+    const dialogRef = this.matDialog.open(ImportDialogComponent, {
+      autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
+    });
     dialogRef.afterClosed().subscribe((storeId: string) => this.importLink(storeId));
   }
 

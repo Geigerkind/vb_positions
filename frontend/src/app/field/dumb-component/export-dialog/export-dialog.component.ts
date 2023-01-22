@@ -17,7 +17,7 @@ export class ExportDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<ExportDialogComponent>,
+    public dialogRef: MatDialogRef<ExportDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: ExportData,
     private store: AngularFirestore
   ) {}
