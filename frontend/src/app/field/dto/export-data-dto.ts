@@ -5,4 +5,5 @@ export interface ExportDataDto {
   actors: ActorDto[];
   rotations: RotationDto[];
   current_rotation: string;
+  version?: number;
 }

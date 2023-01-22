@@ -213,18 +213,12 @@ export class CourtComponent implements AfterViewInit, OnChanges {
       return;
     }
 
-    // When I implemented discrete coords, I forgot to add margin for the outer spaces
-    // So I have to convert the coordinates now instead of just dividing by 1000
     const position = this._volleyball.getFieldPosition();
-    const outer_space = 9000 * 0.025;
-    const enemy_space = 900;
-    const new_origin = [outer_space, enemy_space];
-    const x_coefficient = (9000 + outer_space * 2) / 9000;
-    const y_coefficient = (9000 + outer_space + enemy_space) / 9000;
+    const new_origin = [225, 900];
 
     this.volleyballPosition.emit([
-      Number((((position.x - new_origin[0]) / 1000) * x_coefficient).toFixed(2)),
-      Number((((position.y - new_origin[1]) / 1000) * y_coefficient).toFixed(2)),
+      Number(((position.x - new_origin[0]) / 1000).toFixed(2)),
+      Number(((position.y - new_origin[1]) / 1000).toFixed(2)),
     ]);
   }
 }

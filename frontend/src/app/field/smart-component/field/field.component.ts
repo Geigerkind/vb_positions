@@ -27,6 +27,7 @@ import { CourtMode } from "../../value/court-mode";
 import { Square } from "../../shapes/square";
 import { CourtComponent } from "../../dumb-component/court/court.component";
 import { Device } from "../../../shared/util/device";
+import { Shape } from "../../shapes/shape";
 
 @Component({
   selector: "vpms-field",
@@ -34,9 +35,11 @@ import { Device } from "../../../shared/util/device";
   styleUrls: ["./field.component.scss"],
 })
 export class FieldComponent {
+  private static VERSION: number = 2;
   private static LOCAL_STORAGE_KEY_ACTORS: string = "actors_storage";
   private static LOCAL_STORAGE_KEY_ROTATIONS: string = "rotations_storage";
   private static LOCAL_STORAGE_KEY_CURRENT_ROTATION: string = "current_rotation_uuid";
+  private static LOCAL_STORAGE_KEY_VERSION: string = "version";
 
   @ViewChild("court", { static: false })
   private court: CourtComponent;
@@ -89,11 +92,22 @@ export class FieldComponent {
       const current_rotation = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION) as
         | string
         | undefined;
+      const version = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_VERSION);
       if (rotationDtos && actorDtos && current_rotation) {
         this.actors = actorDtos.map(dto => Actor.fromDto(dto, this.context));
         this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto, this.context));
         this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === current_rotation)!;
         this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
+
+        if (!version || version < 2) {
+          this.actors.forEach(actor => {
+            const currentPosition = actor.shape.getFieldPosition();
+            actor.shape.setPosition(
+              (currentPosition.x + 225) * (this.context.canvas.width / Shape.FIELD_RESOLUTION_X),
+              (currentPosition.y + 900) * (this.context.canvas.height / Shape.FIELD_RESOLUTION_Y)
+            );
+          });
+        }
       } else {
         this.rotations = [new Rotation(new Position(1), "Default rotation")];
       }
@@ -266,6 +280,16 @@ export class FieldComponent {
         this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
         this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
 
+        if (!exportDataDto.version || exportDataDto.version < 2) {
+          this.actors.forEach(actor => {
+            const currentPosition = actor.shape.getFieldPosition();
+            actor.shape.setPosition(
+              (currentPosition.x + 225) * (this.context.canvas.width / Shape.FIELD_RESOLUTION_X),
+              (currentPosition.y + 900) * (this.context.canvas.height / Shape.FIELD_RESOLUTION_Y)
+            );
+          });
+        }
+
         this.court.render();
       });
   }
@@ -304,6 +328,7 @@ export class FieldComponent {
       FieldComponent.LOCAL_STORAGE_KEY_ACTORS,
       this.actors.map(actor => actor.toDto())
     );
+    LocalStorageService.store(FieldComponent.LOCAL_STORAGE_KEY_VERSION, FieldComponent.VERSION);
   }
 
   onLineAdded(line: Line): void {
