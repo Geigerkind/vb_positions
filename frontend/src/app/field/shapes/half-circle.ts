@@ -3,23 +3,24 @@ import { ShapeFieldPosition } from "../value/shape-field-position";
 import { ActorShape } from "./actor-shape";
 
 export class HalfCircle extends ActorShape {
-  private static RELATIVE_RADIUS: number = 0.018 * 3.2;
-  private static RADIUS_MAX: number = 50;
+  private static RADIUS: number = 40;
 
   constructor(actor: Actor, context: CanvasRenderingContext2D, field_positions?: Map<string, ShapeFieldPosition>) {
     super(actor, context, field_positions);
   }
 
-  get radius(): number {
-    return Math.min(
-      Math.max(this.context.canvas.width, this.context.canvas.height) * HalfCircle.RELATIVE_RADIUS,
-      HalfCircle.RADIUS_MAX
-    );
-  }
-
   drawShape(): void {
     this.context.beginPath();
-    this.context.arc(this.x, this.y, this.radius, 0, Math.PI, true);
+    this.context.ellipse(
+      this.x,
+      this.y,
+      HalfCircle.RADIUS * this.sizeCoefficientX(),
+      HalfCircle.RADIUS * this.sizeCoefficientY(),
+      0,
+      0,
+      Math.PI,
+      true
+    );
     this.context.fillStyle = ActorShape.ACTOR_COLOR;
     this.context.fill();
     this.context.setLineDash([]);
@@ -44,14 +45,18 @@ export class HalfCircle extends ActorShape {
     this.context.font = "20px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(this.actor.player_name, this.x, this.y + this.radius / 2);
+    this.context.fillText(
+      this.actor.player_name,
+      this.x,
+      this.y + (HalfCircle.RADIUS / 2) * this.sizeCoefficientY() + 3
+    );
   }
 
   isHit(clickX: number, clickY: number): boolean {
     return (
-      clickX >= this.x - this.radius &&
-      clickX <= this.x + this.radius &&
-      clickY >= this.y - this.radius &&
+      clickX >= this.x - HalfCircle.RADIUS * this.sizeCoefficientX() &&
+      clickX <= this.x + HalfCircle.RADIUS * this.sizeCoefficientX() &&
+      clickY >= this.y - HalfCircle.RADIUS * this.sizeCoefficientY() &&
       clickY <= this.y
     );
   }

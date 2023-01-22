@@ -6,6 +6,8 @@ import { ShapeFieldPositionDto } from "../dto/shape-field-position-dto";
 import { ActorShapeDto } from "../dto/actor-shape-dto";
 
 export abstract class ActorShape extends Shape {
+  protected static BASE_SIZE_RESOLUTION_X_1M_IN_PIXEL: number = 40;
+  protected static BASE_SIZE_RESOLUTION_Y_1M_IN_PIXEL: number = 76;
   protected static readonly ACTOR_COLOR: string = "#34abcd";
   protected rotationOffset: Position;
 
@@ -85,5 +87,13 @@ export abstract class ActorShape extends Shape {
 
   public removeRotation(uuid: string): void {
     this.fieldPositions.delete(uuid);
+  }
+
+  protected sizeCoefficientX(): number {
+    return this.context.canvas.width / 9 / ActorShape.BASE_SIZE_RESOLUTION_X_1M_IN_PIXEL;
+  }
+
+  protected sizeCoefficientY(): number {
+    return this.context.canvas.height / 10 / ActorShape.BASE_SIZE_RESOLUTION_Y_1M_IN_PIXEL;
   }
 }
