@@ -8,4 +8,5 @@ export interface BallTouch {
   touchType: BallTouchType;
   metaData: Metadata;
   addedAt: Date;
+  ballTouchUuid?: string;
 }

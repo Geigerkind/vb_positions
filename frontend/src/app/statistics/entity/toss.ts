@@ -7,5 +7,4 @@ export interface Toss extends BallTouch {
   tossType: TossType;
   failureType: FailureType;
   targetPoint?: TargetPoint;
-  ballTouch?: BallTouch;
 }

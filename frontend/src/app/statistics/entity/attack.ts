@@ -5,5 +5,4 @@ import { TargetPoint } from "../value/targetPoint";
 export interface Attack extends BallTouch {
   failureType: FailureType;
   targetPoint?: TargetPoint;
-  ballTouch?: BallTouch;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore } from "@angular/fire/compat/firestore";
+import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
 import { Player } from "../entity/player";
 import { generate_uuid } from "../../shared/util/generate_uuid";
 import { Metadata } from "../entity/metadata";
@@ -15,6 +15,9 @@ import { TossType } from "../value/tossType";
 import { Toss } from "../entity/toss";
 import { Attack } from "../entity/attack";
 import { Block } from "../entity/block";
+import { StatisticsStoreData } from "../dto/StatisticsStoreData";
+import { fromMetadata, fromMetadataDto } from "../dto/MetadataDto";
+import { Subscription } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -44,6 +47,9 @@ export class StatisticsService {
   private _lastUsedMetadata?: Metadata;
   private _filterPlayers: Player[] = [];
   private _filterLabels: string[] = [];
+
+  private document: AngularFirestoreDocument<StatisticsStoreData>;
+  private valueChangesSubscription: Subscription;
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;
@@ -103,8 +109,54 @@ export class StatisticsService {
 
   constructor(private angularFirestore: AngularFirestore) {}
 
+  private getFirestoreName(): string {
+    return `statistics_${this.teamName!.replace(" ", "_").replace(":", "_")}`;
+  }
+
+  private loadFirestoreData(statisticsStoreData?: StatisticsStoreData): void {
+    if (!statisticsStoreData) {
+      this._playersLookup = new Map<string, number>();
+      this._players = [];
+      this._metadataLookup = new Map<string, number>();
+      this._metadata = [];
+      this._ballTouchesLookup = new Map<string, number>();
+      this._ballTouches = [];
+      return;
+    }
+
+    for (let i = 0; i < statisticsStoreData.players.length; ++i) {
+      this._playersLookup.set(statisticsStoreData.players[i].uuid, i);
+    }
+
+    for (let i = 0; i < statisticsStoreData.metadata.length; ++i) {
+      this._metadataLookup.set(statisticsStoreData.metadata[i].uuid, i);
+    }
+
+    for (let i = 0; i < statisticsStoreData.ballTouches.length; ++i) {
+      this._ballTouchesLookup.set(statisticsStoreData.ballTouches[i].uuid, i);
+    }
+
+    this._players = statisticsStoreData.players;
+    this._metadata = statisticsStoreData.metadata.map(fromMetadataDto);
+    this._ballTouches = statisticsStoreData.ballTouches;
+  }
+
+  private saveToFirestore(): void {
+    this.document.set({
+      players: this._players,
+      metadata: this._metadata.map(fromMetadata),
+      ballTouches: this._ballTouches,
+    });
+  }
+
   viewTeam(teamName: string): void {
     this.currentTeamName = teamName;
+    if (this.valueChangesSubscription) {
+      this.valueChangesSubscription.unsubscribe();
+    }
+    this.document = this.angularFirestore.doc<StatisticsStoreData>(this.getFirestoreName());
+    this.document.get().subscribe(result => this.loadFirestoreData(result.data()));
+    this.valueChangesSubscription = this.document.valueChanges().subscribe(result => this.loadFirestoreData(result));
   }
 
   logout(): void {
@@ -133,6 +185,7 @@ export class StatisticsService {
       uuid,
       name: player_name,
     });
+    this.saveToFirestore();
   }
 
   addMetadata(labels: string[]): void {
@@ -141,6 +194,7 @@ export class StatisticsService {
       uuid,
       labels,
     });
+    this.saveToFirestore();
   }
 
   addServe(
@@ -171,8 +225,9 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
-      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
+      ballTouchUuid: ballTouch_uuid,
     } as Serve);
+    this.saveToFirestore();
   }
 
   addAttack(
@@ -201,8 +256,9 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
-      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
+      ballTouchUuid: ballTouch_uuid,
     } as Attack);
+    this.saveToFirestore();
   }
 
   addBlock(
@@ -231,8 +287,9 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
-      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
+      ballTouchUuid: ballTouch_uuid,
     } as Block);
+    this.saveToFirestore();
   }
 
   addToss(
@@ -263,8 +320,9 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
-      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
+      ballTouchUuid: ballTouch_uuid,
     } as Toss);
+    this.saveToFirestore();
   }
 
   addReceive(
@@ -293,8 +351,9 @@ export class StatisticsService {
               x: target_position[0],
               y: target_position[1],
             } as TargetPoint),
-      ballTouch: ballTouch_uuid ? this.getBallTouch(ballTouch_uuid) : undefined,
+      ballTouchUuid: ballTouch_uuid,
     } as Receive);
+    this.saveToFirestore();
   }
 
   private getMetadata(uuid: string): Metadata {

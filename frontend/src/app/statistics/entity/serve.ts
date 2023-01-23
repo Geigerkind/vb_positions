@@ -7,5 +7,4 @@ export interface Serve extends BallTouch {
   serveType: ServeType;
   failureType: FailureType;
   targetPoint?: TargetPoint;
-  ballTouch?: BallTouch;
 }

@@ -5,5 +5,4 @@ import { TargetPoint } from "../value/targetPoint";
 export interface Receive extends BallTouch {
   receiveType: ReceiveType;
   targetPoint: TargetPoint;
-  ballTouch?: BallTouch;
 }

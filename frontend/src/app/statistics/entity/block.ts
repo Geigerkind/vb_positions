@@ -5,5 +5,4 @@ import { FailureType } from "../value/failureType";
 export interface Block extends BallTouch {
   failureType: FailureType;
   targetPoint?: TargetPoint;
-  ballTouch?: BallTouch;
 }
