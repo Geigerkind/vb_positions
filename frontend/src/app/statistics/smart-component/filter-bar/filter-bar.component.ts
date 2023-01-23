@@ -14,8 +14,8 @@ export class FilterBarComponent {
 
   constructor(formBuilder: FormBuilder, public statisticsService: StatisticsService) {
     this.formGroup = formBuilder.group({
-      players: [statisticsService.filterPlayers.map(player => player.uuid)],
-      labels: [statisticsService.filterLabels],
+      players: [],
+      labels: [],
     });
     this.formGroup.valueChanges.subscribe(values => {
       if (values.players) {
@@ -25,6 +25,13 @@ export class FilterBarComponent {
         this.statisticsService.setCurrentFilterLabels(values.labels);
       }
       this.onFilterChanged.emit();
+    });
+
+    statisticsService.filterLabels.subscribe(labels => {
+      (this.formGroup.controls as any).labels.setValue(labels);
+    });
+    statisticsService.filterPlayers.subscribe(players => {
+      (this.formGroup.controls as any).players.setValue(players.map(p => p.uuid));
     });
   }
 }

@@ -17,8 +17,9 @@ import { Attack } from "../entity/attack";
 import { Block } from "../entity/block";
 import { StatisticsStoreData } from "../dto/StatisticsStoreData";
 import { fromMetadata, fromMetadataDto } from "../dto/MetadataDto";
-import { Subscription } from "rxjs";
-import { Router } from "@angular/router";
+import { distinctUntilChanged, Observable, ReplaySubject, Subject, Subscription } from "rxjs";
+import { Router, UrlSerializer } from "@angular/router";
+import { Location } from "@angular/common";
 
 @Injectable({
   providedIn: "root",
@@ -38,6 +39,8 @@ export class StatisticsService {
   private _lastUsedMetadata?: Metadata;
   private _filterPlayers: Player[] = [];
   private _filterLabels: string[] = [];
+  private _filterPlayersSubject: Subject<Player[]> = new ReplaySubject();
+  private _filterLabelsSubject: Subject<string[]> = new ReplaySubject();
 
   private collection: AngularFirestoreCollection<StatisticsStoreData>;
   private document: AngularFirestoreDocument<StatisticsStoreData>;
@@ -63,20 +66,36 @@ export class StatisticsService {
     return this._metadata;
   }
 
-  get filterPlayers(): Player[] {
-    return this._filterPlayers;
+  private loadFilterParams(): void {
+    const searchParams = new URLSearchParams(window.location.search);
+    const players = searchParams.get("players");
+    if (players) {
+      this._filterPlayers = this._players.filter(p => players.includes(p.uuid));
+      this._filterPlayersSubject.next(this._filterPlayers);
+    }
+    const labels = searchParams.get("labels");
+    if (labels) {
+      this._filterLabels = labels.split(",");
+      this._filterLabelsSubject.next(this._filterLabels);
+    }
   }
 
-  get filterLabels(): string[] {
-    return this._filterLabels;
+  get filterPlayers(): Observable<Player[]> {
+    this.loadFilterParams();
+    return this._filterPlayersSubject.asObservable().pipe(distinctUntilChanged());
+  }
+
+  get filterLabels(): Observable<string[]> {
+    this.loadFilterParams();
+    return this._filterLabelsSubject.asObservable().pipe(distinctUntilChanged());
   }
 
   get filteredBallTouches(): BallTouch[] {
-    const player_uuids = this.filterPlayers.map(p => p.uuid);
+    const player_uuids = this._filterPlayers.map(p => p.uuid);
     return this._ballTouches.filter(
       bt =>
         player_uuids.includes(bt.playerUuid) &&
-        this.getMetadata(bt.metaDataUuid).labels.some(label => this.filterLabels.includes(label))
+        this.getMetadata(bt.metaDataUuid).labels.some(label => this._filterLabels.includes(label))
     );
   }
 
@@ -101,7 +120,12 @@ export class StatisticsService {
     return this._ballTouches.slice(-10);
   }
 
-  constructor(private angularFirestore: AngularFirestore, private router: Router) {
+  constructor(
+    private angularFirestore: AngularFirestore,
+    private router: Router,
+    private location: Location,
+    private serializer: UrlSerializer
+  ) {
     this.loadQueryParams();
   }
 
@@ -135,6 +159,8 @@ export class StatisticsService {
     this._players = statisticsStoreData.players;
     this._metadata = statisticsStoreData.metadata.map(fromMetadataDto);
     this._ballTouches = statisticsStoreData.ballTouches.map(bt => ({ ...bt, addedAt: new Date(bt.addedAt) }));
+
+    this.loadFilterParams();
   }
 
   private saveToFirestore(): void {
@@ -168,6 +194,7 @@ export class StatisticsService {
       return;
     }
     this.viewTeam(teamName);
+    this.loadFilterParams();
   }
 
   isTeamSet(): boolean {
@@ -179,12 +206,32 @@ export class StatisticsService {
     return this._players.length > 0 && this._metadata.length > 0;
   }
 
+  private setFilterParams(): void {
+    const urlTree = this.router.createUrlTree([], {
+      queryParams: { players: this._filterPlayers.map(p => p.uuid).join(","), labels: this._filterLabels.join(",") },
+      queryParamsHandling: "merge",
+    });
+    this.location.go(this.serializer.serialize(urlTree));
+  }
+
   setCurrentFilterPlayers(player_uuids: string[]): void {
+    if (this._filterPlayers.map(p => p.uuid).join(",") === player_uuids.join(",")) {
+      return;
+    }
+
     this._filterPlayers = this._players.filter(player => player_uuids.includes(player.uuid));
+    this._filterPlayersSubject.next(this._filterPlayers);
+    this.setFilterParams();
   }
 
   setCurrentFilterLabels(labels: string[]): void {
+    if (this._filterLabels.join(",") === labels.join(",")) {
+      return;
+    }
+
     this._filterLabels = labels;
+    this._filterLabelsSubject.next(this._filterLabels);
+    this.setFilterParams();
   }
 
   addPlayer(player_name: string): void {
