@@ -1,16 +1,17 @@
 <vpms-sidebar>
   <div id="container">
-    <button mat-raised-button routerLink="/statistics/add_data/player">
+    <button mat-raised-button routerLink="/statistics/add_data/player" queryParamsHandling="merge">
       <mat-icon>person</mat-icon>
       {{ "statistics.addMenu.player" | translate }}
     </button>
-    <button mat-raised-button routerLink="/statistics/add_data/metadata">
+    <button mat-raised-button routerLink="/statistics/add_data/metadata" queryParamsHandling="merge">
       <mat-icon>description</mat-icon>
       {{ "statistics.addMenu.metadata" | translate }}
     </button>
     <button
       mat-raised-button
       routerLink="/statistics/add_data/serve"
+      queryParamsHandling="merge"
       [title]="'statistics.addMenu.requirement' | translate"
       [disabled]="!statisticsService.hasPlayersAndMetadata()"
     >
@@ -20,6 +21,7 @@
     <button
       mat-raised-button
       routerLink="/statistics/add_data/receive"
+      queryParamsHandling="merge"
       [title]="'statistics.addMenu.requirement' | translate"
       [disabled]="!statisticsService.hasPlayersAndMetadata()"
     >
@@ -29,6 +31,7 @@
     <button
       mat-raised-button
       routerLink="/statistics/add_data/toss"
+      queryParamsHandling="merge"
       [title]="'statistics.addMenu.requirement' | translate"
       [disabled]="!statisticsService.hasPlayersAndMetadata()"
     >
@@ -38,6 +41,7 @@
     <button
       mat-raised-button
       routerLink="/statistics/add_data/attack"
+      queryParamsHandling="merge"
       [title]="'statistics.addMenu.requirement' | translate"
       [disabled]="!statisticsService.hasPlayersAndMetadata()"
     >
@@ -47,6 +51,7 @@
     <button
       mat-raised-button
       routerLink="/statistics/add_data/block"
+      queryParamsHandling="merge"
       [title]="'statistics.addMenu.requirement' | translate"
       [disabled]="!statisticsService.hasPlayersAndMetadata()"
     >

@@ -5,6 +5,6 @@ export interface BallTouch {
   playerUuid: string;
   touchType: BallTouchType;
   metaDataUuid: string;
-  addedAt: Date;
+  addedAt: Date | string;
   ballTouchUuid?: string;
 }

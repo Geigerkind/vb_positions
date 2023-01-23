@@ -21,7 +21,7 @@
   <button mat-raised-button color="primary" type="button" [disabled]="labels.length === 0" (click)="onSubmit()">
     {{ "statistics.add" | translate }}
   </button>
-  <button mat-raised-button color="primary" type="button" routerLink="/statistics/add_data">
+  <button mat-raised-button color="primary" type="button" routerLink="/statistics/add_data" queryParamsHandling="merge">
     {{ "statistics.back" | translate }}
   </button>
 </div>

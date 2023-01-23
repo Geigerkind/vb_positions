@@ -9,7 +9,7 @@
   <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
     {{ "statistics.add" | translate }}
   </button>
-  <button mat-raised-button color="primary" type="button" routerLink="/statistics/add_data">
+  <button mat-raised-button color="primary" type="button" routerLink="/statistics/add_data" queryParamsHandling="merge">
     {{ "statistics.back" | translate }}
   </button>
 </form>

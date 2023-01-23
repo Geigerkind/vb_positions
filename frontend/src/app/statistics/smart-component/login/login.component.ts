@@ -19,6 +19,9 @@ export class LoginComponent {
 
   onViewStatistics(): void {
     this.statisticsService.viewTeam(this.formGroup.value.team_name);
-    this.router.navigate(["/statistics"]);
+    this.router.navigate(["/statistics"], {
+      queryParams: { team_name: this.statisticsService.teamName },
+      queryParamsHandling: "merge",
+    });
   }
 }

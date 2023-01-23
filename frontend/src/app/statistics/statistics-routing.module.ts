@@ -17,7 +17,7 @@ import { ReceivesComponent } from "./smart-component/receives/receives.component
 
 const routes: Routes = [
   {
-    path: "dashboard",
+    path: "",
     component: DashboardComponent,
     canActivate: [IsTeamSetGuardService],
   },

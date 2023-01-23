@@ -40,7 +40,11 @@ export class BalltouchFormFieldComponent implements OnInit {
         break;
     }
 
-    return `${balltouch.addedAt.getHours()}:${balltouch.addedAt.getMinutes()}:${balltouch.addedAt.getSeconds()} ${balltouch.addedAt.getDay()}:${balltouch.addedAt.getMonth()}:${balltouch.addedAt.getFullYear()}: ${prefix} - ${
+    return `${(balltouch.addedAt as Date).getHours()}:${(balltouch.addedAt as Date).getMinutes()}:${(
+      balltouch.addedAt as Date
+    ).getSeconds()} ${(balltouch.addedAt as Date).getDate()}:${(balltouch.addedAt as Date).getMonth() + 1}:${(
+      balltouch.addedAt as Date
+    ).getFullYear()}: ${prefix} - ${
       this.statisticsService.getPlayer(balltouch.playerUuid).name
     } - ${this.statisticsService.getMetadata(balltouch.metaDataUuid).labels.join(", ")}`;
   }

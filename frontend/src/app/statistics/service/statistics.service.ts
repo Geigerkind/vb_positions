@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from "@angular/fire/compat/firestore";
 import { Player } from "../entity/player";
 import { generate_uuid } from "../../shared/util/generate_uuid";
 import { Metadata } from "../entity/metadata";
@@ -18,28 +18,19 @@ import { Block } from "../entity/block";
 import { StatisticsStoreData } from "../dto/StatisticsStoreData";
 import { fromMetadata, fromMetadataDto } from "../dto/MetadataDto";
 import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
 })
 export class StatisticsService {
-  private currentTeamName?: string = "TODO REMOVE!";
-  private _players: Player[] = [
-    {
-      uuid: "UUID",
-      name: "Some Player",
-    },
-  ];
+  private currentTeamName?: string;
+  private _players: Player[] = [];
 
-  private _playersLookup: Map<string, number> = new Map([[this._players[0].uuid, 0]]);
-  private _metadata: Metadata[] = [
-    {
-      uuid: "MDATA",
-      labels: ["Some", "labels"],
-    },
-  ];
+  private _playersLookup: Map<string, number> = new Map();
+  private _metadata: Metadata[] = [];
 
-  private _metadataLookup: Map<string, number> = new Map([[this._metadata[0].uuid, 0]]);
+  private _metadataLookup: Map<string, number> = new Map();
   private _ballTouches: BallTouch[] = [];
   private _ballTouchesLookup: Map<string, number> = new Map();
 
@@ -48,6 +39,7 @@ export class StatisticsService {
   private _filterPlayers: Player[] = [];
   private _filterLabels: string[] = [];
 
+  private collection: AngularFirestoreCollection<StatisticsStoreData>;
   private document: AngularFirestoreDocument<StatisticsStoreData>;
   private valueChangesSubscription: Subscription;
 
@@ -109,13 +101,12 @@ export class StatisticsService {
     return this._ballTouches.slice(-10);
   }
 
-  constructor(private angularFirestore: AngularFirestore) {
-    // TODO: Url parsing fuer team name
-    // TODO: Url setting fuer team name
+  constructor(private angularFirestore: AngularFirestore, private router: Router) {
+    this.loadQueryParams();
   }
 
   private getFirestoreName(): string {
-    return `statistics_${this.teamName!.replace(" ", "_").replace(":", "_")}`;
+    return `statistics/${this.teamName!.replace(" ", "_").replace(":", "_")}`;
   }
 
   private loadFirestoreData(statisticsStoreData?: StatisticsStoreData): void {
@@ -143,19 +134,21 @@ export class StatisticsService {
 
     this._players = statisticsStoreData.players;
     this._metadata = statisticsStoreData.metadata.map(fromMetadataDto);
-    this._ballTouches = statisticsStoreData.ballTouches;
+    this._ballTouches = statisticsStoreData.ballTouches.map(bt => ({ ...bt, addedAt: new Date(bt.addedAt) }));
   }
 
   private saveToFirestore(): void {
     this.document.set({
       players: this._players,
       metadata: this._metadata.map(fromMetadata),
-      ballTouches: this._ballTouches,
+      ballTouches: this._ballTouches.map(bt => ({ ...bt, addedAt: (bt.addedAt as Date).toISOString() })),
     });
   }
 
   viewTeam(teamName: string): void {
     this.currentTeamName = teamName;
+
+    this.collection = this.angularFirestore.collection("statistics");
     if (this.valueChangesSubscription) {
       this.valueChangesSubscription.unsubscribe();
     }
@@ -168,7 +161,17 @@ export class StatisticsService {
     this.currentTeamName = undefined;
   }
 
+  private loadQueryParams(): void {
+    const searchParams = new URLSearchParams(window.location.search);
+    const teamName = searchParams.get("team_name");
+    if (!teamName || this.teamName === teamName) {
+      return;
+    }
+    this.viewTeam(teamName);
+  }
+
   isTeamSet(): boolean {
+    this.loadQueryParams();
     return !!this.currentTeamName;
   }
 
