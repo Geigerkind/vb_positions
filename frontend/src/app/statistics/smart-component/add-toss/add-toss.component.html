@@ -1,9 +1,6 @@
 <form [formGroup]="formGroup" (submit)="onSubmit()">
   <h1>{{ "statistics.addToss.title" | translate }}</h1>
-  <vpms-balltouch-form-field
-    [formGroup]="formGroup"
-    [balltouches]="statisticsService.previousBallTouches"
-  ></vpms-balltouch-form-field>
+  <vpms-balltouch-form-field [formGroup]="formGroup"></vpms-balltouch-form-field>
   <vpms-players-form-field [formGroup]="formGroup" [players]="statisticsService.players"></vpms-players-form-field>
   <vpms-metadata-form-field [formGroup]="formGroup" [metadatas]="statisticsService.metadata"></vpms-metadata-form-field>
   <h3>{{ "statistics.addToss.toss_type" | translate }}</h3>

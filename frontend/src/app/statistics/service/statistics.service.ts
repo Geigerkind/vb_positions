@@ -82,7 +82,9 @@ export class StatisticsService {
   get filteredBallTouches(): BallTouch[] {
     const player_uuids = this.filterPlayers.map(p => p.uuid);
     return this._ballTouches.filter(
-      bt => player_uuids.includes(bt.player.uuid) && bt.metaData.labels.some(label => this.filterLabels.includes(label))
+      bt =>
+        player_uuids.includes(bt.playerUuid) &&
+        this.getMetadata(bt.metaDataUuid).labels.some(label => this.filterLabels.includes(label))
     );
   }
 
@@ -107,7 +109,10 @@ export class StatisticsService {
     return this._ballTouches.slice(-10);
   }
 
-  constructor(private angularFirestore: AngularFirestore) {}
+  constructor(private angularFirestore: AngularFirestore) {
+    // TODO: Url parsing fuer team name
+    // TODO: Url setting fuer team name
+  }
 
   private getFirestoreName(): string {
     return `statistics_${this.teamName!.replace(" ", "_").replace(":", "_")}`;
@@ -215,8 +220,8 @@ export class StatisticsService {
       touchType: BallTouchType.Serve,
       addedAt: new Date(),
       failureType: failure_type,
-      metaData: this.getMetadata(metadata_uuid),
-      player: this.getPlayer(player_uuid),
+      metaDataUuid: metadata_uuid,
+      playerUuid: player_uuid,
       serveType: serve_type,
       targetPoint:
         target_position === null
@@ -247,8 +252,8 @@ export class StatisticsService {
       touchType: BallTouchType.Attack,
       addedAt: new Date(),
       failureType: failure_type,
-      metaData: this.getMetadata(metadata_uuid),
-      player: this.getPlayer(player_uuid),
+      metaDataUuid: metadata_uuid,
+      playerUuid: player_uuid,
       targetPoint:
         target_position === null
           ? undefined
@@ -278,8 +283,8 @@ export class StatisticsService {
       touchType: BallTouchType.Attack,
       addedAt: new Date(),
       failureType: failure_type,
-      metaData: this.getMetadata(metadata_uuid),
-      player: this.getPlayer(player_uuid),
+      metaDataUuid: metadata_uuid,
+      playerUuid: player_uuid,
       targetPoint:
         target_position === null
           ? undefined
@@ -309,8 +314,8 @@ export class StatisticsService {
       uuid,
       touchType: BallTouchType.Toss,
       addedAt: new Date(),
-      metaData: this.getMetadata(metadata_uuid),
-      player: this.getPlayer(player_uuid),
+      metaDataUuid: metadata_uuid,
+      playerUuid: player_uuid,
       tossType: toss_type,
       failureType: failure_type,
       targetPoint:
@@ -341,8 +346,8 @@ export class StatisticsService {
       uuid,
       touchType: BallTouchType.Receive,
       addedAt: new Date(),
-      player: this.getPlayer(player_uuid),
-      metaData: this.getMetadata(metadata_uuid),
+      playerUuid: player_uuid,
+      metaDataUuid: metadata_uuid,
       receiveType: receive_type,
       targetPoint:
         target_position === null
@@ -356,15 +361,15 @@ export class StatisticsService {
     this.saveToFirestore();
   }
 
-  private getMetadata(uuid: string): Metadata {
+  getMetadata(uuid: string): Metadata {
     return this._metadata[this._metadataLookup.get(uuid)!];
   }
 
-  private getPlayer(uuid: string): Player {
+  getPlayer(uuid: string): Player {
     return this._players[this._playersLookup.get(uuid)!];
   }
 
-  private getBallTouch(uuid: string): BallTouch {
+  getBallTouch(uuid: string): BallTouch {
     return this._ballTouches[this._ballTouchesLookup.get(uuid)!];
   }
 

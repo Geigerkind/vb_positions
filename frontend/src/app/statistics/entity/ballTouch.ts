@@ -1,12 +1,10 @@
-import { Player } from "./player";
 import { BallTouchType } from "../value/ballTouchType";
-import { Metadata } from "./metadata";
 
 export interface BallTouch {
   uuid: string;
-  player: Player;
+  playerUuid: string;
   touchType: BallTouchType;
-  metaData: Metadata;
+  metaDataUuid: string;
   addedAt: Date;
   ballTouchUuid?: string;
 }
