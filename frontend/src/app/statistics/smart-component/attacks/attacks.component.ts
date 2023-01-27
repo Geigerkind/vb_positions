@@ -1,15 +1,15 @@
 import { Component, ViewChild } from "@angular/core";
 import { StatisticsService } from "../../service/statistics.service";
 import { FormGroup } from "@angular/forms";
-import { ReceiveGraph } from "../../graphs/ReceiveGraph";
 import { CourtComponent } from "../../../field/dumb-component/court/court.component";
+import { PositionGraph } from "../../graphs/PositionGraph";
 
 @Component({
-  selector: "vpms-receives",
-  templateUrl: "./receives.component.html",
-  styleUrls: ["./receives.component.scss"],
+  selector: "vpms-attacks",
+  templateUrl: "./attacks.component.html",
+  styleUrls: ["./attacks.component.scss"],
 })
-export class ReceivesComponent {
+export class AttacksComponent {
   @ViewChild("court", { static: false })
   private court: CourtComponent;
 
@@ -18,16 +18,16 @@ export class ReceivesComponent {
     this.customRender();
   };
 
-  private receiveGraph: ReceiveGraph;
+  private positionGraph: PositionGraph;
   private context: CanvasRenderingContext2D;
 
   constructor(public statisticsService: StatisticsService) {}
 
   onReady(context: CanvasRenderingContext2D): void {
     this.context = context;
-    this.receiveGraph = new ReceiveGraph(
+    this.positionGraph = new PositionGraph(
       context,
-      this.statisticsService.filteredReceives.map(r => r.targetPoint)
+      this.statisticsService.filteredAttacks.filter(r => !!r.targetPoint).map(r => r.targetPoint!)
     );
   }
 
@@ -37,8 +37,8 @@ export class ReceivesComponent {
   }
 
   customRender(): void {
-    if (this.receiveGraph) {
-      this.receiveGraph.draw();
+    if (this.positionGraph) {
+      this.positionGraph.draw();
     }
   }
 }

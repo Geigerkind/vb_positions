@@ -2,5 +2,6 @@
   <div class="container">
     <h1>{{ "statistics.dashboard.title" | translate }}</h1>
     <vpms-filter-bar></vpms-filter-bar>
+    <vpms-receive-table [rowData$]="statisticsService.receiveStatistics"></vpms-receive-table>
   </div>
 </vpms-sidebar>

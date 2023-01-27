@@ -20,6 +20,7 @@ import { fromMetadata, fromMetadataDto } from "../dto/MetadataDto";
 import { distinctUntilChanged, Observable, ReplaySubject, Subject, Subscription } from "rxjs";
 import { Router, UrlSerializer } from "@angular/router";
 import { Location } from "@angular/common";
+import { PlayerReceiveStatistics } from "../value/playerReceiveStatistics";
 
 @Injectable({
   providedIn: "root",
@@ -45,6 +46,8 @@ export class StatisticsService {
   private collection: AngularFirestoreCollection<StatisticsStoreData>;
   private document: AngularFirestoreDocument<StatisticsStoreData>;
   private valueChangesSubscription: Subscription;
+
+  private _receiveStatistics$: Subject<PlayerReceiveStatistics[]> = new ReplaySubject();
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;
@@ -94,13 +97,74 @@ export class StatisticsService {
     const player_uuids = this._filterPlayers.map(p => p.uuid);
     return this._ballTouches.filter(
       bt =>
-        player_uuids.includes(bt.playerUuid) &&
-        this.getMetadata(bt.metaDataUuid).labels.some(label => this._filterLabels.includes(label))
+        (player_uuids.length === 0 || player_uuids.includes(bt.playerUuid)) &&
+        (this._filterLabels.length === 0 ||
+          this.getMetadata(bt.metaDataUuid).labels.some(label => this._filterLabels.includes(label)))
     );
   }
 
   get filteredReceives(): Receive[] {
     return this.filteredBallTouches.filter(bt => bt.touchType === BallTouchType.Receive) as Receive[];
+  }
+
+  get filteredServes(): Serve[] {
+    return this.filteredBallTouches.filter(bt => bt.touchType === BallTouchType.Serve) as Serve[];
+  }
+
+  get filteredTosses(): Toss[] {
+    return this.filteredBallTouches.filter(bt => bt.touchType === BallTouchType.Toss) as Toss[];
+  }
+
+  get filteredAttacks(): Attack[] {
+    return this.filteredBallTouches.filter(bt => bt.touchType === BallTouchType.Attack) as Attack[];
+  }
+
+  get filteredBlocks(): Block[] {
+    return this.filteredBallTouches.filter(bt => bt.touchType === BallTouchType.Block) as Block[];
+  }
+
+  get receiveStatistics(): Observable<PlayerReceiveStatistics[]> {
+    return this._receiveStatistics$.asObservable();
+  }
+
+  get _receiveStatistics(): PlayerReceiveStatistics[] {
+    return [
+      ...this.filteredReceives
+        .reduce((acc, item) => {
+          if (!acc.has(item.playerUuid)) {
+            acc.set(item.playerUuid, {
+              player_name: this.getPlayer(item.playerUuid).name,
+              receives_total: 0,
+              receives_that_connected: 0,
+              receives_2m: 0,
+              receives_4_5m: 0,
+              receives_more_than_4_5m: 0,
+            });
+          }
+          const playerStatistics = acc.get(item.playerUuid)!;
+          ++playerStatistics.receives_total;
+
+          if (item.ballTouchUuid) {
+            ++playerStatistics.receives_that_connected;
+          }
+
+          const radius = Math.sqrt(
+            (item.targetPoint.x - 6725) * (item.targetPoint.x - 6725) +
+              (item.targetPoint.y - 1000) * (item.targetPoint.y - 1000)
+          );
+          const over_net = item.targetPoint.y < 1000;
+          if (radius <= 2250 && !over_net) {
+            ++playerStatistics.receives_2m;
+          } else if (radius <= 4612.5 && !over_net) {
+            ++playerStatistics.receives_4_5m;
+          } else {
+            ++playerStatistics.receives_more_than_4_5m;
+          }
+
+          return acc;
+        }, new Map<string, PlayerReceiveStatistics>())
+        .values(),
+    ];
   }
 
   get labels(): string[] {
@@ -161,6 +225,7 @@ export class StatisticsService {
     this._ballTouches = statisticsStoreData.ballTouches.map(bt => ({ ...bt, addedAt: new Date(bt.addedAt) }));
 
     this.loadFilterParams();
+    this.reloadState();
   }
 
   private saveToFirestore(): void {
@@ -169,6 +234,7 @@ export class StatisticsService {
       metadata: this._metadata.map(fromMetadata),
       ballTouches: this._ballTouches.map(bt => ({ ...bt, addedAt: (bt.addedAt as Date).toISOString() })),
     });
+    this.reloadState();
   }
 
   viewTeam(teamName: string): void {
@@ -212,6 +278,7 @@ export class StatisticsService {
       queryParamsHandling: "merge",
     });
     this.location.go(this.serializer.serialize(urlTree));
+    this.reloadState();
   }
 
   setCurrentFilterPlayers(player_uuids: string[]): void {
@@ -222,6 +289,7 @@ export class StatisticsService {
     this._filterPlayers = this._players.filter(player => player_uuids.includes(player.uuid));
     this._filterPlayersSubject.next(this._filterPlayers);
     this.setFilterParams();
+    this.reloadState();
   }
 
   setCurrentFilterLabels(labels: string[]): void {
@@ -232,6 +300,7 @@ export class StatisticsService {
     this._filterLabels = labels;
     this._filterLabelsSubject.next(this._filterLabels);
     this.setFilterParams();
+    this.reloadState();
   }
 
   addPlayer(player_name: string): void {
@@ -330,7 +399,7 @@ export class StatisticsService {
     this._ballTouchesLookup.set(uuid, this._ballTouches.length);
     this._ballTouches.push({
       uuid,
-      touchType: BallTouchType.Attack,
+      touchType: BallTouchType.Block,
       addedAt: new Date(),
       failureType: failure_type,
       metaDataUuid: metadata_uuid,
@@ -430,5 +499,9 @@ export class StatisticsService {
     }
     lookupTable.set(uuid, index);
     return uuid;
+  }
+
+  private reloadState(): void {
+    this._receiveStatistics$.next(this._receiveStatistics);
   }
 }

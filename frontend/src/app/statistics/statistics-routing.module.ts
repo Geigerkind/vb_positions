@@ -14,6 +14,10 @@ import { AddTossComponent } from "./smart-component/add-toss/add-toss.component"
 import { AddAttackComponent } from "./smart-component/add-attack/add-attack.component";
 import { AddBlockComponent } from "./smart-component/add-block/add-block.component";
 import { ReceivesComponent } from "./smart-component/receives/receives.component";
+import { ServesComponent } from "./smart-component/serves/serves.component";
+import { TossesComponent } from "./smart-component/tosses/tosses.component";
+import { AttacksComponent } from "./smart-component/attacks/attacks.component";
+import { BlocksComponent } from "./smart-component/blocks/blocks.component";
 
 const routes: Routes = [
   {
@@ -29,6 +33,26 @@ const routes: Routes = [
   {
     path: "receives",
     component: ReceivesComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "serves",
+    component: ServesComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "tosses",
+    component: TossesComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "attacks",
+    component: AttacksComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "blocks",
+    component: BlocksComponent,
     canActivate: [IsTeamSetGuardService],
   },
   {

@@ -15,3 +15,14 @@ but it provides a basic set of tools to analyze the volleyball gameplay of a tea
 * View data summary for each action
 * Dynamically filter data by source player, target player and labels
 * Share the data
+
+## TODO
+* Statistiken bauen
+* Actor pro Rotation
+* Rotation ohne Position
+* Reset button for positioning
+* Delete for statistics
+* Target filter player
+* Quick Statistics:
+    * Schnelle erhebung von Daten für Spieler
+    * Punkt/Fehler(Receive,Angriff,Block,Zuspiel,Position)

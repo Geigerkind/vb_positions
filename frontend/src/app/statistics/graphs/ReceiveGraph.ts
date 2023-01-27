@@ -1,6 +1,6 @@
-import { Shape } from "../../../field/shapes/shape";
-import { ShapeDto } from "../../../field/dto/shape-dto";
-import { TargetPoint } from "../../value/targetPoint";
+import { Shape } from "../../field/shapes/shape";
+import { ShapeDto } from "../../field/dto/shape-dto";
+import { TargetPoint } from "../value/targetPoint";
 
 export class ReceiveGraph extends Shape {
   private best: number = 0;

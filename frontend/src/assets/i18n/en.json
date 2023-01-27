@@ -80,8 +80,8 @@
   "statistics": {
     "dashboard": {
       "title": "Dashboard",
-      "players": "Select players",
-      "labels": "Select labels",
+      "players": "Filter players",
+      "labels": "Filter labels",
       "receives": "Receive positions"
     },
     "back": "Back",
@@ -95,7 +95,11 @@
       "logout": "Logout",
       "addData": "Add data",
       "dashboard": "View dashboard",
-      "receives": "Receives"
+      "receives": "Receives",
+      "serves": "Serves",
+      "tosses": "Tosses",
+      "attacks": "Attacks",
+      "blocks": "Blocks"
     },
     "addMenu": {
       "player": "Player",

@@ -30,6 +30,12 @@ import { TargetPositionFormFieldComponent } from "./dumb-component/target-positi
 import { BalltouchFormFieldComponent } from "./smart-component/balltouch-form-field/balltouch-form-field.component";
 import { FilterBarComponent } from "./smart-component/filter-bar/filter-bar.component";
 import { ReceivesComponent } from "./smart-component/receives/receives.component";
+import { ServesComponent } from "./smart-component/serves/serves.component";
+import { TossesComponent } from "./smart-component/tosses/tosses.component";
+import { AttacksComponent } from "./smart-component/attacks/attacks.component";
+import { BlocksComponent } from "./smart-component/blocks/blocks.component";
+import { AgGridModule } from "ag-grid-angular";
+import { ReceiveTableComponent } from "./dumb-component/receive-table/receive-table.component";
 
 @NgModule({
   declarations: [
@@ -52,6 +58,11 @@ import { ReceivesComponent } from "./smart-component/receives/receives.component
     BalltouchFormFieldComponent,
     FilterBarComponent,
     ReceivesComponent,
+    ServesComponent,
+    TossesComponent,
+    AttacksComponent,
+    BlocksComponent,
+    ReceiveTableComponent,
   ],
   imports: [
     StatisticsRoutingModule,
@@ -66,6 +77,7 @@ import { ReceivesComponent } from "./smart-component/receives/receives.component
     MatGridListModule,
     FieldModule,
     MatButtonToggleModule,
+    AgGridModule,
   ],
 })
 export class StatisticsModule {}

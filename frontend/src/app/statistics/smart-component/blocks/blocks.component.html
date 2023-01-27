@@ -1,0 +1,7 @@
+<vpms-sidebar>
+  <div class="container">
+    <h1>{{ "statistics.dashboard.receives" | translate }}</h1>
+    <vpms-filter-bar (onFilterChanged)="onFilterChanged()"></vpms-filter-bar>
+    <vpms-court #court [customRender]="onCustomRender" (onReady)="onReady($event)"></vpms-court>
+  </div>
+</vpms-sidebar>
