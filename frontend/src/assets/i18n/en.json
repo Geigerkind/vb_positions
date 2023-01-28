@@ -91,7 +91,12 @@
       "title": "Dashboard",
       "players": "Filter players",
       "labels": "Filter labels",
-      "receives": "Receive positions"
+      "receives": "Receives",
+      "serves": "Serves",
+      "tosses": "Tosses",
+      "blocks": "Blocks",
+      "attacks": "Attacks",
+      "quicks": "Quick statistics"
     },
     "back": "Back",
     "add": "Add",
@@ -108,7 +113,8 @@
       "serves": "Serves",
       "tosses": "Tosses",
       "attacks": "Attacks",
-      "blocks": "Blocks"
+      "blocks": "Blocks",
+      "quick": "Quick statistics"
     },
     "addMenu": {
       "player": "Player",

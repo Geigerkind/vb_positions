@@ -64,11 +64,11 @@ export class ReceiveGraph extends Shape {
     this.targetPoints.forEach(point => this.drawBall(point.x, point.y));
 
     // Labels
-    this.context.font = "40px Roboto";
+    this.context.font = "28px Roboto";
     this.context.fillStyle = "white";
     this.context.textAlign = "center";
     this.context.fillText(this.getPercentage(this.best), this.fromDiscreteX(6725), this.fromDiscreteY(700));
-    this.context.fillText(this.getPercentage(this.middle), this.fromDiscreteX(3225), this.fromDiscreteY(700));
+    this.context.fillText(this.getPercentage(this.middle), this.fromDiscreteX(3725), this.fromDiscreteY(700));
     this.context.fillText(this.getPercentage(this.worst), this.fromDiscreteX(1225), this.fromDiscreteY(700));
   }
 

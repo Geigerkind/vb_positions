@@ -1,8 +1,17 @@
 :host {
-  display: block;
-}
-
-.filter_bar {
   display: flex;
   flex-direction: row;
+
+  mat-form-field:not(:first-child) {
+    margin-left: 1rem;
+  }
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+
+    mat-form-field {
+      width: 100%;
+      margin-left: 0 !important;
+    }
+  }
 }

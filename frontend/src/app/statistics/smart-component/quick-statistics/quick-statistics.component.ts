@@ -2,10 +2,10 @@ import { Component } from "@angular/core";
 import { StatisticsService } from "../../service/statistics.service";
 
 @Component({
-  selector: "vpms-dashboard",
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.scss"],
+  selector: "vpms-quick-statistics",
+  templateUrl: "./quick-statistics.component.html",
+  styleUrls: ["./quick-statistics.component.scss"],
 })
-export class DashboardComponent {
+export class QuickStatisticsComponent {
   constructor(public statisticsService: StatisticsService) {}
 }

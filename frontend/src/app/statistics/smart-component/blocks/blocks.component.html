@@ -1,7 +1,21 @@
 <vpms-sidebar>
   <div class="container">
-    <h1>{{ "statistics.dashboard.receives" | translate }}</h1>
-    <vpms-filter-bar (onFilterChanged)="onFilterChanged()"></vpms-filter-bar>
-    <vpms-court #court [customRender]="onCustomRender" (onReady)="onReady($event)"></vpms-court>
+    <div class="navbar">
+      <h1>{{ "statistics.dashboard.blocks" | translate }}</h1>
+      <vpms-filter-bar (onFilterChanged)="onFilterChanged()"></vpms-filter-bar>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Blocks data table </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Blocks graph </mat-panel-title>
+        </mat-expansion-panel-header>
+        <vpms-court #court [customRender]="onCustomRender" (onReady)="onReady($event)"></vpms-court>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
 </vpms-sidebar>

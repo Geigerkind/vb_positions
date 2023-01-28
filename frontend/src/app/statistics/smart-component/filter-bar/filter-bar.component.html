@@ -5,7 +5,7 @@
       <mat-option *ngFor="let player of statisticsService.players" [value]="player.uuid">{{ player.name }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field style="margin-left: 1rem">
+  <mat-form-field>
     <mat-label>{{ "statistics.dashboard.labels" | translate }}</mat-label>
     <mat-select formControlName="labels" multiple>
       <mat-option *ngFor="let label of statisticsService.labels" [value]="label">{{ label }}</mat-option>

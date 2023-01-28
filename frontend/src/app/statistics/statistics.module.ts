@@ -8,7 +8,7 @@ import { CommonModule } from "@angular/common";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { LoginComponent } from "./smart-component/login/login.component";
-import { DashboardComponent } from "./smart-component/dashboard/dashboard.component";
+import { QuickStatisticsComponent } from "./smart-component/quick-statistics/quick-statistics.component";
 import { SidebarComponent } from "./smart-component/sidebar/sidebar.component";
 import { AddDataMenuComponent } from "./smart-component/addDataMenu/addDataMenu.component";
 import { AddPlayerComponent } from "./smart-component/add-player/add-player.component";
@@ -40,11 +40,12 @@ import { ServeTableComponent } from "./dumb-component/serve-table/serve-table.co
 import { AddQuickComponent } from "./smart-component/add-quick/add-quick.component";
 import { QuickTableComponent } from "./dumb-component/quick-table/quick-table.component";
 import { TouchCountFormFieldComponent } from "./dumb-component/touch-count-form-field/touch-count-form-field.component";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
     LoginComponent,
-    DashboardComponent,
+    QuickStatisticsComponent,
     SidebarComponent,
     AddDataMenuComponent,
     AddPlayerComponent,
@@ -86,6 +87,7 @@ import { TouchCountFormFieldComponent } from "./dumb-component/touch-count-form-
     FieldModule,
     MatButtonToggleModule,
     AgGridModule,
+    MatExpansionModule,
   ],
 })
 export class StatisticsModule {}

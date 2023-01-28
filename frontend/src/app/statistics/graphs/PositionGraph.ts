@@ -74,7 +74,7 @@ export class PositionGraph extends Shape {
     this.context.strokeStyle = "#003300";
     this.context.stroke();
 
-    this.context.font = "40px Roboto";
+    this.context.font = "30px Roboto";
     this.context.fillStyle = "white";
     this.context.textAlign = "center";
     this.context.fillText(

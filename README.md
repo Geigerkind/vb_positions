@@ -17,12 +17,11 @@ but it provides a basic set of tools to analyze the volleyball gameplay of a tea
 * Share the data
 
 ## TODO
+* Seitenaufrufe tracken
+* Storage einmal resetten
+* Show returned in graphs
 * Statistiken bauen
-* Actor pro Rotation
-* Rotation ohne Position
-* Reset button for positioning
 * Delete for statistics
 * Target filter player
-* Quick Statistics:
-    * Schnelle erhebung von Daten für Spieler
-    * Punkt/Fehler(Receive,Angriff,Block,Zuspiel,Position)
+* Tempo in Graph for toss darstellen?
+* Graphs for kill/soft block

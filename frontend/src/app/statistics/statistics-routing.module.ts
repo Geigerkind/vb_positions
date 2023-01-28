@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { LoginComponent } from "./smart-component/login/login.component";
 import { IsTeamNotSetGuardService } from "./guard/isTeamNotSet.guard.service";
-import { DashboardComponent } from "./smart-component/dashboard/dashboard.component";
+import { QuickStatisticsComponent } from "./smart-component/quick-statistics/quick-statistics.component";
 import { IsTeamSetGuardService } from "./guard/isTeamSet.guard.service";
 import { AddDataMenuComponent } from "./smart-component/addDataMenu/addDataMenu.component";
 import { AddPlayerComponent } from "./smart-component/add-player/add-player.component";
@@ -23,12 +23,17 @@ import { AddQuickComponent } from "./smart-component/add-quick/add-quick.compone
 const routes: Routes = [
   {
     path: "",
-    component: DashboardComponent,
+    redirectTo: "add_data",
     canActivate: [IsTeamSetGuardService],
   },
   {
     path: "add_data",
     component: AddDataMenuComponent,
+    canActivate: [IsTeamSetGuardService],
+  },
+  {
+    path: "quick_statistics",
+    component: QuickStatisticsComponent,
     canActivate: [IsTeamSetGuardService],
   },
   {

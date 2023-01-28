@@ -1,12 +1,17 @@
 <mat-sidenav-container>
   <mat-sidenav mode="over" #sidenav>
-    <button mat-stroked-button routerLink="/statistics" routerLinkActive="toggled" queryParamsHandling="merge">
-      <mat-icon>bar_chart</mat-icon>
-      {{ "statistics.sidebar.dashboard" | translate }}
-    </button>
     <button mat-stroked-button routerLink="/statistics/add_data" routerLinkActive="toggled" queryParamsHandling="merge">
       <mat-icon>add</mat-icon>
       {{ "statistics.sidebar.addData" | translate }}
+    </button>
+    <button
+      mat-stroked-button
+      routerLink="/statistics/quick_statistics"
+      routerLinkActive="toggled"
+      queryParamsHandling="merge"
+    >
+      <mat-icon>bar_chart</mat-icon>
+      {{ "statistics.sidebar.quick" | translate }}
     </button>
     <button mat-stroked-button routerLink="/statistics/receives" routerLinkActive="toggled" queryParamsHandling="merge">
       <mat-icon>shield</mat-icon>
