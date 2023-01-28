@@ -10,6 +10,16 @@
     </button>
     <button
       mat-raised-button
+      routerLink="/statistics/add_data/quick"
+      queryParamsHandling="merge"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
+      <mat-icon>access_time</mat-icon>
+      {{ "statistics.addMenu.quick" | translate }}
+    </button>
+    <button
+      mat-raised-button
       routerLink="/statistics/add_data/serve"
       queryParamsHandling="merge"
       [title]="'statistics.addMenu.requirement' | translate"

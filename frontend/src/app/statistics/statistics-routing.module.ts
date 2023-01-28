@@ -18,6 +18,7 @@ import { ServesComponent } from "./smart-component/serves/serves.component";
 import { TossesComponent } from "./smart-component/tosses/tosses.component";
 import { AttacksComponent } from "./smart-component/attacks/attacks.component";
 import { BlocksComponent } from "./smart-component/blocks/blocks.component";
+import { AddQuickComponent } from "./smart-component/add-quick/add-quick.component";
 
 const routes: Routes = [
   {
@@ -88,6 +89,11 @@ const routes: Routes = [
   {
     path: "add_data/block",
     component: AddBlockComponent,
+    canActivate: [IsTeamSetGuardService, HasPlayersAndMetadataGuardService],
+  },
+  {
+    path: "add_data/quick",
+    component: AddQuickComponent,
     canActivate: [IsTeamSetGuardService, HasPlayersAndMetadataGuardService],
   },
   {

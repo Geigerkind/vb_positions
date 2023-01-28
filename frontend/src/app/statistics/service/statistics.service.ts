@@ -22,6 +22,9 @@ import { Router, UrlSerializer } from "@angular/router";
 import { Location } from "@angular/common";
 import { ReceiveStatistics } from "../value/receiveStatistics";
 import { ServeStatisticByServeType, ServeStatistics } from "../value/serveStatistics";
+import { QuickActionType } from "../value/quickActionType";
+import { Quick } from "../entity/Quick";
+import { QuickStatistics } from "../value/quickStatistics";
 
 @Injectable({
   providedIn: "root",
@@ -37,6 +40,9 @@ export class StatisticsService {
   private _ballTouches: BallTouch[] = [];
   private _ballTouchesLookup: Map<string, number> = new Map();
 
+  private _quicks: Quick[] = [];
+  private _quicksLookup: Map<string, number> = new Map();
+
   private _lastUsedPlayer?: Player;
   private _lastUsedMetadata?: Metadata;
   private _filterPlayers: Player[] = [];
@@ -50,6 +56,7 @@ export class StatisticsService {
 
   private _receiveStatistics$: Subject<ReceiveStatistics[]> = new ReplaySubject();
   private _serveStatistics$: Subject<ServeStatistics[]> = new ReplaySubject();
+  private _quickStatistics$: Subject<QuickStatistics[]> = new ReplaySubject();
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;
@@ -125,12 +132,26 @@ export class StatisticsService {
     return this.filteredBallTouches.filter(bt => bt.touchType === BallTouchType.Block) as Block[];
   }
 
-  get receiveStatistics(): Observable<ReceiveStatistics[]> {
+  get filteredQuicks(): Quick[] {
+    const player_uuids = this._filterPlayers.map(p => p.uuid);
+    return this._quicks.filter(
+      quick =>
+        (player_uuids.length === 0 || player_uuids.includes(quick.player_uuid)) &&
+        (this._filterLabels.length === 0 ||
+          this.getMetadata(quick.metadata_uuid).labels.some(label => this._filterLabels.includes(label)))
+    );
+  }
+
+  getReceiveStatistics(): Observable<ReceiveStatistics[]> {
     return this._receiveStatistics$.asObservable();
   }
 
   getServeStatistics(): Observable<ServeStatistics[]> {
     return this._serveStatistics$.asObservable();
+  }
+
+  getQuickStatistics(): Observable<QuickStatistics[]> {
+    return this._quickStatistics$.asObservable();
   }
 
   get _receiveStatistics(): ReceiveStatistics[] {
@@ -169,6 +190,53 @@ export class StatisticsService {
 
           return acc;
         }, new Map<string, ReceiveStatistics>())
+        .values(),
+    ];
+  }
+
+  get _quickStatistics(): QuickStatistics[] {
+    return [
+      ...this.filteredQuicks
+        .reduce((acc, item) => {
+          if (!acc.has(item.player_uuid)) {
+            acc.set(item.player_uuid, {
+              player_name: this.getPlayer(item.player_uuid).name,
+              scored: 0,
+              failed_attack: 0,
+              failed_block: 0,
+              failed_position: 0,
+              failed_receive: 0,
+              failed_serve: 0,
+              failed_toss: 0,
+            });
+          }
+          const statistics = acc.get(item.player_uuid)!;
+          switch (item.quick_action_type) {
+            case QuickActionType.Scored:
+              ++statistics.scored;
+              break;
+            case QuickActionType.FailedServe:
+              ++statistics.failed_serve;
+              break;
+            case QuickActionType.FailedBlock:
+              ++statistics.failed_block;
+              break;
+            case QuickActionType.FailedToss:
+              ++statistics.failed_toss;
+              break;
+            case QuickActionType.FailedAttack:
+              ++statistics.failed_attack;
+              break;
+            case QuickActionType.FailedPosition:
+              ++statistics.failed_position;
+              break;
+            case QuickActionType.FailedReceive:
+              ++statistics.failed_receive;
+              break;
+          }
+
+          return acc;
+        }, new Map<string, QuickStatistics>())
         .values(),
     ];
   }
@@ -304,6 +372,8 @@ export class StatisticsService {
       this._metadata = [];
       this._ballTouchesLookup = new Map<string, number>();
       this._ballTouches = [];
+      this._quicksLookup = new Map<string, number>();
+      this._quicks = [];
       return;
     }
 
@@ -326,6 +396,7 @@ export class StatisticsService {
       addedAt: new Date(bt.addedAt),
       targetPoint: (bt as any).targetPoint === "NULL" ? undefined : (bt as any).targetPoint,
     }));
+    this._quicks = statisticsStoreData.quicks;
 
     this.loadFilterParams();
     this.reloadState();
@@ -340,6 +411,7 @@ export class StatisticsService {
         addedAt: (bt.addedAt as Date).toISOString(),
         targetPoint: (bt as any).targetPoint ? (bt as any).targetPoint : "NULL",
       })),
+      quicks: this._quicks,
     });
     this.reloadState();
   }
@@ -424,6 +496,20 @@ export class StatisticsService {
     this._metadata.push({
       uuid,
       labels,
+    });
+    this.saveToFirestore();
+  }
+
+  addQuick(player_uuid: string, metadata_uuid: string, quick_action_type: QuickActionType): void {
+    const uuid = this.findAndAddUniqueUUID(this._quicksLookup, this._quicks.length);
+    this._lastUsedPlayer = this.getPlayer(player_uuid);
+    this._lastUsedMetadata = this.getMetadata(metadata_uuid);
+
+    this._quicks.push({
+      uuid,
+      player_uuid,
+      metadata_uuid,
+      quick_action_type,
     });
     this.saveToFirestore();
   }
@@ -599,6 +685,10 @@ export class StatisticsService {
     return this._ballTouches[this._ballTouchesLookup.get(uuid)!];
   }
 
+  getQuick(uuid: string): Quick {
+    return this._quicks[this._quicksLookup.get(uuid)!];
+  }
+
   private findAndAddUniqueUUID(lookupTable: Map<string, number>, index: number): string {
     let uuid = generate_uuid(32);
     while (lookupTable.has(uuid)) {
@@ -611,5 +701,6 @@ export class StatisticsService {
   private reloadState(): void {
     this._receiveStatistics$.next(this._receiveStatistics);
     this._serveStatistics$.next(this._serveStatistics);
+    this._quickStatistics$.next(this._quickStatistics);
   }
 }

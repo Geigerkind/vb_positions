@@ -37,6 +37,8 @@ import { BlocksComponent } from "./smart-component/blocks/blocks.component";
 import { AgGridModule } from "ag-grid-angular";
 import { ReceiveTableComponent } from "./dumb-component/receive-table/receive-table.component";
 import { ServeTableComponent } from "./dumb-component/serve-table/serve-table.component";
+import { AddQuickComponent } from "./smart-component/add-quick/add-quick.component";
+import { QuickTableComponent } from "./dumb-component/quick-table/quick-table.component";
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { ServeTableComponent } from "./dumb-component/serve-table/serve-table.co
     AddTossComponent,
     AddAttackComponent,
     AddBlockComponent,
+    AddQuickComponent,
     CourtDialogComponent,
     PlayersFormFieldComponent,
     MetadataFormFieldComponent,
@@ -65,6 +68,7 @@ import { ServeTableComponent } from "./dumb-component/serve-table/serve-table.co
     BlocksComponent,
     ReceiveTableComponent,
     ServeTableComponent,
+    QuickTableComponent,
   ],
   imports: [
     StatisticsRoutingModule,

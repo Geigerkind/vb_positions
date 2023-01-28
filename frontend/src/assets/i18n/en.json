@@ -118,6 +118,7 @@
       "toss": "Toss",
       "attack": "Attack",
       "block": "Block",
+      "quick": "Quick statistics",
       "requirement": "Requires at least one player and one metadata entry"
     },
     "addPlayer": {
@@ -154,6 +155,16 @@
     "target": {
       "title": "Select impact point",
       "placeholder": "Select impact point..."
+    },
+    "addQuick": {
+      "title": "Quick statistics",
+      "scored": "Scored",
+      "failedPosition": "Stood at the wrong position",
+      "failedAttack": "Failed attack",
+      "failedBlock": "Failed block",
+      "failedToss": "Failed toss",
+      "failedReceive": "Failed receive",
+      "failedServe": "Failed serve"
     },
     "addServe": {
       "title": "Add serve",

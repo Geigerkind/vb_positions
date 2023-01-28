@@ -2,7 +2,8 @@
   <div class="container">
     <h1>{{ "statistics.dashboard.title" | translate }}</h1>
     <vpms-filter-bar></vpms-filter-bar>
-    <vpms-receive-table [rowData$]="statisticsService.receiveStatistics"></vpms-receive-table>
+    <vpms-quick-table [rowData$]="statisticsService.getQuickStatistics()"></vpms-quick-table>
+    <vpms-receive-table [rowData$]="statisticsService.getReceiveStatistics()"></vpms-receive-table>
     <vpms-serve-table [rowData$]="statisticsService.getServeStatistics()"></vpms-serve-table>
   </div>
 </vpms-sidebar>
