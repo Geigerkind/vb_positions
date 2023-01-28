@@ -1,4 +1,5 @@
 export enum TossType {
-  SHOT,
-  PARABOLIC,
+  Overhand,
+  Dig,
+  Jump,
 }

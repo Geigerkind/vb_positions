@@ -16,6 +16,7 @@ export class AddAttackComponent {
       ballTouch_uuid: null,
       player_uuid: [statisticsService.lastUsedPlayer?.uuid, Validators.required],
       metadata_uuid: [statisticsService.lastUsedMetadata?.uuid, Validators.required],
+      touch_count: [null, Validators.required],
       failure_type: [null, Validators.required],
       target_position: null,
     });
@@ -26,6 +27,7 @@ export class AddAttackComponent {
     this.statisticsService.addAttack(
       values.player_uuid,
       values.metadata_uuid,
+      values.touch_count,
       values.failure_type,
       values.target_position,
       values.ballTouch_uuid

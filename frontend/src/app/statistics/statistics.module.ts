@@ -39,6 +39,7 @@ import { ReceiveTableComponent } from "./dumb-component/receive-table/receive-ta
 import { ServeTableComponent } from "./dumb-component/serve-table/serve-table.component";
 import { AddQuickComponent } from "./smart-component/add-quick/add-quick.component";
 import { QuickTableComponent } from "./dumb-component/quick-table/quick-table.component";
+import { TouchCountFormFieldComponent } from "./dumb-component/touch-count-form-field/touch-count-form-field.component";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { QuickTableComponent } from "./dumb-component/quick-table/quick-table.co
     FailureTypeFormFieldComponent,
     TargetPositionFormFieldComponent,
     BalltouchFormFieldComponent,
+    TouchCountFormFieldComponent,
     FilterBarComponent,
     ReceivesComponent,
     ServesComponent,

@@ -152,6 +152,12 @@
       "blocked": "Blocked",
       "other": "Other"
     },
+    "touch_count": {
+      "title": "Which touch was it?",
+      "first_touch": "First touch",
+      "second_touch": "Second touch",
+      "third_touch": "Third touch"
+    },
     "target": {
       "title": "Select impact point",
       "placeholder": "Select impact point..."
@@ -177,15 +183,36 @@
     },
     "addToss": {
       "title": "Add toss",
-      "toss_type": "What kind of toss?",
-      "shot": "Shot",
-      "parabolic": "Parabolic"
+      "tossType": {
+        "title": "What kind of toss?",
+        "overhand": "Overhand",
+        "dig": "Dig",
+        "jump": "Jump"
+      },
+      "tossDirection": {
+        "title": "What direction relative to face direction?",
+        "front": "Front",
+        "back": "Back",
+        "sideways": "Sideways"
+      },
+      "tossTempo": {
+        "title": "What kind of tempo?",
+        "tempo_0": "Tempo 0",
+        "tempo_1": "Tempo 1",
+        "tempo_2": "Tempo 2",
+        "tempo_3": "Tempo 3"
+      }
     },
     "addAttack": {
       "title": "Add attack"
     },
     "addBlock": {
-      "title": "Add block"
+      "title": "Add block",
+      "blockType": {
+        "title": "What kind of block?",
+        "kill_block": "Kill block",
+        "soft_block": "Soft block"
+      }
     },
     "addReceive": {
       "title": "Add Receive",

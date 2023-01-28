@@ -1,0 +1,14 @@
+<h3>{{ "statistics.touch_count.title" | translate }}</h3>
+<ng-container [formGroup]="formGroup">
+  <mat-button-toggle-group formControlName="touch_count">
+    <mat-button-toggle [value]="TouchCount.First_Touch">{{
+      "statistics.touch_count.first_touch" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="TouchCount.Second_Touch">{{
+      "statistics.touch_count.second_touch" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="TouchCount.Third_Touch">{{
+      "statistics.touch_count.third_touch" | translate
+    }}</mat-button-toggle>
+  </mat-button-toggle-group>
+</ng-container>

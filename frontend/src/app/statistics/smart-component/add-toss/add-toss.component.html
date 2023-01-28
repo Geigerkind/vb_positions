@@ -3,10 +3,41 @@
   <vpms-balltouch-form-field [formGroup]="formGroup"></vpms-balltouch-form-field>
   <vpms-players-form-field [formGroup]="formGroup" [players]="statisticsService.players"></vpms-players-form-field>
   <vpms-metadata-form-field [formGroup]="formGroup" [metadatas]="statisticsService.metadata"></vpms-metadata-form-field>
-  <h3>{{ "statistics.addToss.toss_type" | translate }}</h3>
+  <vpms-touch-count-form-field [formGroup]="formGroup"></vpms-touch-count-form-field>
+  <h3>{{ "statistics.addToss.tossType.title" | translate }}</h3>
   <mat-button-toggle-group formControlName="toss_type">
-    <mat-button-toggle [value]="TossType.SHOT">{{ "statistics.addToss.shot" | translate }}</mat-button-toggle>
-    <mat-button-toggle [value]="TossType.PARABOLIC">{{ "statistics.addToss.parabolic" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="TossType.Overhand">{{
+      "statistics.addToss.tossType.overhand" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="TossType.Dig">{{ "statistics.addToss.tossType.dig" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="TossType.Jump">{{ "statistics.addToss.tossType.jump" | translate }}</mat-button-toggle>
+  </mat-button-toggle-group>
+  <h3>{{ "statistics.addToss.tossDirection.title" | translate }}</h3>
+  <mat-button-toggle-group formControlName="toss_direction">
+    <mat-button-toggle [value]="TossDirection.Front">{{
+      "statistics.addToss.tossDirection.front" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="TossDirection.Back">{{
+      "statistics.addToss.tossDirection.back" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="TossDirection.Sideways">{{
+      "statistics.addToss.tossDirection.sideways" | translate
+    }}</mat-button-toggle>
+  </mat-button-toggle-group>
+  <h3>{{ "statistics.addToss.tossTempo.title" | translate }}</h3>
+  <mat-button-toggle-group formControlName="toss_tempo">
+    <mat-button-toggle [value]="TossTempo.Tempo_0">{{
+      "statistics.addToss.tossTempo.tempo_0" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="TossTempo.Tempo_1">{{
+      "statistics.addToss.tossTempo.tempo_1" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="TossTempo.Tempo_2">{{
+      "statistics.addToss.tossTempo.tempo_2" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="TossTempo.Tempo_3">{{
+      "statistics.addToss.tossTempo.tempo_3" | translate
+    }}</mat-button-toggle>
   </mat-button-toggle-group>
   <vpms-failure-type-form-field [formGroup]="formGroup"></vpms-failure-type-form-field>
   <vpms-target-position-form-field [formGroup]="formGroup"></vpms-target-position-form-field>

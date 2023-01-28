@@ -25,6 +25,10 @@ import { ServeStatisticByServeType, ServeStatistics } from "../value/serveStatis
 import { QuickActionType } from "../value/quickActionType";
 import { Quick } from "../entity/Quick";
 import { QuickStatistics } from "../value/quickStatistics";
+import { TouchCount } from "../value/touchCount";
+import { TossDirection } from "../value/tossDirection";
+import { TossTempo } from "../value/tossTempo";
+import { BlockType } from "../value/blockType";
 
 @Injectable({
   providedIn: "root",
@@ -277,7 +281,9 @@ export class StatisticsService {
           const fillByTypeStatistics: any = (it: Serve, statistics: ServeStatisticByServeType) => {
             if (it.failureType === FailureType.NONE_TECHNICAL) {
               ++statistics.success;
-              // TODO: Returned
+              if (this.ballTouchLeadsToReturn(it)) {
+                ++statistics.returned;
+              }
             } else if (it.failureType === FailureType.Net) {
               ++statistics.net;
             } else if (it.failureType === FailureType.Out) {
@@ -345,6 +351,42 @@ export class StatisticsService {
         }
         return acc;
       }, []);
+  }
+
+  private ballTouchLeadsToReturn(ballTouch: BallTouch): boolean {
+    if (!ballTouch.ballTouchUuid) {
+      return false;
+    }
+
+    const bt1 = this.getBallTouch(ballTouch.ballTouchUuid);
+    if (
+      bt1.touchType === BallTouchType.Attack &&
+      !!(bt1 as Attack).targetPoint &&
+      bt1.touchCount === TouchCount.First_Touch
+    ) {
+      return true;
+    } else if (!bt1.ballTouchUuid) {
+      return false;
+    }
+
+    const bt2 = this.getBallTouch(bt1.ballTouchUuid);
+    if (
+      (bt2.touchType === BallTouchType.Attack &&
+        !!(bt2 as Attack).targetPoint &&
+        bt2.touchCount === TouchCount.Second_Touch) ||
+      bt2.touchCount === TouchCount.First_Touch
+    ) {
+      return true;
+    } else if (!bt2.ballTouchUuid) {
+      return false;
+    }
+
+    const bt3 = this.getBallTouch(bt2.ballTouchUuid);
+    if (bt3.touchCount === TouchCount.Third_Touch) {
+      return true;
+    }
+
+    return false;
   }
 
   get previousBallTouches(): BallTouch[] {
@@ -530,6 +572,7 @@ export class StatisticsService {
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Serve,
+      touchCount: TouchCount.First_Touch,
       addedAt: new Date(),
       failureType: failure_type,
       metaDataUuid: metadata_uuid,
@@ -550,6 +593,7 @@ export class StatisticsService {
   addAttack(
     player_uuid: string,
     metadata_uuid: string,
+    touch_count: TouchCount,
     failure_type: FailureType,
     target_position: [number, number, number, number] | null,
     ballTouch_uuid?: string
@@ -566,6 +610,7 @@ export class StatisticsService {
       failureType: failure_type,
       metaDataUuid: metadata_uuid,
       playerUuid: player_uuid,
+      touchCount: touch_count,
       targetPoint:
         target_position === null
           ? undefined
@@ -581,6 +626,7 @@ export class StatisticsService {
   addBlock(
     player_uuid: string,
     metadata_uuid: string,
+    block_type: BlockType,
     failure_type: FailureType,
     target_position: [number, number, number, number] | null,
     ballTouch_uuid?: string
@@ -593,10 +639,12 @@ export class StatisticsService {
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Block,
+      touchCount: TouchCount.Block_Touch,
       addedAt: new Date(),
       failureType: failure_type,
       metaDataUuid: metadata_uuid,
       playerUuid: player_uuid,
+      blockType: block_type,
       targetPoint:
         target_position === null
           ? undefined
@@ -612,7 +660,10 @@ export class StatisticsService {
   addToss(
     player_uuid: string,
     metadata_uuid: string,
+    touch_count: TouchCount,
     toss_type: TossType,
+    toss_direction: TossDirection,
+    toss_tempo: TossTempo,
     failure_type: FailureType,
     target_position: [number, number, number, number] | null,
     ballTouch_uuid?: string
@@ -628,7 +679,10 @@ export class StatisticsService {
       addedAt: new Date(),
       metaDataUuid: metadata_uuid,
       playerUuid: player_uuid,
+      touchCount: touch_count,
       tossType: toss_type,
+      tossDirection: toss_direction,
+      tossTempo: toss_tempo,
       failureType: failure_type,
       targetPoint:
         target_position === null
@@ -657,6 +711,7 @@ export class StatisticsService {
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Receive,
+      touchCount: TouchCount.First_Touch,
       addedAt: new Date(),
       playerUuid: player_uuid,
       metaDataUuid: metadata_uuid,
