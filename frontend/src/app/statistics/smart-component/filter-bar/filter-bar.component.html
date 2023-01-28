@@ -1,7 +1,13 @@
 <ng-container [formGroup]="formGroup">
   <mat-form-field>
-    <mat-label>{{ "statistics.dashboard.players" | translate }}</mat-label>
-    <mat-select formControlName="players" multiple>
+    <mat-label>{{ "statistics.dashboard.players_source" | translate }}</mat-label>
+    <mat-select formControlName="players_source" multiple>
+      <mat-option *ngFor="let player of statisticsService.players" [value]="player.uuid">{{ player.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ "statistics.dashboard.players_target" | translate }}</mat-label>
+    <mat-select formControlName="players_target" multiple>
       <mat-option *ngFor="let player of statisticsService.players" [value]="player.uuid">{{ player.name }}</mat-option>
     </mat-select>
   </mat-form-field>

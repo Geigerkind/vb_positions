@@ -14,12 +14,16 @@ export class FilterBarComponent {
 
   constructor(formBuilder: FormBuilder, public statisticsService: StatisticsService) {
     this.formGroup = formBuilder.group({
-      players: [],
+      players_source: [],
+      players_target: [],
       labels: [],
     });
     this.formGroup.valueChanges.subscribe(values => {
-      if (values.players) {
-        this.statisticsService.setCurrentFilterPlayers(values.players);
+      if (values.players_source) {
+        this.statisticsService.setCurrentFilterPlayersSource(values.players_source);
+      }
+      if (values.players_target) {
+        this.statisticsService.setCurrentFilterPlayersTarget(values.players_target);
       }
       if (values.labels) {
         this.statisticsService.setCurrentFilterLabels(values.labels);
@@ -30,8 +34,11 @@ export class FilterBarComponent {
     statisticsService.filterLabels.subscribe(labels => {
       (this.formGroup.controls as any).labels.setValue(labels);
     });
-    statisticsService.filterPlayers.subscribe(players => {
-      (this.formGroup.controls as any).players.setValue(players.map(p => p.uuid));
+    statisticsService.filterPlayersSource.subscribe(players => {
+      (this.formGroup.controls as any).players_source.setValue(players.map(p => p.uuid));
+    });
+    statisticsService.filterPlayersTarget.subscribe(players => {
+      (this.formGroup.controls as any).players_target.setValue(players.map(p => p.uuid));
     });
   }
 }

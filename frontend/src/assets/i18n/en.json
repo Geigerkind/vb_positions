@@ -89,7 +89,8 @@
   "statistics": {
     "dashboard": {
       "title": "Dashboard",
-      "players": "Filter players",
+      "players_source": "Filter source players",
+      "players_target": "Filter target players",
       "labels": "Filter labels",
       "receives": "Receives",
       "serves": "Serves",

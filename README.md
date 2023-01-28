@@ -22,6 +22,5 @@ but it provides a basic set of tools to analyze the volleyball gameplay of a tea
 * Show returned in graphs
 * Statistiken bauen
 * Delete for statistics
-* Target filter player
 * Tempo in Graph for toss darstellen?
 * Graphs for kill/soft block

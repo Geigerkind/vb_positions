@@ -43,15 +43,18 @@ export class StatisticsService {
   private _metadataLookup: Map<string, number> = new Map();
   private _ballTouches: BallTouch[] = [];
   private _ballTouchesLookup: Map<string, number> = new Map();
+  private _ballTouchesReverseLookup: Map<string, number> = new Map();
 
   private _quicks: Quick[] = [];
   private _quicksLookup: Map<string, number> = new Map();
 
   private _lastUsedPlayer?: Player;
   private _lastUsedMetadata?: Metadata;
-  private _filterPlayers: Player[] = [];
+  private _filterPlayersSource: Player[] = [];
+  private _filterPlayersTarget: Player[] = [];
   private _filterLabels: string[] = [];
-  private _filterPlayersSubject: Subject<Player[]> = new ReplaySubject();
+  private _filterPlayersTargetSubject: Subject<Player[]> = new ReplaySubject();
+  private _filterPlayersSourceSubject: Subject<Player[]> = new ReplaySubject();
   private _filterLabelsSubject: Subject<string[]> = new ReplaySubject();
 
   private collection: AngularFirestoreCollection<StatisticsStoreData>;
@@ -84,10 +87,15 @@ export class StatisticsService {
 
   private loadFilterParams(): void {
     const searchParams = new URLSearchParams(window.location.search);
-    const players = searchParams.get("players");
-    if (players) {
-      this._filterPlayers = this._players.filter(p => players.includes(p.uuid));
-      this._filterPlayersSubject.next(this._filterPlayers);
+    const players_source = searchParams.get("players_source");
+    if (players_source) {
+      this._filterPlayersSource = this._players.filter(p => players_source.includes(p.uuid));
+      this._filterPlayersSourceSubject.next(this._filterPlayersSource);
+    }
+    const players_target = searchParams.get("players_target");
+    if (players_target) {
+      this._filterPlayersTarget = this._players.filter(p => players_target.includes(p.uuid));
+      this._filterPlayersTargetSubject.next(this._filterPlayersTarget);
     }
     const labels = searchParams.get("labels");
     if (labels) {
@@ -96,9 +104,14 @@ export class StatisticsService {
     }
   }
 
-  get filterPlayers(): Observable<Player[]> {
+  get filterPlayersTarget(): Observable<Player[]> {
     this.loadFilterParams();
-    return this._filterPlayersSubject.asObservable().pipe(distinctUntilChanged());
+    return this._filterPlayersTargetSubject.asObservable().pipe(distinctUntilChanged());
+  }
+
+  get filterPlayersSource(): Observable<Player[]> {
+    this.loadFilterParams();
+    return this._filterPlayersSourceSubject.asObservable().pipe(distinctUntilChanged());
   }
 
   get filterLabels(): Observable<string[]> {
@@ -107,10 +120,16 @@ export class StatisticsService {
   }
 
   get filteredBallTouches(): BallTouch[] {
-    const player_uuids = this._filterPlayers.map(p => p.uuid);
+    const player_uuids_source = this._filterPlayersSource.map(p => p.uuid);
+    const player_uuids_target = this._filterPlayersTarget.map(p => p.uuid);
     return this._ballTouches.filter(
       bt =>
-        (player_uuids.length === 0 || player_uuids.includes(bt.playerUuid)) &&
+        (player_uuids_source.length === 0 || player_uuids_source.includes(bt.playerUuid)) &&
+        (player_uuids_target.length === 0 ||
+          (this._ballTouchesReverseLookup.has(bt.uuid) &&
+            player_uuids_target.includes(
+              this._ballTouches[this._ballTouchesReverseLookup.get(bt.uuid)!]!.playerUuid
+            ))) &&
         (this._filterLabels.length === 0 ||
           this.getMetadata(bt.metaDataUuid).labels.some(label => this._filterLabels.includes(label)))
     );
@@ -137,10 +156,10 @@ export class StatisticsService {
   }
 
   get filteredQuicks(): Quick[] {
-    const player_uuids = this._filterPlayers.map(p => p.uuid);
+    const player_uuids_source = this._filterPlayersSource.map(p => p.uuid);
     return this._quicks.filter(
       quick =>
-        (player_uuids.length === 0 || player_uuids.includes(quick.player_uuid)) &&
+        (player_uuids_source.length === 0 || player_uuids_source.includes(quick.player_uuid)) &&
         (this._filterLabels.length === 0 ||
           this.getMetadata(quick.metadata_uuid).labels.some(label => this._filterLabels.includes(label)))
     );
@@ -413,6 +432,7 @@ export class StatisticsService {
       this._metadataLookup = new Map<string, number>();
       this._metadata = [];
       this._ballTouchesLookup = new Map<string, number>();
+      this._ballTouchesReverseLookup = new Map<string, number>();
       this._ballTouches = [];
       this._quicksLookup = new Map<string, number>();
       this._quicks = [];
@@ -429,6 +449,9 @@ export class StatisticsService {
 
     for (let i = 0; i < statisticsStoreData.ballTouches.length; ++i) {
       this._ballTouchesLookup.set(statisticsStoreData.ballTouches[i].uuid, i);
+      if (statisticsStoreData.ballTouches[i].ballTouchUuid) {
+        this._ballTouchesReverseLookup.set(statisticsStoreData.ballTouches[i].ballTouchUuid!, i);
+      }
     }
 
     this._players = statisticsStoreData.players;
@@ -495,20 +518,35 @@ export class StatisticsService {
 
   private setFilterParams(): void {
     const urlTree = this.router.createUrlTree([], {
-      queryParams: { players: this._filterPlayers.map(p => p.uuid).join(","), labels: this._filterLabels.join(",") },
+      queryParams: {
+        players_source: this._filterPlayersSource.map(p => p.uuid).join(","),
+        players_target: this._filterPlayersTarget.map(p => p.uuid).join(","),
+        labels: this._filterLabels.join(","),
+      },
       queryParamsHandling: "merge",
     });
     this.location.go(this.serializer.serialize(urlTree));
     this.reloadState();
   }
 
-  setCurrentFilterPlayers(player_uuids: string[]): void {
-    if (this._filterPlayers.map(p => p.uuid).join(",") === player_uuids.join(",")) {
+  setCurrentFilterPlayersSource(player_uuids: string[]): void {
+    if (this._filterPlayersSource.map(p => p.uuid).join(",") === player_uuids.join(",")) {
       return;
     }
 
-    this._filterPlayers = this._players.filter(player => player_uuids.includes(player.uuid));
-    this._filterPlayersSubject.next(this._filterPlayers);
+    this._filterPlayersSource = this._players.filter(player => player_uuids.includes(player.uuid));
+    this._filterPlayersSourceSubject.next(this._filterPlayersSource);
+    this.setFilterParams();
+    this.reloadState();
+  }
+
+  setCurrentFilterPlayersTarget(player_uuids: string[]): void {
+    if (this._filterPlayersTarget.map(p => p.uuid).join(",") === player_uuids.join(",")) {
+      return;
+    }
+
+    this._filterPlayersTarget = this._players.filter(player => player_uuids.includes(player.uuid));
+    this._filterPlayersTargetSubject.next(this._filterPlayersTarget);
     this.setFilterParams();
     this.reloadState();
   }
@@ -569,6 +607,9 @@ export class StatisticsService {
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
     this._ballTouchesLookup.set(uuid, this._ballTouches.length);
+    if (ballTouch_uuid) {
+      this._ballTouchesReverseLookup.set(ballTouch_uuid, this._ballTouches.length);
+    }
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Serve,
@@ -603,6 +644,9 @@ export class StatisticsService {
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
     this._ballTouchesLookup.set(uuid, this._ballTouches.length);
+    if (ballTouch_uuid) {
+      this._ballTouchesReverseLookup.set(ballTouch_uuid, this._ballTouches.length);
+    }
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Attack,
@@ -636,6 +680,9 @@ export class StatisticsService {
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
     this._ballTouchesLookup.set(uuid, this._ballTouches.length);
+    if (ballTouch_uuid) {
+      this._ballTouchesReverseLookup.set(ballTouch_uuid, this._ballTouches.length);
+    }
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Block,
@@ -673,6 +720,9 @@ export class StatisticsService {
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
     this._ballTouchesLookup.set(uuid, this._ballTouches.length);
+    if (ballTouch_uuid) {
+      this._ballTouchesReverseLookup.set(ballTouch_uuid, this._ballTouches.length);
+    }
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Toss,
@@ -708,6 +758,9 @@ export class StatisticsService {
     this._lastUsedMetadata = this.getMetadata(metadata_uuid);
 
     this._ballTouchesLookup.set(uuid, this._ballTouches.length);
+    if (ballTouch_uuid) {
+      this._ballTouchesReverseLookup.set(ballTouch_uuid, this._ballTouches.length);
+    }
     this._ballTouches.push({
       uuid,
       touchType: BallTouchType.Receive,
