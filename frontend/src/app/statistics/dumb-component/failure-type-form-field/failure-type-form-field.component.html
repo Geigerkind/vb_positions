@@ -6,6 +6,7 @@
     }}</mat-button-toggle>
     <mat-button-toggle [value]="FailureType.Net">{{ "statistics.failure_type.net" | translate }}</mat-button-toggle>
     <mat-button-toggle [value]="FailureType.Out">{{ "statistics.failure_type.out" | translate }}</mat-button-toggle>
+    <mat-button-toggle *ngIf="showBlocked" [value]="FailureType.Blocked">{{ "statistics.failure_type.blocked" | translate }}</mat-button-toggle>
     <mat-button-toggle [value]="FailureType.Other">{{ "statistics.failure_type.other" | translate }}</mat-button-toggle>
   </mat-button-toggle-group>
 </ng-container>

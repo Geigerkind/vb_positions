@@ -139,6 +139,7 @@
       "none": "No",
       "net": "Net",
       "out": "Out",
+      "blocked": "Blocked",
       "other": "Other"
     },
     "target": {

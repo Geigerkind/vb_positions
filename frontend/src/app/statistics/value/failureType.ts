@@ -4,4 +4,5 @@ export enum FailureType {
   Miss,
   Other,
   NONE_TECHNICAL,
+  Blocked
 }

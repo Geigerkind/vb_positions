@@ -9,6 +9,7 @@ import { FailureType } from "../../value/failureType";
 })
 export class FailureTypeFormFieldComponent {
   @Input() formGroup: FormGroup;
+  @Input() showBlocked: boolean = false;
 
   FailureType: typeof FailureType = FailureType;
 
