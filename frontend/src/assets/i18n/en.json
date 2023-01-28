@@ -20,7 +20,8 @@
     "source_code": "View source code",
     "subtitle": {
       "share": "Share",
-      "mode": "Current mode"
+      "mode": "Current mode",
+      "rotation": "Rotation"
     }
   },
   "add_actor_dialog": {
@@ -61,7 +62,8 @@
       "current_rotation": "Current rotation",
       "add_before": "Add before"
     },
-    "submit": "Add rotation"
+    "submit": "Add rotation",
+    "without_positions": "Without positions"
   },
   "export_dialog": {
     "title": "Export rotations",

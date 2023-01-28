@@ -1,5 +1,6 @@
 <mat-sidenav-container>
   <mat-sidenav mode="over" #sidenav>
+    <h1>{{ "field.subtitle.rotation" | translate }}</h1>
     <mat-form-field [formGroup]="formGroup">
       <mat-select formControlName="current_rotation">
         <mat-option *ngFor="let rotation of rotations; index as i" [value]="rotation.UUID">{{

@@ -21,11 +21,16 @@ export class Square extends ActorShape {
   }
 
   drawPosition(): void {
+    const currentPosition = this.currentPosition();
+    if (!currentPosition) {
+      return;
+    }
+
     this.context.font = "40px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
     this.context.fillText(
-      this.currentPosition().value.toString(),
+      currentPosition.value.toString(),
       this.x,
       this.y + (Square.SIZE / 2) * this.sizeCoefficientY() - 2
     );

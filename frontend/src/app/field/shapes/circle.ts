@@ -38,10 +38,15 @@ export class Circle extends ActorShape {
   }
 
   drawPosition(): void {
+    const currentPosition = this.currentPosition();
+    if (!currentPosition) {
+      return;
+    }
+
     this.context.font = "40px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(this.currentPosition().value.toString(), this.x, this.y + 12);
+    this.context.fillText(currentPosition.value.toString(), this.x, this.y + 12);
   }
 
   drawActorName(): void {
