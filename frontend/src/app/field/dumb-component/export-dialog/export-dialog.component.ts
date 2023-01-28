@@ -34,6 +34,7 @@ export class ExportDialogComponent implements OnInit {
     const storeId = generate_uuid(30);
     from(
       this.store.collection(storeId).add({
+        version: this.data.version,
         actors: this.data.actors.map(actor => actor.toDto()),
         rotations: this.data.rotations.map(rotation => rotation.toDto()),
         current_rotation: this.data.current_rotation,

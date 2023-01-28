@@ -7,8 +7,10 @@
     "statistics": "Statistics"
   },
   "field": {
+    "abort": "Abort",
     "close": "Close dialog",
     "delete_actor": "Delete actor",
+    "reset_all": "Reset all rotations",
     "add_actor": "Add actor",
     "add_rotation": "Add rotation",
     "delete_rotation": "Delete rotation",
@@ -23,6 +25,10 @@
       "mode": "Current mode",
       "rotation": "Rotation"
     }
+  },
+  "reset_all": {
+    "title": "Are you sure, you want to reset all your progress?",
+    "submit": "Yes, Im sure!"
   },
   "add_actor_dialog": {
     "title": "Add actor",

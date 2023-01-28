@@ -24,6 +24,10 @@
       <mat-icon>delete</mat-icon>
       {{ "field.delete_actor" | translate }}
     </button>
+    <button mat-stroked-button (click)="onResetAllClicked()">
+      <mat-icon>delete</mat-icon>
+      {{ "field.reset_all" | translate }}
+    </button>
     <h1>{{ "field.subtitle.mode" | translate }}</h1>
     <button mat-stroked-button [class.toggled]="courtMode === CourtMode.MOVE_ACTOR" (click)="setMoveActorMode()">
       <mat-icon>person</mat-icon>
