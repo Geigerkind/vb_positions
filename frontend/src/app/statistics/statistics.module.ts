@@ -36,6 +36,7 @@ import { AttacksComponent } from "./smart-component/attacks/attacks.component";
 import { BlocksComponent } from "./smart-component/blocks/blocks.component";
 import { AgGridModule } from "ag-grid-angular";
 import { ReceiveTableComponent } from "./dumb-component/receive-table/receive-table.component";
+import { ServeTableComponent } from "./dumb-component/serve-table/serve-table.component";
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ReceiveTableComponent } from "./dumb-component/receive-table/receive-ta
     AttacksComponent,
     BlocksComponent,
     ReceiveTableComponent,
+    ServeTableComponent,
   ],
   imports: [
     StatisticsRoutingModule,

@@ -1,4 +1,4 @@
-export interface PlayerReceiveStatistics {
+export interface ReceiveStatistics {
   player_name: string;
   receives_total: number;
   receives_that_connected: number;

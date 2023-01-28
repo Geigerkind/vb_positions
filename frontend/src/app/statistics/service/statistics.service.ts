@@ -20,7 +20,8 @@ import { fromMetadata, fromMetadataDto } from "../dto/MetadataDto";
 import { distinctUntilChanged, Observable, ReplaySubject, Subject, Subscription } from "rxjs";
 import { Router, UrlSerializer } from "@angular/router";
 import { Location } from "@angular/common";
-import { PlayerReceiveStatistics } from "../value/playerReceiveStatistics";
+import { ReceiveStatistics } from "../value/receiveStatistics";
+import { ServeStatisticByServeType, ServeStatistics } from "../value/serveStatistics";
 
 @Injectable({
   providedIn: "root",
@@ -47,7 +48,8 @@ export class StatisticsService {
   private document: AngularFirestoreDocument<StatisticsStoreData>;
   private valueChangesSubscription: Subscription;
 
-  private _receiveStatistics$: Subject<PlayerReceiveStatistics[]> = new ReplaySubject();
+  private _receiveStatistics$: Subject<ReceiveStatistics[]> = new ReplaySubject();
+  private _serveStatistics$: Subject<ServeStatistics[]> = new ReplaySubject();
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;
@@ -123,11 +125,15 @@ export class StatisticsService {
     return this.filteredBallTouches.filter(bt => bt.touchType === BallTouchType.Block) as Block[];
   }
 
-  get receiveStatistics(): Observable<PlayerReceiveStatistics[]> {
+  get receiveStatistics(): Observable<ReceiveStatistics[]> {
     return this._receiveStatistics$.asObservable();
   }
 
-  get _receiveStatistics(): PlayerReceiveStatistics[] {
+  getServeStatistics(): Observable<ServeStatistics[]> {
+    return this._serveStatistics$.asObservable();
+  }
+
+  get _receiveStatistics(): ReceiveStatistics[] {
     return [
       ...this.filteredReceives
         .reduce((acc, item) => {
@@ -162,7 +168,100 @@ export class StatisticsService {
           }
 
           return acc;
-        }, new Map<string, PlayerReceiveStatistics>())
+        }, new Map<string, ReceiveStatistics>())
+        .values(),
+    ];
+  }
+
+  get _serveStatistics(): ServeStatistics[] {
+    return [
+      ...this.filteredServes
+        .reduce((acc, item) => {
+          if (!acc.has(item.playerUuid)) {
+            const initByServeType: () => ServeStatisticByServeType = () => ({
+              returned: 0,
+              success: 0,
+              net: 0,
+              other: 0,
+              out: 0,
+              part1: 0,
+              part2: 0,
+              part3: 0,
+              part4: 0,
+              part5: 0,
+              part6: 0,
+            });
+
+            acc.set(item.playerUuid, {
+              player_name: this.getPlayer(item.playerUuid).name,
+              serves_total: 0,
+              underhand: initByServeType(),
+              overhand: initByServeType(),
+              floater: initByServeType(),
+              jump: initByServeType(),
+              jump_floater: initByServeType(),
+            });
+          }
+
+          const serveStatistics = acc.get(item.playerUuid)!;
+          ++serveStatistics.serves_total;
+
+          const fillByTypeStatistics: any = (it: Serve, statistics: ServeStatisticByServeType) => {
+            if (it.failureType === FailureType.NONE_TECHNICAL) {
+              ++statistics.success;
+              // TODO: Returned
+            } else if (it.failureType === FailureType.Net) {
+              ++statistics.net;
+            } else if (it.failureType === FailureType.Out) {
+              ++statistics.out;
+            } else if (it.failureType === FailureType.Other) {
+              ++statistics.other;
+            }
+
+            const tp = item.targetPoint;
+            if (!tp) {
+              return;
+            }
+
+            if (tp.y >= 1000 && tp.y <= 4000) {
+              if (tp.x >= 225 && tp.x < 3225) {
+                ++statistics.part4;
+              } else if (tp.x >= 3225 && tp.x < 6225) {
+                ++statistics.part3;
+              } else if (tp.x >= 6225 && tp.x <= 9225) {
+                ++statistics.part2;
+              }
+            } else if (tp.y > 4000 && tp.y <= 10000) {
+              if (tp.x >= 225 && tp.x < 3225) {
+                ++statistics.part5;
+              } else if (tp.x >= 3225 && tp.x < 6225) {
+                ++statistics.part6;
+              } else if (tp.x >= 6225 && tp.x <= 9225) {
+                ++statistics.part1;
+              }
+            }
+          };
+
+          switch (item.serveType) {
+            case ServeType.UNDERHAND:
+              fillByTypeStatistics(item, serveStatistics.underhand);
+              break;
+            case ServeType.OVERHAND:
+              fillByTypeStatistics(item, serveStatistics.overhand);
+              break;
+            case ServeType.FLOATER:
+              fillByTypeStatistics(item, serveStatistics.floater);
+              break;
+            case ServeType.JUMP:
+              fillByTypeStatistics(item, serveStatistics.jump);
+              break;
+            case ServeType.JUMP_FLOATER:
+              fillByTypeStatistics(item, serveStatistics.jump_floater);
+              break;
+          }
+
+          return acc;
+        }, new Map<string, ServeStatistics>())
         .values(),
     ];
   }
@@ -222,7 +321,11 @@ export class StatisticsService {
 
     this._players = statisticsStoreData.players;
     this._metadata = statisticsStoreData.metadata.map(fromMetadataDto);
-    this._ballTouches = statisticsStoreData.ballTouches.map(bt => ({ ...bt, addedAt: new Date(bt.addedAt) }));
+    this._ballTouches = statisticsStoreData.ballTouches.map(bt => ({
+      ...bt,
+      addedAt: new Date(bt.addedAt),
+      targetPoint: (bt as any).targetPoint === "NULL" ? undefined : (bt as any).targetPoint,
+    }));
 
     this.loadFilterParams();
     this.reloadState();
@@ -232,7 +335,11 @@ export class StatisticsService {
     this.document.set({
       players: this._players,
       metadata: this._metadata.map(fromMetadata),
-      ballTouches: this._ballTouches.map(bt => ({ ...bt, addedAt: (bt.addedAt as Date).toISOString() })),
+      ballTouches: this._ballTouches.map(bt => ({
+        ...bt,
+        addedAt: (bt.addedAt as Date).toISOString(),
+        targetPoint: (bt as any).targetPoint ? (bt as any).targetPoint : "NULL",
+      })),
     });
     this.reloadState();
   }
@@ -503,5 +610,6 @@ export class StatisticsService {
 
   private reloadState(): void {
     this._receiveStatistics$.next(this._receiveStatistics);
+    this._serveStatistics$.next(this._serveStatistics);
   }
 }

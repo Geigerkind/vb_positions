@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { ColDef, ValueFormatterParams } from "ag-grid-community";
 import { Observable } from "rxjs";
-import { PlayerReceiveStatistics } from "../../value/playerReceiveStatistics";
+import { ReceiveStatistics } from "../../value/receiveStatistics";
 
 @Component({
   selector: "vpms-receive-table",
@@ -17,26 +17,26 @@ export class ReceiveTableComponent {
     {
       field: "receives_that_connected",
       headerName: "Connected",
-      valueFormatter: (params: ValueFormatterParams<PlayerReceiveStatistics>) =>
-        ((params.value / params.data!.receives_total) * 100).toFixed(1) + "%",
+      valueFormatter: (params: ValueFormatterParams<ReceiveStatistics>) =>
+        ((params.value / Math.max(params.data!.receives_total, 1)) * 100).toFixed(1) + "%",
     },
     {
       field: "receives_2m",
       headerName: "2m radius",
-      valueFormatter: (params: ValueFormatterParams<PlayerReceiveStatistics>) =>
-        ((params.value / params.data!.receives_total) * 100).toFixed(1) + "%",
+      valueFormatter: (params: ValueFormatterParams<ReceiveStatistics>) =>
+        ((params.value / Math.max(params.data!.receives_total, 1)) * 100).toFixed(1) + "%",
     },
     {
       field: "receives_4_5m",
       headerName: "4.5m radius",
-      valueFormatter: (params: ValueFormatterParams<PlayerReceiveStatistics>) =>
-        ((params.value / params.data!.receives_total) * 100).toFixed(1) + "%",
+      valueFormatter: (params: ValueFormatterParams<ReceiveStatistics>) =>
+        ((params.value / Math.max(params.data!.receives_total, 1)) * 100).toFixed(1) + "%",
     },
     {
       field: "receives_more_than_4_5m",
       headerName: "Outer radius",
-      valueFormatter: (params: ValueFormatterParams<PlayerReceiveStatistics>) =>
-        ((params.value / params.data!.receives_total) * 100).toFixed(1) + "%",
+      valueFormatter: (params: ValueFormatterParams<ReceiveStatistics>) =>
+        ((params.value / Math.max(params.data!.receives_total, 1)) * 100).toFixed(1) + "%",
     },
   ];
 
@@ -45,5 +45,5 @@ export class ReceiveTableComponent {
     filter: true,
   };
 
-  @Input() rowData$: Observable<PlayerReceiveStatistics[]>;
+  @Input() rowData$: Observable<ReceiveStatistics[]>;
 }
