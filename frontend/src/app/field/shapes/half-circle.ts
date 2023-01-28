@@ -4,7 +4,7 @@ import { ActorShape } from "./actor-shape";
 import { Position } from "../value/position";
 
 export class HalfCircle extends ActorShape {
-  private static RADIUS: number = 40;
+  private static RADIUS: number = 30;
 
   constructor(
     actor: Actor,
@@ -42,10 +42,10 @@ export class HalfCircle extends ActorShape {
       return;
     }
 
-    this.context.font = "40px Roboto";
+    this.context.font = "30px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(currentPosition.value.toString(), this.x, this.y - 10);
+    this.context.fillText(currentPosition.value.toString(), this.x, this.y - 6);
   }
 
   drawActorName(): void {

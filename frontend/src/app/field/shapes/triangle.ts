@@ -4,7 +4,7 @@ import { ActorShape } from "./actor-shape";
 import { Position } from "../value/position";
 
 export class Triangle extends ActorShape {
-  private static SIZE: number = 30;
+  private static SIZE: number = 25;
 
   constructor(
     actor: Actor,
@@ -33,10 +33,10 @@ export class Triangle extends ActorShape {
       return;
     }
 
-    this.context.font = "40px Roboto";
+    this.context.font = "30px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(currentPosition.value.toString(), this.x - 2, this.y + 25);
+    this.context.fillText(currentPosition.value.toString(), this.x - 2, this.y + 20);
   }
 
   drawShape(): void {
