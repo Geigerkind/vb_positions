@@ -1,12 +1,18 @@
 import { Actor } from "../entity/actor";
 import { ShapeFieldPosition } from "../value/shape-field-position";
 import { ActorShape } from "./actor-shape";
+import { Position } from "../value/position";
 
 export class HalfCircle extends ActorShape {
   private static RADIUS: number = 40;
 
-  constructor(actor: Actor, context: CanvasRenderingContext2D, field_positions?: Map<string, ShapeFieldPosition>) {
-    super(actor, context, field_positions);
+  constructor(
+    actor: Actor,
+    context: CanvasRenderingContext2D,
+    field_position?: ShapeFieldPosition,
+    rotationOffset?: Position
+  ) {
+    super(actor, context, field_position, rotationOffset);
   }
 
   drawShape(): void {

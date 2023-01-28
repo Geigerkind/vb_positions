@@ -1,12 +1,18 @@
 import { ActorShape } from "./actor-shape";
 import { Actor } from "../entity/actor";
 import { ShapeFieldPosition } from "../value/shape-field-position";
+import { Position } from "../value/position";
 
 export class Square extends ActorShape {
   private static SIZE: number = 30;
 
-  constructor(actor: Actor, context: CanvasRenderingContext2D, field_positions?: Map<string, ShapeFieldPosition>) {
-    super(actor, context, field_positions);
+  constructor(
+    actor: Actor,
+    context: CanvasRenderingContext2D,
+    field_position?: ShapeFieldPosition,
+    rotationOffset?: Position
+  ) {
+    super(actor, context, field_position, rotationOffset);
   }
 
   drawActorName(): void {

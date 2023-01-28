@@ -9,31 +9,29 @@ import { ActorShape } from "./actor-shape";
 import { LineShapeDto } from "../dto/line-shape-dto";
 import { Line } from "./line";
 import { Square } from "./square";
+import { Position } from "../value/position";
 
 export class ShapeFactory {
   public static fromActorDto(actor: Actor, shapeDto: ActorShapeDto, context: CanvasRenderingContext2D): ActorShape {
-    const field_positions = new Map(
-      shapeDto.f.map(dto => [
-        dto.u,
-        {
-          x: dto.x,
-          y: dto.y,
-        } as ShapeFieldPosition,
-      ])
-    );
+    const field_position = {
+      x: shapeDto.f.x,
+      y: shapeDto.f.y,
+    } as ShapeFieldPosition;
+    const rotationOffset = shapeDto.ro === "NULL" ? undefined : new Position(shapeDto.ro as number);
+
     switch (actor.player_role) {
       case PlayerRole.Setter:
-        return new HalfCircle(actor, context, field_positions);
+        return new HalfCircle(actor, context, field_position, rotationOffset);
       case PlayerRole.MiddleBlocker:
-        return new Triangle(actor, context, false, field_positions);
+        return new Triangle(actor, context, false, field_position, rotationOffset);
       case PlayerRole.Libero:
-        return new Triangle(actor, context, false, field_positions);
+        return new Triangle(actor, context, false, field_position, rotationOffset);
       case PlayerRole.DefensiveSpecialist:
-        return new Square(actor, context, field_positions);
+        return new Square(actor, context, field_position, rotationOffset);
       case PlayerRole.OutsideHitter:
-        return new Circle(actor, context, false, field_positions);
+        return new Circle(actor, context, false, field_position, rotationOffset);
       case PlayerRole.OppositeHitter:
-        return new Circle(actor, context, true, field_positions);
+        return new Circle(actor, context, true, field_position, rotationOffset);
     }
   }
 

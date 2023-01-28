@@ -1,6 +1,7 @@
 import { Actor } from "../entity/actor";
 import { ShapeFieldPosition } from "../value/shape-field-position";
 import { ActorShape } from "./actor-shape";
+import { Position } from "../value/position";
 
 export class Circle extends ActorShape {
   private static RADIUS: number = 30;
@@ -9,9 +10,10 @@ export class Circle extends ActorShape {
     actor: Actor,
     context: CanvasRenderingContext2D,
     private dashed: boolean,
-    field_positions?: Map<string, ShapeFieldPosition>
+    field_position?: ShapeFieldPosition,
+    rotationOffset?: Position
   ) {
-    super(actor, context, field_positions);
+    super(actor, context, field_position, rotationOffset);
   }
 
   drawShape(): void {

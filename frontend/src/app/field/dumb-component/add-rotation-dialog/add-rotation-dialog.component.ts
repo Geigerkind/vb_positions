@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Rotation } from "../../entity/rotation";
 import { Position } from "../../value/position";
 
@@ -25,6 +25,7 @@ export class AddRotationDialogComponent implements OnInit {
         this.formGroup.value.rotation_name
       ),
       add_before: this.formGroup.value.add_before,
+      copy_actors: this.formGroup.value.copy_actors,
     });
   }
 
@@ -33,6 +34,7 @@ export class AddRotationDialogComponent implements OnInit {
       rotation_name: null,
       current_rotation: [1],
       add_before: null,
+      copy_actors: [true, Validators.required],
     });
   }
 }

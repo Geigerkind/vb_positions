@@ -32,10 +32,10 @@ export class ExportDialogComponent implements OnInit {
       copy_link: [{ value: null, disabled: false }, Validators.required],
     });
     const storeId = generate_uuid(30);
+    const collection = this.store.collection("rotations");
     from(
-      this.store.collection(storeId).add({
+      collection.doc(storeId).set({
         version: this.data.version,
-        actors: this.data.actors.map(actor => actor.toDto()),
         rotations: this.data.rotations.map(rotation => rotation.toDto()),
         current_rotation: this.data.current_rotation,
       } as ExportDataDto)

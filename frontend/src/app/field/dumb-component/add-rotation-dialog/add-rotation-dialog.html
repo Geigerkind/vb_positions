@@ -25,7 +25,10 @@
         >
       </mat-select>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+    <mat-checkbox formControlName="copy_actors">
+      {{ "add_rotation_dialog.placeholder.copy_actors" | translate }}
+    </mat-checkbox>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid" style="margin-top: 1rem">
       {{"add_rotation_dialog.submit" | translate}}
     </button>
     <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" style="margin-top: 1rem">

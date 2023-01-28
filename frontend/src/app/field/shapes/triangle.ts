@@ -1,6 +1,7 @@
 import { Actor } from "../entity/actor";
 import { ShapeFieldPosition } from "../value/shape-field-position";
 import { ActorShape } from "./actor-shape";
+import { Position } from "../value/position";
 
 export class Triangle extends ActorShape {
   private static SIZE: number = 30;
@@ -9,9 +10,10 @@ export class Triangle extends ActorShape {
     actor: Actor,
     context: CanvasRenderingContext2D,
     private dashed: boolean,
-    field_positions?: Map<string, ShapeFieldPosition>
+    field_position?: ShapeFieldPosition,
+    rotationOffset?: Position
   ) {
-    super(actor, context, field_positions);
+    super(actor, context, field_position, rotationOffset);
   }
 
   drawActorName(): void {

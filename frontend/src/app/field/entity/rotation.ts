@@ -3,10 +3,12 @@ import { Position } from "../value/position";
 import { RotationDto } from "../dto/rotation-dto";
 import { Line } from "../shapes/line";
 import { ShapeFactory } from "../shapes/shape-factory";
+import { Actor } from "./actor";
 
 export class Rotation {
   private _UUID: string;
   private _lines: Line[];
+  private _actors: Actor[];
 
   get UUID(): string {
     return this._UUID;
@@ -16,15 +18,31 @@ export class Rotation {
     return this._lines;
   }
 
-  constructor(public rotation?: Position, public name?: string, UUID?: string, lines?: Line[]) {
+  get actors(): Actor[] {
+    return this._actors;
+  }
+
+  constructor(public rotation?: Position, public name?: string, actors?: Actor[], UUID?: string, lines?: Line[]) {
     this._UUID = UUID ?? generate_uuid();
     this._lines = lines ?? [];
+    this._actors = actors ?? [];
   }
 
   public static fromDto(rotationDto: RotationDto, context: CanvasRenderingContext2D): Rotation {
     const rotationOffset = rotationDto.r === "NULL" ? undefined : new Position(rotationDto.r as number);
     const lines = rotationDto.l.map(dto => ShapeFactory.fromLineDto(dto, context));
-    return new Rotation(rotationOffset, rotationDto.n === "NULL" ? undefined : rotationDto.n, rotationDto.u, lines);
+    const actors = rotationDto.a.map(dto => Actor.fromDto(dto, context));
+    return new Rotation(
+      rotationOffset,
+      rotationDto.n === "NULL" ? undefined : rotationDto.n,
+      actors,
+      rotationDto.u,
+      lines
+    );
+  }
+
+  public draw(): void {
+    this._actors.forEach(actor => actor.draw());
   }
 
   public toDto(): RotationDto {
@@ -33,6 +51,7 @@ export class Rotation {
       r: this.rotation?.value ?? "NULL",
       u: this.UUID,
       l: this._lines.map(line => line.toDto()),
+      a: this.actors.map(actor => actor.toDto()),
     };
   }
 
@@ -58,5 +77,17 @@ export class Rotation {
       return;
     }
     this._lines.splice(index, 1);
+  }
+
+  public addActor(actor: Actor): void {
+    this._actors.push(actor);
+  }
+
+  public removeActor(uuid: string): void {
+    const index = this._actors.findIndex(a => a.UUID === uuid);
+    if (index < 0) {
+      return;
+    }
+    this._actors.splice(index, 1);
   }
 }
