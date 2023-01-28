@@ -39,7 +39,7 @@ export class Rotation {
   public toString(): string {
     if (this.name) {
       if (this.rotation) {
-        return `${this.name} (${this.rotation.value})`
+        return `${this.name} (${this.rotation.value})`;
       }
       return `${this.name}`;
     } else if (this.rotation) {

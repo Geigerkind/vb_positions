@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {MatDialogRef} from "@angular/material/dialog";
+import { Component } from "@angular/core";
+import { MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: "vpms-reset-all-dialog",
@@ -7,8 +7,5 @@ import {MatDialogRef} from "@angular/material/dialog";
   styleUrls: ["./reset-all-dialog.component.scss"],
 })
 export class ResetAllDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<ResetAllDialogComponent>,
-  ) {
-  }
+  constructor(public dialogRef: MatDialogRef<ResetAllDialogComponent>) {}
 }

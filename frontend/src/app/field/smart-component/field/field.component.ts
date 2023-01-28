@@ -28,7 +28,7 @@ import { Square } from "../../shapes/square";
 import { CourtComponent } from "../../dumb-component/court/court.component";
 import { Device } from "../../../shared/util/device";
 import { Shape } from "../../shapes/shape";
-import {ResetAllDialogComponent} from "../../dumb-component/reset-all-dialog/reset-all-dialog.component";
+import { ResetAllDialogComponent } from "../../dumb-component/reset-all-dialog/reset-all-dialog.component";
 
 @Component({
   selector: "vpms-field",
@@ -198,7 +198,7 @@ export class FieldComponent {
       this.rotations = [new Rotation(new Position(1), "Default rotation")];
       this.currentRotationIndex = 0;
       this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
-    })
+    });
   }
 
   onDeleteRotationClicked(): void {
