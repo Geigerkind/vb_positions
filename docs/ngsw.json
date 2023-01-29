@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1674994835452,
+  "timestamp": 1674996013035,
   "index": "/vb_positions/index.html",
   "assetGroups": [
     {
@@ -11,14 +11,14 @@
         "ignoreVary": true
       },
       "urls": [
-        "/vb_positions/114.5b87b81db06a46e0.js",
+        "/vb_positions/114.6c296f152300e887.js",
         "/vb_positions/710.8994a835f98ddc9b.js",
         "/vb_positions/favicon.ico",
         "/vb_positions/index.html",
         "/vb_positions/main.13194c04e229038a.js",
         "/vb_positions/manifest.webmanifest",
         "/vb_positions/polyfills.7e16bdbffcf7884a.js",
-        "/vb_positions/runtime.096f6d07134d7ae4.js",
+        "/vb_positions/runtime.8a48e3621e28990c.js",
         "/vb_positions/styles.98f0c91f2b2d916a.css"
       ],
       "patterns": []
@@ -62,13 +62,13 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/vb_positions/114.5b87b81db06a46e0.js": "379eb29c8918a387feec81a0053e519e9f398b32",
+    "/vb_positions/114.6c296f152300e887.js": "a5b5fe74061cc1b091f127ee17222aa22d21e1fc",
     "/vb_positions/710.8994a835f98ddc9b.js": "2aeaddf9f0691edd80cbe7b9492e8cb8d6111c96",
     "/vb_positions/assets/i18n/en.json": "62de797f5154d3235b44c338a2a0336e462f5ae2",
     "/vb_positions/assets/icons/icon-192x192.png": "23ac8f42257e31342dfc42d900f32d3e0d67efea",
     "/vb_positions/assets/icons/icon-512x512.png": "c0a7de798f694041f7a73154f7c8e7067ac95e93",
     "/vb_positions/favicon.ico": "e3de3346f0816db62b6800c9198094f422c9bb59",
-    "/vb_positions/index.html": "34919ccd584825ad89b05062059bf41292bc9a54",
+    "/vb_positions/index.html": "0ffc1156c71cb9dcf5d7bc5c75d9d11ad4709329",
     "/vb_positions/main.13194c04e229038a.js": "e5cd5a40108dd52027307850400ec5d99f3a0853",
     "/vb_positions/manifest.webmanifest": "71a06ca7e1d60ede0c9c7215bd6645e00e7c2121",
     "/vb_positions/material-icons-outlined.78a93b2079680a08.woff": "b52ccd8fca4199d257b2a9fe377db29862f2853e",
@@ -94,7 +94,7 @@
     "/vb_positions/roboto-latin-700-normal.bd41d1cdc29811cf.woff": "6baf2c7cc3a03676c10ce872ef9fa1aa4e185901",
     "/vb_positions/roboto-latin-900-normal.1ee240152fd103c0.woff": "d4a23b132e1ca8a6cb4e678d519f6ae00a8aac58",
     "/vb_positions/roboto-latin-900-normal.2f95c19ebf5cbe2e.woff2": "0355a01c1ccb45cb728e7e07c41c8ebf456f70bb",
-    "/vb_positions/runtime.096f6d07134d7ae4.js": "daa1f8d2c7ee3467b49da93d37682026f607c4b7",
+    "/vb_positions/runtime.8a48e3621e28990c.js": "f388d28f11d28399261fbc0bb82bdefc4177f5b4",
     "/vb_positions/styles.98f0c91f2b2d916a.css": "2633ecccdba0a8fffc9884e838ee90a07901b4c4"
   },
   "navigationUrls": [
