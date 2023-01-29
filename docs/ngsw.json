@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1672485742625,
+  "timestamp": 1674992727797,
   "index": "/vb_positions/index.html",
   "assetGroups": [
     {
@@ -11,14 +11,15 @@
         "ignoreVary": true
       },
       "urls": [
-        "/vb_positions/56.bcb79f57bae96877.js",
+        "/vb_positions/114.5b87b81db06a46e0.js",
+        "/vb_positions/710.3f3069276de4b2b8.js",
         "/vb_positions/favicon.ico",
         "/vb_positions/index.html",
-        "/vb_positions/main.bda6620b36c037cf.js",
+        "/vb_positions/main.cc5fb682dd363972.js",
         "/vb_positions/manifest.webmanifest",
         "/vb_positions/polyfills.7e16bdbffcf7884a.js",
-        "/vb_positions/runtime.70d0ceabfb116528.js",
-        "/vb_positions/styles.9eae1f007fdfe37d.css"
+        "/vb_positions/runtime.9f3baf5c5d23e292.js",
+        "/vb_positions/styles.98f0c91f2b2d916a.css"
       ],
       "patterns": []
     },
@@ -61,14 +62,15 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/vb_positions/56.bcb79f57bae96877.js": "ea36d7e560bbb5d5e54382c53a66ac63ea7484ca",
-    "/vb_positions/assets/i18n/en.json": "191d0f87c8047536bec32068d6dcba61eba01300",
-    "/vb_positions/assets/icons/icon-192x192.png": "8e83368a12490b640a9f5605940c840ad8c07da9",
-    "/vb_positions/assets/icons/icon-512x512.png": "6a2b5043a63f13ceccdb683d34c68c979ce117bb",
-    "/vb_positions/favicon.ico": "50ad428f2d74901a9ddf280128337c9c075404a5",
-    "/vb_positions/index.html": "a0da6c70376f2c9742d5317bada17eeba97f50d0",
-    "/vb_positions/main.bda6620b36c037cf.js": "e3214d2540123b73972db019ce0177e826c7da6f",
-    "/vb_positions/manifest.webmanifest": "2823cdb08cfbe1103edb0114375fb4b2390e42eb",
+    "/vb_positions/114.5b87b81db06a46e0.js": "379eb29c8918a387feec81a0053e519e9f398b32",
+    "/vb_positions/710.3f3069276de4b2b8.js": "4e0a369a512f3a17dd3344085a524cb58a996c9c",
+    "/vb_positions/assets/i18n/en.json": "62de797f5154d3235b44c338a2a0336e462f5ae2",
+    "/vb_positions/assets/icons/icon-192x192.png": "23ac8f42257e31342dfc42d900f32d3e0d67efea",
+    "/vb_positions/assets/icons/icon-512x512.png": "c0a7de798f694041f7a73154f7c8e7067ac95e93",
+    "/vb_positions/favicon.ico": "e3de3346f0816db62b6800c9198094f422c9bb59",
+    "/vb_positions/index.html": "035d71a9f248e0b143458b4f9283a524544a615d",
+    "/vb_positions/main.cc5fb682dd363972.js": "5bded0806d9a1fc1626fdf25f90e8e11e26a25ad",
+    "/vb_positions/manifest.webmanifest": "71a06ca7e1d60ede0c9c7215bd6645e00e7c2121",
     "/vb_positions/material-icons-outlined.78a93b2079680a08.woff": "b52ccd8fca4199d257b2a9fe377db29862f2853e",
     "/vb_positions/material-icons-outlined.f86cb7b0aa53f0fe.woff2": "2f9e28ab559782402f27332633c843c40209d95a",
     "/vb_positions/material-icons-round.92dc7ca2f4c591e7.woff": "c41bfee3f01218e18d53f4f4cac00f385ac9fbb1",
@@ -92,8 +94,8 @@
     "/vb_positions/roboto-latin-700-normal.bd41d1cdc29811cf.woff": "6baf2c7cc3a03676c10ce872ef9fa1aa4e185901",
     "/vb_positions/roboto-latin-900-normal.1ee240152fd103c0.woff": "d4a23b132e1ca8a6cb4e678d519f6ae00a8aac58",
     "/vb_positions/roboto-latin-900-normal.2f95c19ebf5cbe2e.woff2": "0355a01c1ccb45cb728e7e07c41c8ebf456f70bb",
-    "/vb_positions/runtime.70d0ceabfb116528.js": "67d05e37d6d928d0f9904240d17d18d3213a7799",
-    "/vb_positions/styles.9eae1f007fdfe37d.css": "e06c489626d1b7e03459abacaade7d2a63117624"
+    "/vb_positions/runtime.9f3baf5c5d23e292.js": "8094294c2a6354b69b9142935d20eea81e7aa1ee",
+    "/vb_positions/styles.98f0c91f2b2d916a.css": "2633ecccdba0a8fffc9884e838ee90a07901b4c4"
   },
   "navigationUrls": [
     {
