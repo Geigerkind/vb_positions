@@ -7,12 +7,13 @@
     <mat-accordion>
       <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title> Attacks data table </mat-panel-title>
+          <mat-panel-title> Attacks data table</mat-panel-title>
         </mat-expansion-panel-header>
+        <vpms-attack-table [rowData$]="statisticsService.getAttackStatistics()"></vpms-attack-table>
       </mat-expansion-panel>
       <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title> Attacks graph </mat-panel-title>
+          <mat-panel-title> Attacks graph</mat-panel-title>
         </mat-expansion-panel-header>
         <vpms-court #court [customRender]="onCustomRender" (onReady)="onReady($event)"></vpms-court>
       </mat-expansion-panel>

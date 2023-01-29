@@ -30,6 +30,7 @@ import { TossDirection } from "../value/tossDirection";
 import { TossTempo } from "../value/tossTempo";
 import { BlockType } from "../value/blockType";
 import { TossStatistics } from "../value/tossStatistics";
+import { AttackStatistics } from "../value/attackStatistics";
 
 @Injectable({
   providedIn: "root",
@@ -66,6 +67,7 @@ export class StatisticsService {
   private _serveStatistics$: Subject<ServeStatistics[]> = new ReplaySubject();
   private _quickStatistics$: Subject<QuickStatistics[]> = new ReplaySubject();
   private _tossStatistics$: Subject<TossStatistics[]> = new ReplaySubject();
+  private _attackStatistics$: Subject<AttackStatistics[]> = new ReplaySubject();
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;
@@ -183,6 +185,71 @@ export class StatisticsService {
     return this._tossStatistics$.asObservable();
   }
 
+  getAttackStatistics(): Observable<AttackStatistics[]> {
+    return this._attackStatistics$.asObservable();
+  }
+
+  get _attackStatistics(): AttackStatistics[] {
+    return [
+      ...this.filteredAttacks
+        .reduce((acc, item) => {
+          if (!acc.has(item.playerUuid)) {
+            acc.set(item.playerUuid, {
+              player_name: this.getPlayer(item.playerUuid).name,
+              attacks_total: 0,
+              attacks_blocked: 0,
+              attacks_failed: 0,
+              attacks_success: 0,
+              attacks_returned: 0,
+              front_left: 0,
+              front_center: 0,
+              front_right: 0,
+              back_left: 0,
+              back_center: 0,
+              back_right: 0,
+            });
+          }
+          const statistics = acc.get(item.playerUuid)!;
+          ++statistics.attacks_total;
+
+          if (item.failureType === FailureType.Blocked) {
+            ++statistics.attacks_blocked;
+          } else if (item.failureType !== FailureType.NONE_TECHNICAL) {
+            ++statistics.attacks_failed;
+          } else if (item.targetPoint) {
+            const over_net = item.targetPoint.y < 1000;
+            if (!over_net) {
+              ++statistics.attacks_success;
+              if (this._ballTouchesReverseLookup.has(item.uuid)) {
+                ++statistics.attacks_returned;
+              }
+
+              if (item.targetPoint.y <= 4000) {
+                if (item.targetPoint.x >= 225 && item.targetPoint.x < 3225) {
+                  ++statistics.front_left;
+                } else if (item.targetPoint.x >= 3225 && item.targetPoint.x < 6225) {
+                  ++statistics.front_center;
+                } else if (item.targetPoint.x >= 6225 && item.targetPoint.x <= 9225) {
+                  ++statistics.front_right;
+                }
+              } else {
+                if (item.targetPoint.x >= 225 && item.targetPoint.x < 3225) {
+                  ++statistics.back_left;
+                } else if (item.targetPoint.x >= 3225 && item.targetPoint.x < 6225) {
+                  ++statistics.back_center;
+                } else if (item.targetPoint.x >= 6225 && item.targetPoint.x <= 9225) {
+                  ++statistics.back_right;
+                }
+              }
+            }
+          }
+
+          return acc;
+        }, new Map<string, AttackStatistics>())
+        .values(),
+    ];
+  }
+
   get _tossStatistics(): TossStatistics[] {
     return [
       ...this.filteredTosses
@@ -238,7 +305,7 @@ export class StatisticsService {
             const over_net = item.targetPoint.y < 1000;
             if (!over_net) {
               ++statistics.toss_set_total;
-              if (item.targetPoint.y <= 3000) {
+              if (item.targetPoint.y <= 4000) {
                 if (item.targetPoint.x >= 225 && item.targetPoint.x < 3225) {
                   ++statistics.front_left;
                 } else if (item.targetPoint.x >= 3225 && item.targetPoint.x < 6225) {
@@ -898,5 +965,6 @@ export class StatisticsService {
     this._serveStatistics$.next(this._serveStatistics);
     this._quickStatistics$.next(this._quickStatistics);
     this._tossStatistics$.next(this._tossStatistics);
+    this._attackStatistics$.next(this._attackStatistics);
   }
 }
