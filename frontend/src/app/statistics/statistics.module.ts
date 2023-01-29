@@ -41,6 +41,7 @@ import { AddQuickComponent } from "./smart-component/add-quick/add-quick.compone
 import { QuickTableComponent } from "./dumb-component/quick-table/quick-table.component";
 import { TouchCountFormFieldComponent } from "./dumb-component/touch-count-form-field/touch-count-form-field.component";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { TossTableComponent } from "./dumb-component/toss-table/toss-table.component";
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
     ReceiveTableComponent,
     ServeTableComponent,
     QuickTableComponent,
+    TossTableComponent,
   ],
   imports: [
     StatisticsRoutingModule,

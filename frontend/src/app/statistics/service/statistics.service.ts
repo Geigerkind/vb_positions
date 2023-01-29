@@ -29,6 +29,7 @@ import { TouchCount } from "../value/touchCount";
 import { TossDirection } from "../value/tossDirection";
 import { TossTempo } from "../value/tossTempo";
 import { BlockType } from "../value/blockType";
+import { TossStatistics } from "../value/tossStatistics";
 
 @Injectable({
   providedIn: "root",
@@ -64,6 +65,7 @@ export class StatisticsService {
   private _receiveStatistics$: Subject<ReceiveStatistics[]> = new ReplaySubject();
   private _serveStatistics$: Subject<ServeStatistics[]> = new ReplaySubject();
   private _quickStatistics$: Subject<QuickStatistics[]> = new ReplaySubject();
+  private _tossStatistics$: Subject<TossStatistics[]> = new ReplaySubject();
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;
@@ -175,6 +177,91 @@ export class StatisticsService {
 
   getQuickStatistics(): Observable<QuickStatistics[]> {
     return this._quickStatistics$.asObservable();
+  }
+
+  getTossStatistics(): Observable<TossStatistics[]> {
+    return this._tossStatistics$.asObservable();
+  }
+
+  get _tossStatistics(): TossStatistics[] {
+    return [
+      ...this.filteredTosses
+        .reduce((acc, item) => {
+          if (!acc.has(item.playerUuid)) {
+            acc.set(item.playerUuid, {
+              player_name: this.getPlayer(item.playerUuid).name,
+              toss_total: 0,
+              toss_set_total: 0,
+              success_toss_in_2m: 0,
+              success_toss_in_4_5m: 0,
+              success_toss_in_more_than_4_5m: 0,
+              failed: 0,
+              not_connected: 0,
+              front_left: 0,
+              front_center: 0,
+              front_right: 0,
+              back_left: 0,
+              back_center: 0,
+              back_right: 0,
+            });
+          }
+
+          const statistics = acc.get(item.playerUuid)!;
+          ++statistics.toss_total;
+          if (item.failureType !== FailureType.NONE_TECHNICAL) {
+            ++statistics.failed;
+          } else if (!this._ballTouchesReverseLookup.has(item.uuid)) {
+            ++statistics.not_connected;
+          }
+
+          // Ball from receiver
+          if (!!item.ballTouchUuid && !!item.targetPoint && this._ballTouchesReverseLookup.has(item.uuid)) {
+            const bt = this.getBallTouch(item.ballTouchUuid) as Receive;
+            if (bt.targetPoint) {
+              const radius = Math.sqrt(
+                (bt.targetPoint.x - 6725) * (bt.targetPoint.x - 6725) +
+                  (bt.targetPoint.y - 1000) * (bt.targetPoint.y - 1000)
+              );
+              const over_net = bt.targetPoint.y < 1000;
+              if (radius <= 2250 && !over_net) {
+                ++statistics.success_toss_in_2m;
+              } else if (radius <= 4612.5 && !over_net) {
+                ++statistics.success_toss_in_4_5m;
+              } else {
+                ++statistics.success_toss_in_more_than_4_5m;
+              }
+            }
+          }
+
+          // Set ball
+          if (item.targetPoint) {
+            const over_net = item.targetPoint.y < 1000;
+            if (!over_net) {
+              ++statistics.toss_set_total;
+              if (item.targetPoint.y <= 3000) {
+                if (item.targetPoint.x >= 225 && item.targetPoint.x < 3225) {
+                  ++statistics.front_left;
+                } else if (item.targetPoint.x >= 3225 && item.targetPoint.x < 6225) {
+                  ++statistics.front_center;
+                } else if (item.targetPoint.x >= 6225 && item.targetPoint.x <= 9225) {
+                  ++statistics.front_right;
+                }
+              } else {
+                if (item.targetPoint.x >= 225 && item.targetPoint.x < 3225) {
+                  ++statistics.back_left;
+                } else if (item.targetPoint.x >= 3225 && item.targetPoint.x < 6225) {
+                  ++statistics.back_center;
+                } else if (item.targetPoint.x >= 6225 && item.targetPoint.x <= 9225) {
+                  ++statistics.back_right;
+                }
+              }
+            }
+          }
+
+          return acc;
+        }, new Map<string, TossStatistics>())
+        .values(),
+    ];
   }
 
   get _receiveStatistics(): ReceiveStatistics[] {
@@ -810,5 +897,6 @@ export class StatisticsService {
     this._receiveStatistics$.next(this._receiveStatistics);
     this._serveStatistics$.next(this._serveStatistics);
     this._quickStatistics$.next(this._quickStatistics);
+    this._tossStatistics$.next(this._tossStatistics);
   }
 }
