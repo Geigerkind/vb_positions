@@ -1,4 +1,5 @@
 import { ActorShape } from "./actor-shape";
+import { environment } from "../../../environments/environment";
 
 export class Volleyball extends ActorShape {
   drawPosition(): void {}
@@ -16,7 +17,11 @@ export class Volleyball extends ActorShape {
   drawShape(): void {
     if (!this._img) {
       this._img = document.createElement("img");
-      this._img.src = "/assets/icons/icon-192x192.png";
+      if (environment.production) {
+        this._img.src = "/vb_positions/assets/icons/icon-192x192.png";
+      } else {
+        this._img.src = "/assets/icons/icon-192x192.png";
+      }
       this._img.onload = () => this.draw();
     }
 
