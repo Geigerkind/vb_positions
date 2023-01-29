@@ -56,20 +56,20 @@ export class StatisticsService {
   private _filterPlayersSource: Player[] = [];
   private _filterPlayersTarget: Player[] = [];
   private _filterLabels: string[] = [];
-  private _filterPlayersTargetSubject: Subject<Player[]> = new ReplaySubject();
-  private _filterPlayersSourceSubject: Subject<Player[]> = new ReplaySubject();
-  private _filterLabelsSubject: Subject<string[]> = new ReplaySubject();
+  private _filterPlayersTargetSubject: Subject<Player[]> = new ReplaySubject(1);
+  private _filterPlayersSourceSubject: Subject<Player[]> = new ReplaySubject(1);
+  private _filterLabelsSubject: Subject<string[]> = new ReplaySubject(1);
 
   private collection: AngularFirestoreCollection<StatisticsStoreData>;
   private document: AngularFirestoreDocument<StatisticsStoreData>;
   private valueChangesSubscription: Subscription;
 
-  private _receiveStatistics$: Subject<ReceiveStatistics[]> = new ReplaySubject();
-  private _serveStatistics$: Subject<ServeStatistics[]> = new ReplaySubject();
-  private _quickStatistics$: Subject<QuickStatistics[]> = new ReplaySubject();
-  private _tossStatistics$: Subject<TossStatistics[]> = new ReplaySubject();
-  private _attackStatistics$: Subject<AttackStatistics[]> = new ReplaySubject();
-  private _blockStatistics$: Subject<BlockStatistics[]> = new ReplaySubject();
+  private _receiveStatistics$: Subject<ReceiveStatistics[]> = new ReplaySubject(1);
+  private _serveStatistics$: Subject<ServeStatistics[]> = new ReplaySubject(1);
+  private _quickStatistics$: Subject<QuickStatistics[]> = new ReplaySubject(1);
+  private _tossStatistics$: Subject<TossStatistics[]> = new ReplaySubject(1);
+  private _attackStatistics$: Subject<AttackStatistics[]> = new ReplaySubject(1);
+  private _blockStatistics$: Subject<BlockStatistics[]> = new ReplaySubject(1);
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;

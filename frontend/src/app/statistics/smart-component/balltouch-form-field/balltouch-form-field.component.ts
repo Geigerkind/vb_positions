@@ -17,7 +17,7 @@ export class BalltouchFormFieldComponent implements OnInit {
   constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit(): void {
-    this.balltouches = this.statisticsService.previousBallTouches;
+    this.balltouches = this.statisticsService.previousBallTouches.reverse();
   }
 
   formatBallTouch(balltouch: BallTouch): string {
