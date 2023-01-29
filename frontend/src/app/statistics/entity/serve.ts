@@ -1,12 +1,10 @@
 import { ServeType } from "../value/serveType";
-import { Actor } from "../../field/entity/actor";
-import { TargetPointXY } from "../value/targetPointXY";
-import { Receive } from "./receive";
+import { TargetPoint } from "../value/targetPoint";
+import { FailureType } from "../value/failureType";
+import { BallTouch } from "./ballTouch";
 
-export interface Serve {
-  id: number;
-  actor: Actor;
-  serve_type: ServeType;
-  target_point: TargetPointXY;
-  received?: Receive;
+export interface Serve extends BallTouch {
+  serveType: ServeType;
+  failureType: FailureType;
+  targetPoint?: TargetPoint;
 }

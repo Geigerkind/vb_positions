@@ -32,6 +32,8 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@schematics/angular": "^15.0.4",
+    "ag-grid-angular": "^29.0.0",
+    "ag-grid-community": "^29.0.0",
     "material-icons": "^1.10.6",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

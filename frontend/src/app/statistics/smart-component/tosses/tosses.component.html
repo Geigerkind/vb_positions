@@ -1,0 +1,22 @@
+<vpms-sidebar>
+  <div class="container">
+    <div class="navbar">
+      <h1>{{ "statistics.dashboard.tosses" | translate }}</h1>
+      <vpms-filter-bar (onFilterChanged)="onFilterChanged()"></vpms-filter-bar>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Tosses data table</mat-panel-title>
+        </mat-expansion-panel-header>
+        <vpms-toss-table [rowData$]="statisticsService.getTossStatistics()"></vpms-toss-table>
+      </mat-expansion-panel>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Tosses graph</mat-panel-title>
+        </mat-expansion-panel-header>
+        <vpms-court #court [customRender]="onCustomRender" (onReady)="onReady($event)"></vpms-court>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</vpms-sidebar>

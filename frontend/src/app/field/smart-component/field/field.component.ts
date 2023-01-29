@@ -16,7 +16,6 @@ import { LocalStorageService } from "../../../shared/service/local-storage.servi
 import { RotationDto } from "../../dto/rotation-dto";
 import { ExportDialogComponent } from "../../dumb-component/export-dialog/export-dialog.component";
 import { ImportDialogComponent } from "../../dumb-component/import-dialog/import-dialog.component";
-import { ActorDto } from "../../dto/actor-dto";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { ExportData } from "../../dto/export-data";
 import { ExportDataDto } from "../../dto/export-data-dto";
@@ -26,6 +25,8 @@ import { Line } from "../../shapes/line";
 import { CourtMode } from "../../value/court-mode";
 import { Square } from "../../shapes/square";
 import { CourtComponent } from "../../dumb-component/court/court.component";
+import { Device } from "../../../shared/util/device";
+import { ResetAllDialogComponent } from "../../dumb-component/reset-all-dialog/reset-all-dialog.component";
 
 @Component({
   selector: "vpms-field",
@@ -33,15 +34,15 @@ import { CourtComponent } from "../../dumb-component/court/court.component";
   styleUrls: ["./field.component.scss"],
 })
 export class FieldComponent {
-  private static LOCAL_STORAGE_KEY_ACTORS: string = "actors_storage";
-  private static LOCAL_STORAGE_KEY_ROTATIONS: string = "rotations_storage";
-  private static LOCAL_STORAGE_KEY_CURRENT_ROTATION: string = "current_rotation_uuid";
+  private static VERSION: number = 2;
+  private static LOCAL_STORAGE_KEY_ROTATIONS: string = "rotations_storage_v2";
+  private static LOCAL_STORAGE_KEY_CURRENT_ROTATION: string = "current_rotation_uuid_v2";
+  private static LOCAL_STORAGE_KEY_VERSION: string = "version";
 
   @ViewChild("court", { static: false })
   private court: CourtComponent;
 
   private context: CanvasRenderingContext2D;
-  private actors: Actor[] = [];
   public rotations: Rotation[] = [];
   private currentRotationIndex: number = 0;
   public formGroup: FormGroup;
@@ -50,12 +51,15 @@ export class FieldComponent {
   public courtMode: CourtMode = CourtMode.MOVE_ACTOR;
   private ready: boolean = false;
 
+  public __actorShapes: ActorShape[] = [];
+  public __lineShapes: Line[] = [];
+
   get rotation(): Rotation {
     return this.rotations[this.currentRotationIndex];
   }
 
   get actorShapes(): ActorShape[] {
-    return this.actors.map(actor => actor.shape);
+    return this.rotation?.actors.map(actor => actor.shape) ?? [];
   }
 
   get lineShapes(): Line[] {
@@ -84,18 +88,16 @@ export class FieldComponent {
       const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_ROTATIONS) as
         | RotationDto[]
         | undefined;
-      const actorDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_ACTORS) as ActorDto[] | undefined;
       const current_rotation = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION) as
         | string
         | undefined;
-      if (rotationDtos && actorDtos && current_rotation) {
-        this.actors = actorDtos.map(dto => Actor.fromDto(dto, this.context));
+      if (rotationDtos && current_rotation) {
         this.rotations = rotationDtos.map(dto => Rotation.fromDto(dto, this.context));
         this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === current_rotation)!;
-        this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
       } else {
         this.rotations = [new Rotation(new Position(1), "Default rotation")];
       }
+      this.setShapes();
       this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
     }
 
@@ -105,12 +107,15 @@ export class FieldComponent {
 
   private onRotationChanged(uuid: string): void {
     this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid);
-    this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
+    this.setShapes();
     this.court.render();
   }
 
   public onAddActorClicked(): void {
-    const dialogRef = this.matDialog.open(AddActorDialogComponent, { autoFocus: false });
+    const dialogRef = this.matDialog.open(AddActorDialogComponent, {
+      autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
+    });
     dialogRef.afterClosed().subscribe((actor: Actor) => {
       if (!actor) {
         return;
@@ -137,30 +142,49 @@ export class FieldComponent {
           break;
       }
 
+      this.setShapes();
       this.court.render();
     });
   }
 
   private addShape(actor: Actor, shape: ActorShape): void {
-    shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation);
+    shape.setRotationProperties(this.rotation.rotation);
     actor.setShape(shape);
-    this.actors.push(actor);
+    this.rotation.addActor(actor);
   }
 
   onDeleteActorClicked(): void {
     const dialogRef = this.matDialog.open(DeleteActorDialogComponent, {
       data: {
-        actors: this.actors,
+        actors: this.rotation.actors,
       },
       autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
         return;
       }
-      const index = this.actors.findIndex(actor => actor.UUID === uuid)!;
-      this.actors.splice(index, 1);
+      this.rotation.removeActor(uuid);
+      this.setShapes();
       this.court.render();
+    });
+  }
+
+  onResetAllClicked(): void {
+    const dialogRef = this.matDialog.open(ResetAllDialogComponent, {
+      autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
+    });
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (!confirm) {
+        return;
+      }
+
+      this.rotations = [new Rotation(new Position(1), "Default rotation")];
+      this.currentRotationIndex = 0;
+      this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
+      this.setShapes();
     });
   }
 
@@ -170,6 +194,7 @@ export class FieldComponent {
         rotations: this.rotations,
       },
       autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
     });
     dialogRef.afterClosed().subscribe(uuid => {
       if (!uuid) {
@@ -179,7 +204,6 @@ export class FieldComponent {
       const currentRotationUUID = this.rotation.UUID;
       const index = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
       this.rotations.splice(index, 1);
-      this.actors.forEach(actor => actor.shape.removeRotation(uuid));
 
       if (currentRotationUUID === uuid) {
         if (this.rotations.length === 0) {
@@ -190,7 +214,7 @@ export class FieldComponent {
         this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === currentRotationUUID);
       }
       this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
-      this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
+      this.setShapes();
       this.court.render();
     });
   }
@@ -201,12 +225,14 @@ export class FieldComponent {
       data: {
         rotations: this.rotations,
       },
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
     });
-    dialogRef.afterClosed().subscribe((result: { rotation: Rotation; add_before?: string }) => {
+    dialogRef.afterClosed().subscribe((result: { rotation: Rotation; add_before?: string; copy_actors: boolean }) => {
       if (!result) {
         return;
       }
 
+      const prevActors = this.rotation.actors;
       if (result.add_before) {
         const index = this.rotations.findIndex(rot => rot.UUID === result.add_before)!;
         this.rotations.splice(index, 0, result.rotation);
@@ -215,8 +241,17 @@ export class FieldComponent {
         this.rotations.push(result.rotation);
         this.currentRotationIndex = this.rotations.length - 1;
       }
+
+      if (result.copy_actors) {
+        prevActors.forEach(actor => {
+          const copiedActor = actor.copy();
+          copiedActor.shape.setRotationProperties(this.rotation.rotation);
+          this.rotation.addActor(copiedActor);
+        });
+      }
+
       this.formGroup.patchValue({ current_rotation: result.rotation.UUID });
-      this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
+      this.setShapes();
       this.court.render();
     });
   }
@@ -225,15 +260,19 @@ export class FieldComponent {
     this.matDialog.open(ExportDialogComponent, {
       autoFocus: false,
       data: {
-        actors: this.actors,
+        version: FieldComponent.VERSION,
         rotations: this.rotations,
         current_rotation: this.rotation.UUID,
       } as ExportData,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
     });
   }
 
   onImportClicked(): void {
-    const dialogRef = this.matDialog.open(ImportDialogComponent, { autoFocus: false });
+    const dialogRef = this.matDialog.open(ImportDialogComponent, {
+      autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
+    });
     dialogRef.afterClosed().subscribe((storeId: string) => this.importLink(storeId));
   }
 
@@ -242,18 +281,18 @@ export class FieldComponent {
       return;
     }
 
-    this.store
-      .collection(storeId)
+    const collection = this.store.collection("rotations");
+    collection
+      .doc(storeId)
       .get()
       .subscribe((exportData: any) => {
-        const exportDataDto = exportData.docs[0].data() as ExportDataDto;
+        const exportDataDto = exportData.data() as ExportDataDto;
 
-        this.actors = exportDataDto.actors.map(actorDto => Actor.fromDto(actorDto, this.context));
         this.rotations = exportDataDto.rotations.map(rotationDto => Rotation.fromDto(rotationDto, this.context));
         const uuid = exportDataDto.current_rotation;
         this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === uuid)!;
         this.formGroup.patchValue({ current_rotation: this.rotation.UUID });
-        this.actors.forEach(actor => actor.shape.setRotationProperties(this.rotation.UUID, this.rotation.rotation));
+        this.setShapes();
 
         this.court.render();
       });
@@ -289,17 +328,21 @@ export class FieldComponent {
       this.rotations.map(rotation => rotation.toDto())
     );
     LocalStorageService.store(FieldComponent.LOCAL_STORAGE_KEY_CURRENT_ROTATION, this.rotation.UUID);
-    LocalStorageService.store(
-      FieldComponent.LOCAL_STORAGE_KEY_ACTORS,
-      this.actors.map(actor => actor.toDto())
-    );
+    LocalStorageService.store(FieldComponent.LOCAL_STORAGE_KEY_VERSION, FieldComponent.VERSION);
   }
 
   onLineAdded(line: Line): void {
     this.rotation.addLine(line);
+    this.setShapes();
   }
 
   onLineErased(line: Line): void {
     this.rotation.removeLine(line);
+    this.setShapes();
+  }
+
+  private setShapes(): void {
+    this.__actorShapes = this.actorShapes;
+    this.__lineShapes = this.lineShapes;
   }
 }

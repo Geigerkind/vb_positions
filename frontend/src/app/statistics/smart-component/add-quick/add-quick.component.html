@@ -1,0 +1,72 @@
+<form [formGroup]="formGroup">
+  <h1>{{ "statistics.addQuick.title" | translate }}</h1>
+  <vpms-players-form-field [formGroup]="formGroup" [players]="statisticsService.players"></vpms-players-form-field>
+  <vpms-metadata-form-field [formGroup]="formGroup" [metadatas]="statisticsService.metadata"></vpms-metadata-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="formGroup.invalid"
+    (click)="onAction(QuickActionType.Scored)"
+  >
+    {{ "statistics.addQuick.scored" | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="formGroup.invalid"
+    (click)="onAction(QuickActionType.FailedPosition)"
+  >
+    {{ "statistics.addQuick.failedPosition" | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="formGroup.invalid"
+    (click)="onAction(QuickActionType.FailedReceive)"
+  >
+    {{ "statistics.addQuick.failedReceive" | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="formGroup.invalid"
+    (click)="onAction(QuickActionType.FailedAttack)"
+  >
+    {{ "statistics.addQuick.failedAttack" | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="formGroup.invalid"
+    (click)="onAction(QuickActionType.FailedToss)"
+  >
+    {{ "statistics.addQuick.failedToss" | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="formGroup.invalid"
+    (click)="onAction(QuickActionType.FailedBlock)"
+  >
+    {{ "statistics.addQuick.failedBlock" | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    [disabled]="formGroup.invalid"
+    (click)="onAction(QuickActionType.FailedServe)"
+  >
+    {{ "statistics.addQuick.failedServe" | translate }}
+  </button>
+  <button mat-raised-button color="primary" type="button" routerLink="/statistics/add_data" queryParamsHandling="merge">
+    {{ "statistics.back" | translate }}
+  </button>
+</form>

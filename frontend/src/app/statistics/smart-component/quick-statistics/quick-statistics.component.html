@@ -1,0 +1,9 @@
+<vpms-sidebar>
+  <div class="container">
+    <div class="navbar">
+      <h1>{{ "statistics.dashboard.quicks" | translate }}</h1>
+      <vpms-filter-bar></vpms-filter-bar>
+    </div>
+    <vpms-quick-table [rowData$]="statisticsService.getQuickStatistics()"></vpms-quick-table>
+  </div>
+</vpms-sidebar>

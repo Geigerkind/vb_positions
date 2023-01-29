@@ -1,5 +1,6 @@
 <mat-sidenav-container>
   <mat-sidenav mode="over" #sidenav>
+    <h1>{{ "field.subtitle.rotation" | translate }}</h1>
     <mat-form-field [formGroup]="formGroup">
       <mat-select formControlName="current_rotation">
         <mat-option *ngFor="let rotation of rotations; index as i" [value]="rotation.UUID">{{
@@ -23,6 +24,10 @@
       <mat-icon>delete</mat-icon>
       {{ "field.delete_actor" | translate }}
     </button>
+    <button mat-stroked-button (click)="onResetAllClicked()">
+      <mat-icon>delete</mat-icon>
+      {{ "field.reset_all" | translate }}
+    </button>
     <h1>{{ "field.subtitle.mode" | translate }}</h1>
     <button mat-stroked-button [class.toggled]="courtMode === CourtMode.MOVE_ACTOR" (click)="setMoveActorMode()">
       <mat-icon>person</mat-icon>
@@ -45,12 +50,18 @@
       <mat-icon>import_export</mat-icon>
       {{ "field.import" | translate }}
     </button>
-    <a href="https://github.com/Geigerkind/vb_positions" target="_blank" style="margin-top: auto">
-      <button mat-stroked-button>
-        <mat-icon>code</mat-icon>
-        {{ "field.source_code" | translate }}
+    <div style="margin-top: auto">
+      <button mat-stroked-button routerLink="/statistics">
+        <mat-icon>bar_chart</mat-icon>
+        {{ "home.statistics" | translate }}
       </button>
-    </a>
+      <a href="https://github.com/Geigerkind/vb_positions" target="_blank">
+        <button mat-stroked-button>
+          <mat-icon>code</mat-icon>
+          {{ "field.source_code" | translate }}
+        </button>
+      </a>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <button (click)="sidenav.toggle()" mat-flat-button class="toggle_sidenav" [class.is_opened]="sidenav.opened">
@@ -58,8 +69,8 @@
     </button>
     <vpms-court
       #court
-      [actors]="actorShapes"
-      [lines]="lineShapes"
+      [actors]="__actorShapes"
+      [lines]="__lineShapes"
       [courtMode]="courtMode"
       (onReady)="onCourtReady($event)"
       (onRender)="onCourtRender()"

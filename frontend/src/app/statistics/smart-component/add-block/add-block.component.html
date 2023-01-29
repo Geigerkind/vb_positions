@@ -1,0 +1,24 @@
+<form [formGroup]="formGroup" (submit)="onSubmit()">
+  <h1>{{ "statistics.addBlock.title" | translate }}</h1>
+  <vpms-balltouch-form-field [formGroup]="formGroup"></vpms-balltouch-form-field>
+  <vpms-players-form-field [formGroup]="formGroup" [players]="statisticsService.players"></vpms-players-form-field>
+  <vpms-metadata-form-field [formGroup]="formGroup" [metadatas]="statisticsService.metadata"></vpms-metadata-form-field>
+  <vpms-failure-type-form-field [formGroup]="formGroup"></vpms-failure-type-form-field>
+  <vpms-target-position-form-field [formGroup]="formGroup"></vpms-target-position-form-field>
+  <h3>{{ "statistics.addBlock.blockType.title" | translate }}</h3>
+  <mat-button-toggle-group formControlName="block_type">
+    <mat-button-toggle [value]="BlockType.Kill_Block">{{
+      "statistics.addBlock.blockType.kill_block" | translate
+    }}</mat-button-toggle>
+    <mat-button-toggle [value]="BlockType.Soft_Block">{{
+      "statistics.addBlock.blockType.soft_block" | translate
+    }}</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+    {{ "statistics.add" | translate }}
+  </button>
+  <button mat-raised-button color="primary" type="button" routerLink="/statistics/add_data" queryParamsHandling="merge">
+    {{ "statistics.back" | translate }}
+  </button>
+</form>

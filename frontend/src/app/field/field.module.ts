@@ -15,6 +15,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { ExportDialogComponent } from "./dumb-component/export-dialog/export-dialog.component";
 import { ImportDialogComponent } from "./dumb-component/import-dialog/import-dialog.component";
 import { CourtComponent } from "./dumb-component/court/court.component";
+import { ResetAllDialogComponent } from "./dumb-component/reset-all-dialog/reset-all-dialog.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CourtComponent } from "./dumb-component/court/court.component";
     AddRotationDialogComponent,
     ExportDialogComponent,
     ImportDialogComponent,
+    ResetAllDialogComponent,
   ],
   imports: [
     FieldRoutingModule,
@@ -37,5 +39,6 @@ import { CourtComponent } from "./dumb-component/court/court.component";
     MatCheckboxModule,
     MatSidenavModule,
   ],
+  exports: [CourtComponent],
 })
 export class FieldModule {}

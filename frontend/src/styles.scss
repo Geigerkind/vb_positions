@@ -1,3 +1,5 @@
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-alpine.css';
 @import 'material-icons/iconfont/material-icons.css';
 @import "@fontsource/roboto/latin.css";
 @import "styles/colors";
@@ -18,10 +20,23 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .mat-select-panel {
-  max-height: 130px !important;
+  max-height: 260px !important;
 }
 
 .mat-drawer-inner-container {
   display: flex;
   flex-direction: column;
+}
+
+.full-screen-dialog {
+  width: 98vw;
+  height: 98vh;
+  max-width: 98vw !important;
+  max-height: 98vh !important;
+}
+
+.full-screen-dialog mat-dialog-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw !important;
 }

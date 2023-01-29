@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.navbar {
+  padding: 1rem 3rem;
+  width: calc(100% - 6rem);
+}
+
+vpms-serve-table {
+  height: 75vh;
+
+  @media screen and (max-width: 600px) {
+    height: 50vh !important;
+  }
+}
+
+vpms-court {
+  min-height: 75vh;
+
+  @media screen and (max-width: 600px) {
+    min-height: 50vh !important;
+  }
+}

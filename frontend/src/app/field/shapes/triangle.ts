@@ -1,25 +1,19 @@
 import { Actor } from "../entity/actor";
 import { ShapeFieldPosition } from "../value/shape-field-position";
 import { ActorShape } from "./actor-shape";
+import { Position } from "../value/position";
 
 export class Triangle extends ActorShape {
-  private static RELATIVE_SIZE: number = 0.016 * 2.5;
-  private static SIZE_MAX: number = 40;
+  private static SIZE: number = 25;
 
   constructor(
     actor: Actor,
     context: CanvasRenderingContext2D,
     private dashed: boolean,
-    field_positions?: Map<string, ShapeFieldPosition>
+    field_position?: ShapeFieldPosition,
+    rotationOffset?: Position
   ) {
-    super(actor, context, field_positions);
-  }
-
-  get size(): number {
-    return Math.min(
-      Math.max(this.context.canvas.width, this.context.canvas.height) * Triangle.RELATIVE_SIZE,
-      Triangle.SIZE_MAX
-    );
+    super(actor, context, field_position, rotationOffset);
   }
 
   drawActorName(): void {
@@ -30,14 +24,19 @@ export class Triangle extends ActorShape {
     this.context.font = "20px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(this.actor.player_name, this.x, this.y + this.size * 1.6);
+    this.context.fillText(this.actor.player_name, this.x, this.y + Triangle.SIZE * this.sizeCoefficientY() * 1.6 + 5);
   }
 
   drawPosition(): void {
-    this.context.font = "40px Roboto";
+    const currentPosition = this.currentPosition();
+    if (!currentPosition) {
+      return;
+    }
+
+    this.context.font = "30px Roboto";
     this.context.fillStyle = "#000000";
     this.context.textAlign = "center";
-    this.context.fillText(this.currentPosition().value.toString(), this.x - 2, this.y + 25);
+    this.context.fillText(currentPosition.value.toString(), this.x - 2, this.y + 20);
   }
 
   drawShape(): void {
@@ -49,9 +48,15 @@ export class Triangle extends ActorShape {
     } else {
       this.context.setLineDash([]);
     }
-    this.context.moveTo(this.x - this.size, this.y + this.size);
-    this.context.lineTo(this.x + this.size, this.y + this.size);
-    this.context.lineTo(this.x, this.y - this.size);
+    this.context.moveTo(
+      this.x - Triangle.SIZE * this.sizeCoefficientX(),
+      this.y + Triangle.SIZE * this.sizeCoefficientY()
+    );
+    this.context.lineTo(
+      this.x + Triangle.SIZE * this.sizeCoefficientX(),
+      this.y + Triangle.SIZE * this.sizeCoefficientY()
+    );
+    this.context.lineTo(this.x, this.y - Triangle.SIZE * this.sizeCoefficientY());
     this.context.closePath();
     this.context.stroke();
     this.context.fillStyle = ActorShape.ACTOR_COLOR;
@@ -60,10 +65,10 @@ export class Triangle extends ActorShape {
 
   isHit(clickX: number, clickY: number): boolean {
     return (
-      clickX >= this.x - this.size &&
-      clickX <= this.x + this.size &&
-      clickY >= this.y - this.size &&
-      clickY <= this.y + this.size
+      clickX >= this.x - Triangle.SIZE * this.sizeCoefficientX() &&
+      clickX <= this.x + Triangle.SIZE * this.sizeCoefficientX() &&
+      clickY >= this.y - Triangle.SIZE * this.sizeCoefficientY() &&
+      clickY <= this.y + Triangle.SIZE * this.sizeCoefficientY()
     );
   }
 }

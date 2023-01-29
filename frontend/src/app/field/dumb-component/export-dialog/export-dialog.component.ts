@@ -17,7 +17,7 @@ export class ExportDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<ExportDialogComponent>,
+    public dialogRef: MatDialogRef<ExportDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: ExportData,
     private store: AngularFirestore
   ) {}
@@ -32,9 +32,10 @@ export class ExportDialogComponent implements OnInit {
       copy_link: [{ value: null, disabled: false }, Validators.required],
     });
     const storeId = generate_uuid(30);
+    const collection = this.store.collection("rotations");
     from(
-      this.store.collection(storeId).add({
-        actors: this.data.actors.map(actor => actor.toDto()),
+      collection.doc(storeId).set({
+        version: this.data.version,
         rotations: this.data.rotations.map(rotation => rotation.toDto()),
         current_rotation: this.data.current_rotation,
       } as ExportDataDto)

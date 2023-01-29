@@ -1,0 +1,72 @@
+<vpms-sidebar>
+  <div id="container">
+    <button mat-raised-button routerLink="/statistics/add_data/player" queryParamsHandling="merge">
+      <mat-icon>person</mat-icon>
+      {{ "statistics.addMenu.player" | translate }}
+    </button>
+    <button mat-raised-button routerLink="/statistics/add_data/metadata" queryParamsHandling="merge">
+      <mat-icon>description</mat-icon>
+      {{ "statistics.addMenu.metadata" | translate }}
+    </button>
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/quick"
+      queryParamsHandling="merge"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
+      <mat-icon>access_time</mat-icon>
+      {{ "statistics.addMenu.quick" | translate }}
+    </button>
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/serve"
+      queryParamsHandling="merge"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
+      <mat-icon>sports_handball</mat-icon>
+      {{ "statistics.addMenu.serve" | translate }}
+    </button>
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/receive"
+      queryParamsHandling="merge"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
+      <mat-icon>shield</mat-icon>
+      {{ "statistics.addMenu.receive" | translate }}
+    </button>
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/toss"
+      queryParamsHandling="merge"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
+      <mat-icon>sports_volleyball</mat-icon>
+      {{ "statistics.addMenu.toss" | translate }}
+    </button>
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/attack"
+      queryParamsHandling="merge"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
+      <mat-icon>sports_handball</mat-icon>
+      {{ "statistics.addMenu.attack" | translate }}
+    </button>
+    <button
+      mat-raised-button
+      routerLink="/statistics/add_data/block"
+      queryParamsHandling="merge"
+      [title]="'statistics.addMenu.requirement' | translate"
+      [disabled]="!statisticsService.hasPlayersAndMetadata()"
+    >
+      <mat-icon>security</mat-icon>
+      {{ "statistics.addMenu.block" | translate }}
+    </button>
+  </div>
+</vpms-sidebar>

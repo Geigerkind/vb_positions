@@ -71,4 +71,8 @@ export class Actor {
     }
     return `Unnamed actor (${this.position.value}) - ${this.player_role.toString()}`;
   }
+
+  copy(): Actor {
+    return new Actor(this.position, this.player_role, this.player_name, undefined, this.shape);
+  }
 }

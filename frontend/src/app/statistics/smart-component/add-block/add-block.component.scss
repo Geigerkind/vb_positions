@@ -1,0 +1,35 @@
+@import "src/styles/colors";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 2rem);
+  width: calc(100% - 2rem);
+  padding: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+
+  &,
+  mat-form-field {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  mat-button-toggle-group,
+  span {
+    margin-bottom: 1rem;
+  }
+
+  #impactPoint {
+    margin-bottom: 0.5rem;
+  }
+}
+
+button:last-child {
+  margin-top: 0.5rem;
+}

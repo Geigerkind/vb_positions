@@ -13,7 +13,8 @@
 ## Serve
 * Angabe Typ: Unten, Oben, Sprung
 * Angabe Treffpunkt
-* Ass?
+* Kein Touch?
+* Netz?
 * Receive Referenz?
 
 ## Receive

@@ -15,7 +15,7 @@ export class AddActorDialogComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AddActorDialogComponent>) {}
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<AddActorDialogComponent>) {}
 
   onSubmit(): void {
     this.dialogRef.close(

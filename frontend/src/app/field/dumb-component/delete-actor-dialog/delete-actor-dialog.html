@@ -10,5 +10,8 @@
     <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
       {{"delete_actor_dialog.submit" | translate}}
     </button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" style="margin-top: 1rem">
+      {{"field.close" | translate}}
+    </button>
   </form>
 </mat-dialog-content>

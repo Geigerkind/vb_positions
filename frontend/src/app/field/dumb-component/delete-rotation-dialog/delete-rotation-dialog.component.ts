@@ -13,7 +13,7 @@ export class DeleteRotationDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<DeleteRotationDialogComponent>,
+    public dialogRef: MatDialogRef<DeleteRotationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { rotations: Rotation[] }
   ) {}
 

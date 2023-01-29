@@ -1,10 +1,14 @@
-import { TargetPointXYZ } from "../value/targetPointXYZ";
+import { TargetPoint } from "../value/targetPoint";
 import { TossType } from "../value/tossType";
-import { Attack } from "./attack";
+import { BallTouch } from "./ballTouch";
+import { FailureType } from "../value/failureType";
+import { TossDirection } from "../value/tossDirection";
+import { TossTempo } from "../value/tossTempo";
 
-export interface Toss {
-  id: number;
-  target_point: TargetPointXYZ;
-  toss_type: TossType;
-  attack?: Attack;
+export interface Toss extends BallTouch {
+  tossType: TossType;
+  tossDirection: TossDirection;
+  tossTempo: TossTempo;
+  failureType: FailureType;
+  targetPoint?: TargetPoint;
 }

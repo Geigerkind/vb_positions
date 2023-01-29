@@ -1,12 +1,8 @@
-import { Actor } from "../../field/entity/actor";
-import { TargetPointXY } from "../value/targetPointXY";
 import { ReceiveType } from "../value/receiveType";
-import { Toss } from "./toss";
+import { BallTouch } from "./ballTouch";
+import { TargetPoint } from "../value/targetPoint";
 
-export interface Receive {
-  id: number;
-  actor: Actor;
-  target_point: TargetPointXY;
-  receive_type: ReceiveType;
-  tossed?: Toss;
+export interface Receive extends BallTouch {
+  receiveType: ReceiveType;
+  targetPoint: TargetPoint;
 }

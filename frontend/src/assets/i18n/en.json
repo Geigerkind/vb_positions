@@ -1,9 +1,16 @@
 {
   "app": {
-    "title": "Volleyball Positions Management System"
+    "title": "Volleyball Management System"
+  },
+  "home": {
+    "field": "Position management",
+    "statistics": "Statistics"
   },
   "field": {
+    "abort": "Abort",
+    "close": "Close dialog",
     "delete_actor": "Delete actor",
+    "reset_all": "Reset all rotations",
     "add_actor": "Add actor",
     "add_rotation": "Add rotation",
     "delete_rotation": "Delete rotation",
@@ -15,8 +22,13 @@
     "source_code": "View source code",
     "subtitle": {
       "share": "Share",
-      "mode": "Current mode"
+      "mode": "Current mode",
+      "rotation": "Rotation"
     }
+  },
+  "reset_all": {
+    "title": "Are you sure, you want to reset all your progress?",
+    "submit": "Yes, Im sure!"
   },
   "add_actor_dialog": {
     "title": "Add actor",
@@ -54,9 +66,11 @@
     "placeholder": {
       "rotation_name": "Name",
       "current_rotation": "Current rotation",
-      "add_before": "Add before"
+      "add_before": "Add before",
+      "copy_actors": "Copy actors"
     },
-    "submit": "Add rotation"
+    "submit": "Add rotation",
+    "without_positions": "Without positions"
   },
   "export_dialog": {
     "title": "Export rotations",
@@ -71,5 +85,148 @@
       "link": "Link"
     },
     "submit": "Import"
+  },
+  "statistics": {
+    "dashboard": {
+      "title": "Dashboard",
+      "players_source": "Filter source players",
+      "players_target": "Filter target players",
+      "labels": "Filter labels",
+      "receives": "Receives",
+      "serves": "Serves",
+      "tosses": "Tosses",
+      "blocks": "Blocks",
+      "attacks": "Attacks",
+      "quicks": "Quick statistics"
+    },
+    "back": "Back",
+    "add": "Add",
+    "login": {
+      "team_name": "Team name",
+      "submit": "View statistics",
+      "back": "Back"
+    },
+    "sidebar": {
+      "logout": "Logout",
+      "addData": "Add data",
+      "dashboard": "View dashboard",
+      "receives": "Receives",
+      "serves": "Serves",
+      "tosses": "Tosses",
+      "attacks": "Attacks",
+      "blocks": "Blocks",
+      "quick": "Quick statistics"
+    },
+    "addMenu": {
+      "player": "Player",
+      "metadata": "Metadata",
+      "serve": "Serve",
+      "receive": "Receive",
+      "toss": "Toss",
+      "attack": "Attack",
+      "block": "Block",
+      "quick": "Quick statistics",
+      "requirement": "Requires at least one player and one metadata entry"
+    },
+    "addPlayer": {
+      "title": "Add player",
+      "player_name": "Player name"
+    },
+    "addMetadata": {
+      "title": "Add metadata",
+      "placeholder": "Enter list of labels",
+      "newLabel": "New label..."
+    },
+    "courtDialog": {
+      "abort": "Abort",
+      "setPosition": "Set position"
+    },
+    "metadataFormField": {
+      "title": "Metadata"
+    },
+    "playerFormField": {
+      "title": "Player"
+    },
+    "ballTouchFormField": {
+      "title": "Previous ball touch",
+      "noBallTouch": "No ball touch"
+    },
+    "failure_type": {
+      "title": "Has this touch failed?",
+      "none": "No",
+      "net": "Net",
+      "out": "Out",
+      "blocked": "Blocked",
+      "other": "Other"
+    },
+    "touch_count": {
+      "title": "Which touch was it?",
+      "first_touch": "First touch",
+      "second_touch": "Second touch",
+      "third_touch": "Third touch"
+    },
+    "target": {
+      "title": "Select impact point",
+      "placeholder": "Select impact point..."
+    },
+    "addQuick": {
+      "title": "Quick statistics",
+      "scored": "Scored",
+      "failedPosition": "Stood at the wrong position",
+      "failedAttack": "Failed attack",
+      "failedBlock": "Failed block",
+      "failedToss": "Failed toss",
+      "failedReceive": "Failed receive",
+      "failedServe": "Failed serve"
+    },
+    "addServe": {
+      "title": "Add serve",
+      "serve_type": "What kind of serve?",
+      "underhand": "Underhand",
+      "overhand": "Overhand",
+      "floater": "Floater",
+      "jump": "Jump",
+      "jump_floater": "Jump Floater"
+    },
+    "addToss": {
+      "title": "Add toss",
+      "tossType": {
+        "title": "What kind of toss?",
+        "overhand": "Overhand",
+        "dig": "Dig",
+        "jump": "Jump"
+      },
+      "tossDirection": {
+        "title": "What direction relative to face direction?",
+        "front": "Front",
+        "back": "Back",
+        "sideways": "Sideways"
+      },
+      "tossTempo": {
+        "title": "What kind of tempo?",
+        "tempo_0": "Tempo 0",
+        "tempo_1": "Tempo 1",
+        "tempo_2": "Tempo 2",
+        "tempo_3": "Tempo 3"
+      }
+    },
+    "addAttack": {
+      "title": "Add attack"
+    },
+    "addBlock": {
+      "title": "Add block",
+      "blockType": {
+        "title": "What kind of block?",
+        "kill_block": "Kill block",
+        "soft_block": "Soft block"
+      }
+    },
+    "addReceive": {
+      "title": "Add Receive",
+      "receive_type": "What kind of receive?",
+      "dig": "Dig",
+      "toss": "Toss",
+      "other": "Other"
+    }
   }
 }

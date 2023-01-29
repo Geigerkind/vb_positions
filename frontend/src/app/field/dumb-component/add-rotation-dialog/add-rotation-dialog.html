@@ -8,6 +8,7 @@
     <mat-form-field appearance="fill">
       <mat-label>{{ "add_rotation_dialog.placeholder.current_rotation" | translate }}</mat-label>
       <mat-select formControlName="current_rotation">
+        <mat-option [value]="null">{{ "add_rotation_dialog.without_positions" | translate }}</mat-option>
         <mat-option [value]="1">1</mat-option>
         <mat-option [value]="2">2</mat-option>
         <mat-option [value]="3">3</mat-option>
@@ -24,8 +25,14 @@
         >
       </mat-select>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+    <mat-checkbox formControlName="copy_actors">
+      {{ "add_rotation_dialog.placeholder.copy_actors" | translate }}
+    </mat-checkbox>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid" style="margin-top: 1rem">
       {{"add_rotation_dialog.submit" | translate}}
+    </button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" style="margin-top: 1rem">
+      {{"field.close" | translate}}
     </button>
   </form>
 </mat-dialog-content>

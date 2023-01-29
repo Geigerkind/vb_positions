@@ -1,0 +1,9 @@
+<mat-form-field appearance="outline" [formGroup]="formGroup">
+  <mat-label>{{ "statistics.ballTouchFormField.title" | translate }}</mat-label>
+  <mat-select formControlName="ballTouch_uuid">
+    <mat-option [value]="null">{{ "statistics.ballTouchFormField.noBallTouch" | translate }}</mat-option>
+    <mat-option [value]="balltouch.uuid" *ngFor="let balltouch of balltouches.reverse()">{{
+      formatBallTouch(balltouch)
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>
