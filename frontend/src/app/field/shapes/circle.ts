@@ -70,4 +70,8 @@ export class Circle extends ActorShape {
       clickY <= this.y + Circle.RADIUS * this.sizeCoefficientY()
     );
   }
+
+  copy(actor: Actor): ActorShape {
+    return new Circle(actor, this.context, this.dashed, this.fieldPosition, this.rotationOffset);
+  }
 }

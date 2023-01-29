@@ -73,6 +73,8 @@ export class Actor {
   }
 
   copy(): Actor {
-    return new Actor(this.position, this.player_role, this.player_name, undefined, this.shape);
+    const actor = new Actor(this.position, this.player_role, this.player_name, undefined, undefined);
+    actor.setShape(this.shape.copy(actor));
+    return actor;
   }
 }

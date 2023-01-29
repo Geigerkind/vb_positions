@@ -84,4 +84,6 @@ export abstract class ActorShape extends Shape {
   protected sizeCoefficientY(): number {
     return this.context.canvas.height / 10 / ActorShape.BASE_SIZE_RESOLUTION_Y_1M_IN_PIXEL;
   }
+
+  abstract copy(actor: Actor): ActorShape;
 }

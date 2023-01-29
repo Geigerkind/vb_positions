@@ -65,4 +65,8 @@ export class Square extends ActorShape {
       clickY <= this.y + Square.SIZE * this.sizeCoefficientY()
     );
   }
+
+  copy(actor: Actor): ActorShape {
+    return new Square(actor, this.context, this.fieldPosition, this.rotationOffset);
+  }
 }

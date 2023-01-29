@@ -1,5 +1,6 @@
 import { ActorShape } from "./actor-shape";
 import { environment } from "../../../environments/environment";
+import { Actor } from "../entity/actor";
 
 export class Volleyball extends ActorShape {
   drawPosition(): void {}
@@ -35,5 +36,9 @@ export class Volleyball extends ActorShape {
       clickY >= this.y - this.size / 2 &&
       clickY <= this.y + this.size / 2
     );
+  }
+
+  copy(actor: Actor): Volleyball {
+    return new Volleyball(this.context);
   }
 }

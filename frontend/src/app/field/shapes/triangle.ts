@@ -71,4 +71,8 @@ export class Triangle extends ActorShape {
       clickY <= this.y + Triangle.SIZE * this.sizeCoefficientY()
     );
   }
+
+  copy(actor: Actor): ActorShape {
+    return new Triangle(actor, this.context, this.dashed, this.fieldPosition, this.rotationOffset);
+  }
 }

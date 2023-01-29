@@ -71,4 +71,8 @@ export class HalfCircle extends ActorShape {
       clickY <= this.y
     );
   }
+
+  copy(actor: Actor): ActorShape {
+    return new HalfCircle(actor, this.context, this.fieldPosition, this.rotationOffset);
+  }
 }
