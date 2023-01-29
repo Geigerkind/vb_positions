@@ -31,6 +31,7 @@ import { TossTempo } from "../value/tossTempo";
 import { BlockType } from "../value/blockType";
 import { TossStatistics } from "../value/tossStatistics";
 import { AttackStatistics } from "../value/attackStatistics";
+import { BlockStatistics } from "../value/blockStatistics";
 
 @Injectable({
   providedIn: "root",
@@ -68,6 +69,7 @@ export class StatisticsService {
   private _quickStatistics$: Subject<QuickStatistics[]> = new ReplaySubject();
   private _tossStatistics$: Subject<TossStatistics[]> = new ReplaySubject();
   private _attackStatistics$: Subject<AttackStatistics[]> = new ReplaySubject();
+  private _blockStatistics$: Subject<BlockStatistics[]> = new ReplaySubject();
 
   get lastUsedPlayer(): Player | undefined {
     return this._lastUsedPlayer;
@@ -187,6 +189,44 @@ export class StatisticsService {
 
   getAttackStatistics(): Observable<AttackStatistics[]> {
     return this._attackStatistics$.asObservable();
+  }
+
+  getBlockStatistics(): Observable<BlockStatistics[]> {
+    return this._blockStatistics$.asObservable();
+  }
+
+  get _blockStatistics(): BlockStatistics[] {
+    return [
+      ...this.filteredBlocks
+        .reduce((acc, item) => {
+          if (!acc.has(item.playerUuid)) {
+            acc.set(item.playerUuid, {
+              player_name: this.getPlayer(item.playerUuid).name,
+              blocks_total: 0,
+              blocks_failed: 0,
+              blocks_success: 0,
+              kill_blocks: 0,
+              soft_blocks: 0,
+            });
+          }
+          const statistics = acc.get(item.playerUuid)!;
+          ++statistics.blocks_total;
+
+          if (item.failureType !== FailureType.NONE_TECHNICAL) {
+            ++statistics.blocks_failed;
+          } else {
+            ++statistics.blocks_success;
+            if (item.blockType === BlockType.Soft_Block) {
+              ++statistics.soft_blocks;
+            } else {
+              ++statistics.kill_blocks;
+            }
+          }
+
+          return acc;
+        }, new Map<string, BlockStatistics>())
+        .values(),
+    ];
   }
 
   get _attackStatistics(): AttackStatistics[] {
@@ -966,5 +1006,6 @@ export class StatisticsService {
     this._quickStatistics$.next(this._quickStatistics);
     this._tossStatistics$.next(this._tossStatistics);
     this._attackStatistics$.next(this._attackStatistics);
+    this._blockStatistics$.next(this._blockStatistics);
   }
 }

@@ -17,10 +17,9 @@ but it provides a basic set of tools to analyze the volleyball gameplay of a tea
 * Share the data
 
 ## TODO
-* Seitenaufrufe tracken
-* Storage einmal resetten
+* Track impressions
+* Reset storage
 * Show returned in graphs
-* Statistiken bauen
 * Delete for statistics
-* Tempo in Graph for toss darstellen?
+* Display tempo in Graph for toss?
 * Graphs for kill/soft block

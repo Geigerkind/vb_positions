@@ -7,12 +7,13 @@
     <mat-accordion>
       <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title> Blocks data table </mat-panel-title>
+          <mat-panel-title> Blocks data table</mat-panel-title>
         </mat-expansion-panel-header>
+        <vpms-block-table [rowData$]="statisticsService.getBlockStatistics()"></vpms-block-table>
       </mat-expansion-panel>
       <mat-expansion-panel hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title> Blocks graph </mat-panel-title>
+          <mat-panel-title> Blocks graph</mat-panel-title>
         </mat-expansion-panel-header>
         <vpms-court #court [customRender]="onCustomRender" (onReady)="onReady($event)"></vpms-court>
       </mat-expansion-panel>

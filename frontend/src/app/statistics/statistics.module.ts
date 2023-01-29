@@ -43,6 +43,7 @@ import { TouchCountFormFieldComponent } from "./dumb-component/touch-count-form-
 import { MatExpansionModule } from "@angular/material/expansion";
 import { TossTableComponent } from "./dumb-component/toss-table/toss-table.component";
 import { AttackTableComponent } from "./dumb-component/attack-table/attack-table.component";
+import { BlockTableComponent } from "./dumb-component/block-table/block-table.component";
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { AttackTableComponent } from "./dumb-component/attack-table/attack-table
     QuickTableComponent,
     TossTableComponent,
     AttackTableComponent,
+    BlockTableComponent,
   ],
   imports: [
     StatisticsRoutingModule,
