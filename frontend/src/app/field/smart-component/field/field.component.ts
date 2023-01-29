@@ -208,8 +208,8 @@ export class FieldComponent {
       if (currentRotationUUID === uuid) {
         if (this.rotations.length === 0) {
           this.rotations.push(new Rotation(new Position(1), "Default rotation"));
-          this.currentRotationIndex = 0;
         }
+        this.currentRotationIndex = 0;
       } else {
         this.currentRotationIndex = this.rotations.findIndex(rotation => rotation.UUID === currentRotationUUID);
       }
