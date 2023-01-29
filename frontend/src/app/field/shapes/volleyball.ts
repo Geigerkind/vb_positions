@@ -1,5 +1,5 @@
 import { ActorShape } from "./actor-shape";
-import {environment} from "../../../environments/environment";
+import { environment } from "../../../environments/environment";
 
 export class Volleyball extends ActorShape {
   drawPosition(): void {}
