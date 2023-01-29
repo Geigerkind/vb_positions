@@ -83,7 +83,7 @@ export class FieldComponent {
     const searchParams = new URLSearchParams(window.location.search);
     if (searchParams && searchParams.get("store") && searchParams.get("store")!.length === 30) {
       this.importLink(searchParams.get("store")!);
-      this.router.navigate(["/"]);
+      this.router.navigate(["/field"]);
     } else {
       const rotationDtos = LocalStorageService.retrieve(FieldComponent.LOCAL_STORAGE_KEY_ROTATIONS) as
         | RotationDto[]
