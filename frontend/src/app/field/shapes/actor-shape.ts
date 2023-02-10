@@ -61,6 +61,10 @@ export abstract class ActorShape extends Shape {
     };
   }
 
+  public setFieldPosition(field_position: ShapeFieldPosition): void {
+    this.fieldPosition = field_position;
+  }
+
   get x(): number {
     return this.fromDiscreteX(this.getFieldPosition().x);
   }

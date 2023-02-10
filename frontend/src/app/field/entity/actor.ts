@@ -18,9 +18,9 @@ export class Actor {
   }
 
   constructor(
-    public readonly position: Position,
-    public readonly player_role: PlayerRole,
-    public readonly player_name?: string,
+    public position: Position,
+    public player_role: PlayerRole,
+    public player_name?: string,
     UUID?: string,
     shape?: ActorShape
   ) {

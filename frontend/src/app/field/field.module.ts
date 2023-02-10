@@ -16,18 +16,24 @@ import { ExportDialogComponent } from "./dumb-component/export-dialog/export-dia
 import { ImportDialogComponent } from "./dumb-component/import-dialog/import-dialog.component";
 import { CourtComponent } from "./dumb-component/court/court.component";
 import { ResetAllDialogComponent } from "./dumb-component/reset-all-dialog/reset-all-dialog.component";
+import { EditActorDialogComponent } from "./dumb-component/edit-actor-dialog/edit-actor-dialog.component";
+import { PositionFormFieldComponent } from "./dumb-component/position-form-field/position-form-field.component";
+import { PlayerRoleFormFieldComponent } from "./dumb-component/player-role-form-field/player-role-form-field.component";
 
 @NgModule({
   declarations: [
     FieldComponent,
     CourtComponent,
     AddActorDialogComponent,
+    EditActorDialogComponent,
     DeleteActorDialogComponent,
     DeleteRotationDialogComponent,
     AddRotationDialogComponent,
     ExportDialogComponent,
     ImportDialogComponent,
     ResetAllDialogComponent,
+    PositionFormFieldComponent,
+    PlayerRoleFormFieldComponent,
   ],
   imports: [
     FieldRoutingModule,

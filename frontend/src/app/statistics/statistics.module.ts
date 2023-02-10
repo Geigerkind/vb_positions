@@ -95,5 +95,6 @@ import { BlockTableComponent } from "./dumb-component/block-table/block-table.co
     AgGridModule,
     MatExpansionModule,
   ],
+  exports: [PlayersFormFieldComponent],
 })
 export class StatisticsModule {}

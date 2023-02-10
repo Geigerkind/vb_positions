@@ -12,21 +12,30 @@
       <mat-icon>add</mat-icon>
       {{ "field.add_rotation" | translate }}
     </button>
+    <button mat-stroked-button (click)="onEditRotationClicked()">
+      <mat-icon>edit</mat-icon>
+      {{ "field.edit_rotation" | translate }}
+    </button>
     <button mat-stroked-button (click)="onDeleteRotationClicked()">
       <mat-icon>delete</mat-icon>
       {{ "field.delete_rotation" | translate }}
     </button>
+    <button mat-stroked-button (click)="onResetAllClicked()">
+      <mat-icon>delete</mat-icon>
+      {{ "field.reset_all" | translate }}
+    </button>
+    <h1>{{ "field.subtitle.actor" | translate }}</h1>
     <button mat-stroked-button (click)="onAddActorClicked()">
       <mat-icon>add</mat-icon>
       {{ "field.add_actor" | translate }}
     </button>
+    <button mat-stroked-button (click)="onEditActorClicked()">
+      <mat-icon>edit</mat-icon>
+      {{ "field.edit_actor" | translate }}
+    </button>
     <button mat-stroked-button (click)="onDeleteActorClicked()">
       <mat-icon>delete</mat-icon>
       {{ "field.delete_actor" | translate }}
-    </button>
-    <button mat-stroked-button (click)="onResetAllClicked()">
-      <mat-icon>delete</mat-icon>
-      {{ "field.reset_all" | translate }}
     </button>
     <h1>{{ "field.subtitle.mode" | translate }}</h1>
     <button mat-stroked-button [class.toggled]="courtMode === CourtMode.MOVE_ACTOR" (click)="setMoveActorMode()">

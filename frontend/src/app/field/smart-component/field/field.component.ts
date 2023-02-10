@@ -27,6 +27,7 @@ import { Square } from "../../shapes/square";
 import { CourtComponent } from "../../dumb-component/court/court.component";
 import { Device } from "../../../shared/util/device";
 import { ResetAllDialogComponent } from "../../dumb-component/reset-all-dialog/reset-all-dialog.component";
+import { EditActorDialogComponent } from "../../dumb-component/edit-actor-dialog/edit-actor-dialog.component";
 
 @Component({
   selector: "vpms-field",
@@ -121,36 +122,65 @@ export class FieldComponent {
         return;
       }
 
-      switch (actor.player_role) {
-        case PlayerRole.Setter:
-          this.addShape(actor, new HalfCircle(actor, this.context));
-          break;
-        case PlayerRole.MiddleBlocker:
-          this.addShape(actor, new Triangle(actor, this.context, false));
-          break;
-        case PlayerRole.Libero:
-          this.addShape(actor, new Triangle(actor, this.context, true));
-          break;
-        case PlayerRole.DefensiveSpecialist:
-          this.addShape(actor, new Square(actor, this.context));
-          break;
-        case PlayerRole.OutsideHitter:
-          this.addShape(actor, new Circle(actor, this.context, false));
-          break;
-        case PlayerRole.OppositeHitter:
-          this.addShape(actor, new Circle(actor, this.context, true));
-          break;
-      }
-
-      this.setShapes();
+      this.setActorShape(actor, actor.player_role);
+      this.rotation.addActor(actor);
       this.court.render();
     });
   }
 
-  private addShape(actor: Actor, shape: ActorShape): void {
+  private setActorShape(actor: Actor, role: PlayerRole): void {
+    switch (role) {
+      case PlayerRole.Setter:
+        this.setShape(actor, new HalfCircle(actor, this.context));
+        break;
+      case PlayerRole.MiddleBlocker:
+        this.setShape(actor, new Triangle(actor, this.context, false));
+        break;
+      case PlayerRole.Libero:
+        this.setShape(actor, new Triangle(actor, this.context, true));
+        break;
+      case PlayerRole.DefensiveSpecialist:
+        this.setShape(actor, new Square(actor, this.context));
+        break;
+      case PlayerRole.OutsideHitter:
+        this.setShape(actor, new Circle(actor, this.context, false));
+        break;
+      case PlayerRole.OppositeHitter:
+        this.setShape(actor, new Circle(actor, this.context, true));
+        break;
+    }
+
+    this.setShapes();
+  }
+
+  onEditActorClicked(): void {
+    const dialogRef = this.matDialog.open(EditActorDialogComponent, {
+      data: {
+        actors: this.rotation.actors,
+      },
+      autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
+    });
+    dialogRef.afterClosed().subscribe(form => {
+      if (!form) {
+        return;
+      }
+      const actor = this.rotation.actors.find(it => it.UUID === form.actor)!;
+      actor.player_name = form.player_name;
+      actor.player_role = form.player_role;
+      actor.position = new Position(form.position);
+
+      const oldPosition = actor.shape.getFieldPosition();
+      this.setActorShape(actor, actor.player_role);
+      actor.shape.setFieldPosition(oldPosition);
+
+      this.court.render();
+    });
+  }
+
+  private setShape(actor: Actor, shape: ActorShape): void {
     shape.setRotationProperties(this.rotation.rotation);
     actor.setShape(shape);
-    this.rotation.addActor(actor);
   }
 
   onDeleteActorClicked(): void {
@@ -255,6 +285,8 @@ export class FieldComponent {
       this.court.render();
     });
   }
+
+  onEditRotationClicked(): void {}
 
   onExportClicked(): void {
     this.matDialog.open(ExportDialogComponent, {

@@ -1,6 +1,12 @@
-<h1 mat-dialog-title>{{ "add_actor_dialog.title" | translate }}</h1>
+<h1 mat-dialog-title>{{ "edit_actor_dialog.title" | translate }}</h1>
 <mat-dialog-content [formGroup]="formGroup" (submit)="onSubmit()">
   <form>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ "edit_actor_dialog.placeholder.actor" | translate }}</mat-label>
+      <mat-select formControlName="actor">
+        <mat-option *ngFor="let actor of data.actors;" [value]="actor.UUID">{{actor.toString()}}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field appearance="fill" tabindex="-1">
       <mat-label>{{ "add_actor_dialog.placeholder.player_name" | translate }}</mat-label>
       <input matInput formControlName="player_name" />
@@ -8,7 +14,7 @@
     <vpms-position-form-field [formGroup]="formGroup"></vpms-position-form-field>
     <vpms-player-role-form-field [formGroup]="formGroup"></vpms-player-role-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
-      {{"add_actor_dialog.submit" | translate}}
+      {{"edit_actor_dialog.submit" | translate}}
     </button>
     <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" style="margin-top: 1rem">
       {{"field.close" | translate}}

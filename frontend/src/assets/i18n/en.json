@@ -12,8 +12,10 @@
     "delete_actor": "Delete actor",
     "reset_all": "Reset all rotations",
     "add_actor": "Add actor",
+    "edit_actor": "Edit actor",
     "add_rotation": "Add rotation",
     "delete_rotation": "Delete rotation",
+    "edit_rotation": "Edit rotation",
     "export": "Export rotations",
     "import": "Import rotations",
     "actor_mode": "Actor mode",
@@ -23,7 +25,8 @@
     "subtitle": {
       "share": "Share",
       "mode": "Current mode",
-      "rotation": "Rotation"
+      "rotation": "Rotation",
+      "actor": "Actor"
     }
   },
   "reset_all": {
@@ -53,6 +56,13 @@
       "actor": "Actor"
     },
     "submit": "Delete actor"
+  },
+  "edit_actor_dialog": {
+    "title": "Edit actor",
+    "placeholder": {
+      "actor": "Actor"
+    },
+    "submit": "Edit actor"
   },
   "delete_rotation_dialog": {
     "title": "Delete rotation",
