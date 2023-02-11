@@ -37,7 +37,7 @@
     "title": "Add actor",
     "placeholder": {
       "player_name": "Player name",
-      "position": "Position in rotation 1",
+      "position": "Position",
       "player_role": "Player role"
     },
     "player_roles": {
