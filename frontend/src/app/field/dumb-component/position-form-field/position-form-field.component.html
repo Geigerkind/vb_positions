@@ -1,0 +1,13 @@
+<ng-container [formGroup]="formGroup">
+  <mat-form-field appearance="fill">
+    <mat-label>{{ "add_actor_dialog.placeholder.position" | translate }}</mat-label>
+    <mat-select formControlName="position">
+      <mat-option [value]="1">1</mat-option>
+      <mat-option [value]="2">2</mat-option>
+      <mat-option [value]="3">3</mat-option>
+      <mat-option [value]="4">4</mat-option>
+      <mat-option [value]="5">5</mat-option>
+      <mat-option [value]="6">6</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>

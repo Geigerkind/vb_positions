@@ -10,6 +10,7 @@ import { LineShapeDto } from "../dto/line-shape-dto";
 import { Line } from "./line";
 import { Square } from "./square";
 import { Position } from "../value/position";
+import { DrawColor } from "../value/draw-color";
 
 export class ShapeFactory {
   public static fromActorDto(actor: Actor, shapeDto: ActorShapeDto, context: CanvasRenderingContext2D): ActorShape {
@@ -45,6 +46,6 @@ export class ShapeFactory {
       } as ShapeFieldPosition);
     }
 
-    return new Line(context, positions);
+    return new Line(context, lineDto.c ?? DrawColor.Black, positions);
   }
 }

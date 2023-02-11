@@ -1,0 +1,14 @@
+<ng-container [formGroup]="formGroup">
+  <mat-form-field appearance="fill">
+    <mat-label>{{ "add_rotation_dialog.placeholder.current_rotation" | translate }}</mat-label>
+    <mat-select formControlName="current_rotation">
+      <mat-option [value]="null">{{ "add_rotation_dialog.without_positions" | translate }}</mat-option>
+      <mat-option [value]="1">1</mat-option>
+      <mat-option [value]="2">2</mat-option>
+      <mat-option [value]="3">3</mat-option>
+      <mat-option [value]="4">4</mat-option>
+      <mat-option [value]="5">5</mat-option>
+      <mat-option [value]="6">6</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>
