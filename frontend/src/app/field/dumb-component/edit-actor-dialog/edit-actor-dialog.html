@@ -4,7 +4,9 @@
     <mat-form-field appearance="fill">
       <mat-label>{{ "edit_actor_dialog.placeholder.actor" | translate }}</mat-label>
       <mat-select formControlName="actor">
-        <mat-option *ngFor="let actor of data.actors;" [value]="actor.UUID">{{actor.toString()}}</mat-option>
+        <mat-option *ngFor="let actor of data.actors;" [value]="actor.UUID"
+          >{{actor.toString(data.rotation)}}</mat-option
+        >
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill" tabindex="-1">

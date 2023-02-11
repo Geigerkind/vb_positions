@@ -65,11 +65,11 @@ export class Actor {
     this.shape.draw();
   }
 
-  toString(): string {
+  toString(rotation: Position): string {
     if (this.player_name) {
-      return `${this.player_name} (${this.position.value}) - ${this.player_role.toString()}`;
+      return `${this.player_name} (${this.position.rotate(rotation).value}) - ${this.player_role.toString()}`;
     }
-    return `Unnamed actor (${this.position.value}) - ${this.player_role.toString()}`;
+    return `Unnamed actor (${this.position.rotate(rotation).value}) - ${this.player_role.toString()}`;
   }
 
   copy(): Actor {

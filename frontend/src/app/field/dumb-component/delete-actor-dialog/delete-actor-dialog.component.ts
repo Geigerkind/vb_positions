@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Actor } from "../../entity/actor";
+import { Position } from "../../value/position";
 
 @Component({
   selector: "vpms-delete-actor-dialog",
@@ -14,7 +15,7 @@ export class DeleteActorDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<DeleteActorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { actors: Actor[] }
+    @Inject(MAT_DIALOG_DATA) public data: { actors: Actor[]; rotation: Position }
   ) {}
 
   onSubmit(): void {
