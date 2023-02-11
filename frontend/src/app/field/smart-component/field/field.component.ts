@@ -28,6 +28,7 @@ import { CourtComponent } from "../../dumb-component/court/court.component";
 import { Device } from "../../../shared/util/device";
 import { ResetAllDialogComponent } from "../../dumb-component/reset-all-dialog/reset-all-dialog.component";
 import { EditActorDialogComponent } from "../../dumb-component/edit-actor-dialog/edit-actor-dialog.component";
+import { EditRotationDialogComponent } from "../../dumb-component/edit-rotation-dialog/edit-rotation-dialog.component";
 
 @Component({
   selector: "vpms-field",
@@ -286,7 +287,44 @@ export class FieldComponent {
     });
   }
 
-  onEditRotationClicked(): void {}
+  onEditRotationClicked(): void {
+    const dialogRef = this.matDialog.open(EditRotationDialogComponent, {
+      data: {
+        rotations: this.rotations,
+      },
+      autoFocus: false,
+      panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
+    });
+    dialogRef.afterClosed().subscribe(form => {
+      if (!form) {
+        return;
+      }
+
+      const editRotation = this.rotations.find(it => it.UUID === form.rotation)!;
+      editRotation.name = form.rotation_name;
+      editRotation.rotation = form.current_rotation ? new Position(form.current_rotation) : undefined;
+      editRotation.actors.forEach(actor => actor.shape.setRotationProperties(editRotation.rotation));
+
+      if (form.set_before) {
+        const currentIndex = this.rotations.findIndex(it => it.UUID === form.rotation)!;
+        const desiredIndex = this.rotations.findIndex(it => it.UUID === form.set_before)!;
+
+        this.rotations.splice(currentIndex, 1);
+        if (currentIndex < desiredIndex) {
+          this.rotations.splice(desiredIndex - 1, 0, editRotation);
+        } else {
+          this.rotations.splice(desiredIndex, 0, editRotation);
+        }
+
+        if (currentIndex === this.currentRotationIndex) {
+          this.currentRotationIndex = this.rotations.findIndex(it => it.UUID === form.rotation);
+        }
+      }
+
+      this.setShapes();
+      this.court.render();
+    });
+  }
 
   onExportClicked(): void {
     this.matDialog.open(ExportDialogComponent, {

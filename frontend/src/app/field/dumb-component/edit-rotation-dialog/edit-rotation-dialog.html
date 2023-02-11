@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>{{ "edit_rotation_dialog.title" | translate }}</h1>
+<mat-dialog-content [formGroup]="formGroup" (submit)="onSubmit()">
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ "edit_rotation_dialog.placeholder.rotation" | translate }}</mat-label>
+      <mat-select formControlName="rotation">
+        <mat-option *ngFor="let rotation of data.rotations;" [value]="rotation.UUID"
+          >{{rotation.toString()}}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill" tabindex="-1">
+      <mat-label>{{ "add_rotation_dialog.placeholder.rotation_name" | translate }}</mat-label>
+      <input matInput formControlName="rotation_name" />
+    </mat-form-field>
+    <vpms-current-position-form-field [formGroup]="formGroup"></vpms-current-position-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ "edit_rotation_dialog.placeholder.set_before" | translate }}</mat-label>
+      <mat-select formControlName="set_before">
+        <ng-container *ngFor="let rotation of data.rotations;">
+          <mat-option *ngIf="rotation.UUID !== currentRotation" [value]="rotation.UUID"
+            >{{rotation.toString()}}</mat-option
+          >
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+      {{"edit_rotation_dialog.submit" | translate}}
+    </button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" style="margin-top: 1rem">
+      {{"field.close" | translate}}
+    </button>
+  </form>
+</mat-dialog-content>

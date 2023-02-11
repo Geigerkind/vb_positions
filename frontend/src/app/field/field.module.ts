@@ -19,6 +19,8 @@ import { ResetAllDialogComponent } from "./dumb-component/reset-all-dialog/reset
 import { EditActorDialogComponent } from "./dumb-component/edit-actor-dialog/edit-actor-dialog.component";
 import { PositionFormFieldComponent } from "./dumb-component/position-form-field/position-form-field.component";
 import { PlayerRoleFormFieldComponent } from "./dumb-component/player-role-form-field/player-role-form-field.component";
+import { EditRotationDialogComponent } from "./dumb-component/edit-rotation-dialog/edit-rotation-dialog.component";
+import { CurrentPositionFormFieldComponent } from "./dumb-component/current-position-form-field/current-position-form-field.component";
 
 @NgModule({
   declarations: [
@@ -28,12 +30,14 @@ import { PlayerRoleFormFieldComponent } from "./dumb-component/player-role-form-
     EditActorDialogComponent,
     DeleteActorDialogComponent,
     DeleteRotationDialogComponent,
+    EditRotationDialogComponent,
     AddRotationDialogComponent,
     ExportDialogComponent,
     ImportDialogComponent,
     ResetAllDialogComponent,
     PositionFormFieldComponent,
     PlayerRoleFormFieldComponent,
+    CurrentPositionFormFieldComponent,
   ],
   imports: [
     FieldRoutingModule,

@@ -71,6 +71,14 @@
     },
     "submit": "Delete rotation"
   },
+  "edit_rotation_dialog": {
+    "title": "Edit rotation",
+    "placeholder": {
+      "rotation": "Rotation",
+      "set_before": "Set before"
+    },
+    "submit": "Edit rotation"
+  },
   "add_rotation_dialog": {
     "title": "Add rotation",
     "placeholder": {
