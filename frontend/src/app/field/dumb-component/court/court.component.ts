@@ -4,6 +4,7 @@ import { ActorShape } from "../../shapes/actor-shape";
 import { Line } from "../../shapes/line";
 import { CourtMode } from "../../value/court-mode";
 import { Volleyball } from "../../shapes/volleyball";
+import { DrawColor } from "../../value/draw-color";
 
 @Component({
   selector: "vpms-court",
@@ -20,6 +21,7 @@ export class CourtComponent implements AfterViewInit, OnChanges {
   @Input() actors: ActorShape[] = [];
   @Input() lines: Line[] = [];
   @Input() courtMode: CourtMode = CourtMode.MOVE_ACTOR;
+  @Input() drawColor: DrawColor = DrawColor.Black;
   @Input() customRender: (context: CanvasRenderingContext2D) => void = () => {};
 
   @Output() onRender = new EventEmitter<void>();
@@ -104,7 +106,7 @@ export class CourtComponent implements AfterViewInit, OnChanges {
         }
       }
     } else if (this.courtMode === CourtMode.DRAW_LINE) {
-      this.drawnLine = new Line(this.context);
+      this.drawnLine = new Line(this.context, this.drawColor);
       this.drawnLine.addPosition(x, y);
     }
   }

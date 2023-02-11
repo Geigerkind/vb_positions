@@ -46,6 +46,25 @@
       <mat-icon>mode_edit_outline</mat-icon>
       {{ "field.draw_mode" | translate }}
     </button>
+    <mat-button-toggle-group style="margin-bottom: 0.5rem" (valueChange)="onDrawColorChanged($event)">
+      <mat-button-toggle
+        [value]="DrawColor.Black"
+        style="background: black; width: 100%; height: 100%"
+      ></mat-button-toggle>
+      <mat-button-toggle [value]="DrawColor.Red" style="background: red; width: 100%; height: 100%"></mat-button-toggle>
+      <mat-button-toggle
+        [value]="DrawColor.Green"
+        style="background: green; width: 100%; height: 100%"
+      ></mat-button-toggle>
+      <mat-button-toggle
+        [value]="DrawColor.Blue"
+        style="background: blue; width: 100%; height: 100%"
+      ></mat-button-toggle>
+      <mat-button-toggle
+        [value]="DrawColor.White"
+        style="background: white; width: 100%; height: 100%"
+      ></mat-button-toggle>
+    </mat-button-toggle-group>
     <button mat-stroked-button [class.toggled]="courtMode === CourtMode.ERASE_LINE" (click)="onToggleEraseMode()">
       <mat-icon>auto_fix_normal</mat-icon>
       {{ "field.erase_mode" | translate }}
@@ -81,6 +100,7 @@
       [actors]="__actorShapes"
       [lines]="__lineShapes"
       [courtMode]="courtMode"
+      [drawColor]="currentDrawColor"
       (onReady)="onCourtReady($event)"
       (onRender)="onCourtRender()"
       (onLineAdded)="onLineAdded($event)"

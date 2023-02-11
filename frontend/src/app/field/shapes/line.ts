@@ -1,12 +1,15 @@
 import { Shape } from "./shape";
 import { ShapeFieldPosition } from "../value/shape-field-position";
 import { LineShapeDto } from "../dto/line-shape-dto";
+import { DrawColor } from "../value/draw-color";
 
 export class Line extends Shape {
   private readonly positions: ShapeFieldPosition[];
+  private readonly drawColor: DrawColor;
 
-  constructor(context: CanvasRenderingContext2D, positions?: ShapeFieldPosition[]) {
+  constructor(context: CanvasRenderingContext2D, drawColor: DrawColor, positions?: ShapeFieldPosition[]) {
     super(context);
+    this.drawColor = drawColor;
     this.positions = positions ?? [];
   }
 
@@ -28,7 +31,23 @@ export class Line extends Shape {
       this.context.lineTo(this.fromDiscreteX(this.positions[i].x), this.fromDiscreteY(this.positions[i].y));
     }
     this.context.lineWidth = 3;
-    this.context.strokeStyle = "#003300";
+    switch (this.drawColor) {
+      case DrawColor.Black:
+        this.context.strokeStyle = "#003300";
+        break;
+      case DrawColor.Blue:
+        this.context.strokeStyle = "blue";
+        break;
+      case DrawColor.Green:
+        this.context.strokeStyle = "green";
+        break;
+      case DrawColor.Red:
+        this.context.strokeStyle = "red";
+        break;
+      case DrawColor.White:
+        this.context.strokeStyle = "white";
+        break;
+    }
     this.context.stroke();
   }
 
@@ -77,6 +96,7 @@ export class Line extends Shape {
           return acc;
         }, new Map())
       ),
+      c: this.drawColor,
     };
   }
 }

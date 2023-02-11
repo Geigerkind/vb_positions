@@ -29,6 +29,7 @@ import { Device } from "../../../shared/util/device";
 import { ResetAllDialogComponent } from "../../dumb-component/reset-all-dialog/reset-all-dialog.component";
 import { EditActorDialogComponent } from "../../dumb-component/edit-actor-dialog/edit-actor-dialog.component";
 import { EditRotationDialogComponent } from "../../dumb-component/edit-rotation-dialog/edit-rotation-dialog.component";
+import { DrawColor } from "../../value/draw-color";
 
 @Component({
   selector: "vpms-field",
@@ -48,6 +49,9 @@ export class FieldComponent {
   public rotations: Rotation[] = [];
   private currentRotationIndex: number = 0;
   public formGroup: FormGroup;
+
+  DrawColor: typeof DrawColor = DrawColor;
+  currentDrawColor: DrawColor = DrawColor.Black;
 
   CourtMode: typeof CourtMode = CourtMode;
   public courtMode: CourtMode = CourtMode.MOVE_ACTOR;
@@ -409,6 +413,13 @@ export class FieldComponent {
   onLineErased(line: Line): void {
     this.rotation.removeLine(line);
     this.setShapes();
+  }
+
+  onDrawColorChanged(drawColor: DrawColor): void {
+    if (drawColor === undefined) {
+      return;
+    }
+    this.currentDrawColor = drawColor;
   }
 
   private setShapes(): void {

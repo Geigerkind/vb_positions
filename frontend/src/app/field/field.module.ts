@@ -21,6 +21,7 @@ import { PositionFormFieldComponent } from "./dumb-component/position-form-field
 import { PlayerRoleFormFieldComponent } from "./dumb-component/player-role-form-field/player-role-form-field.component";
 import { EditRotationDialogComponent } from "./dumb-component/edit-rotation-dialog/edit-rotation-dialog.component";
 import { CurrentPositionFormFieldComponent } from "./dumb-component/current-position-form-field/current-position-form-field.component";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { CurrentPositionFormFieldComponent } from "./dumb-component/current-posi
     CommonModule,
     MatCheckboxModule,
     MatSidenavModule,
+    MatButtonToggleModule,
   ],
   exports: [CourtComponent],
 })
