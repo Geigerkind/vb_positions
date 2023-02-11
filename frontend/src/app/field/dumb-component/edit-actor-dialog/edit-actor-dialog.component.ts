@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Actor } from "../../entity/actor";
+import { Position } from "../../value/position";
 
 @Component({
   selector: "vpms-edit-actor-dialog",
@@ -14,7 +15,7 @@ export class EditActorDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditActorDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { actors: Actor[] }
+    @Inject(MAT_DIALOG_DATA) public data: { actors: Actor[]; rotation: Position }
   ) {}
 
   onSubmit(): void {
@@ -33,7 +34,7 @@ export class EditActorDialogComponent implements OnInit {
       const actor = this.data.actors.find(it => it.UUID === UUID)!;
       this.formGroup.patchValue({
         player_name: actor.player_name,
-        position: actor.position.value,
+        position: actor.position.rotate(this.data.rotation).value,
         player_role: actor.player_role,
       });
       (this.formGroup.controls as any).player_name.enable();

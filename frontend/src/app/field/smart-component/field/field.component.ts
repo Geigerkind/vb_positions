@@ -127,8 +127,19 @@ export class FieldComponent {
         return;
       }
 
+      if (this.rotation.rotation) {
+        for (let i = 1; i <= 6; ++i) {
+          const pos = new Position(i);
+          if (pos.rotate(this.rotation.rotation).value === actor.position.value) {
+            actor.position = pos;
+            break;
+          }
+        }
+      }
+
       this.setActorShape(actor, actor.player_role);
       this.rotation.addActor(actor);
+      this.setShapes();
       this.court.render();
     });
   }
@@ -162,6 +173,7 @@ export class FieldComponent {
     const dialogRef = this.matDialog.open(EditActorDialogComponent, {
       data: {
         actors: this.rotation.actors,
+        rotation: this.rotation.rotation ?? new Position(1),
       },
       autoFocus: false,
       panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
@@ -173,7 +185,18 @@ export class FieldComponent {
       const actor = this.rotation.actors.find(it => it.UUID === form.actor)!;
       actor.player_name = form.player_name;
       actor.player_role = form.player_role;
-      actor.position = new Position(form.position);
+
+      if (this.rotation.rotation) {
+        for (let i = 1; i <= 6; ++i) {
+          const pos = new Position(i);
+          if (pos.rotate(this.rotation.rotation).value === form.position) {
+            actor.position = pos;
+            break;
+          }
+        }
+      } else {
+        actor.position = new Position(form.position);
+      }
 
       const oldPosition = actor.shape.getFieldPosition();
       this.setActorShape(actor, actor.player_role);
@@ -192,6 +215,7 @@ export class FieldComponent {
     const dialogRef = this.matDialog.open(DeleteActorDialogComponent, {
       data: {
         actors: this.rotation.actors,
+        rotation: this.rotation.rotation ?? new Position(1),
       },
       autoFocus: false,
       panelClass: Device.isMobileDevice() ? "full-screen-dialog" : undefined,
